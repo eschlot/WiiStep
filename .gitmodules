@@ -1,0 +1,6 @@
+[submodule "gnustep-base"]
+	path = gnustep-base
+	url = git@github.com:jackoalan/gnustep-base.git
+[submodule "gnustep-libobjc2"]
+	path = gnustep-libobjc2
+	url = git@github.com:jackoalan/gnustep-libobjc2.git
