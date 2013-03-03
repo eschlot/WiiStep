@@ -16,6 +16,6 @@
 /* Declare to all interested parties that we're linked against
  * libogc */
 #define WS_USING_RVL_SDK 0
-#define WS_USING_OGC 1
+#define WS_USING_LIBOGC 1
 
 #endif

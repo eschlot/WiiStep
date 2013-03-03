@@ -22,7 +22,7 @@ int main(int argc, const char** argv) {
     
     // And now for some Objective-C fancy ARC footwork
     @autoreleasepool {
-        // TODO: Get GnuStep integrated and perform NSString test
+        // TODO: Get GNUStep integrated and perform NSString test
     }
     
     return 0;

@@ -4,3 +4,9 @@
 [submodule "gnustep-libobjc2"]
 	path = gnustep-libobjc2
 	url = git@github.com:jackoalan/gnustep-libobjc2.git
+[submodule "libffi"]
+	path = libffi
+	url = git@github.com:jackoalan/libffi.git
+[submodule "gnustep-make"]
+	path = gnustep-make
+	url = git@github.com:jackoalan/gnustep-make.git

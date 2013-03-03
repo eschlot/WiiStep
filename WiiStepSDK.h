@@ -16,7 +16,7 @@
 /* Declare to all interested parties that we're linked against
  * official Revolution SDK */
 #define WS_USING_RVL_SDK 1
-#define WS_USING_OGC 0
+#define WS_USING_LIBOGC 0
 
 
 
