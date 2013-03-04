@@ -7,12 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E44E9A1A16E5191E00C08E1F /* InitialCheckWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A1916E5191E00C08E1F /* InitialCheckWindow.m */; };
+		E44E9A1F16E51D5F00C08E1F /* MultiLineWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A1E16E51D5F00C08E1F /* MultiLineWrapper.m */; };
+		E44E9A2216E53CEF00C08E1F /* MultiLineMessageWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */; };
+		E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2416E54CF600C08E1F /* WSInstall.m */; };
 		E4AD2A3C16E30C4300419AFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
-		E4AD2A3F16E30C4400419AFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A3E16E30C4400419AFC /* main.m */; };
 		E4AD2A4316E30C4400419AFC /* wsinstall.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4AD2A4216E30C4400419AFC /* wsinstall.1 */; };
 		E4AD2A4B16E316B800419AFC /* SFDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4916E30C9600419AFC /* SFDownloader.m */; };
 		E4AD2A4E16E32B2B00419AFC /* SFDownloaderProgressStdout.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4D16E32B2B00419AFC /* SFDownloaderProgressStdout.m */; };
 		E4AD2A5016E32F4600419AFC /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A4F16E32F4600419AFC /* libcurl.dylib */; };
+		E4AD2A5216E352C300419AFC /* libncurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A5116E352C300419AFC /* libncurses.dylib */; };
+		E4AD2B5E16E435E200419AFC /* MainScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B5D16E435E200419AFC /* MainScreen.m */; };
+		E4AD2B6116E4360C00419AFC /* TaskSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6016E4360C00419AFC /* TaskSelection.m */; };
+		E4AD2B6416E4362D00419AFC /* HeaderWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6316E4362D00419AFC /* HeaderWindow.m */; };
+		E4AD2B6716E4363800419AFC /* FooterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6616E4363800419AFC /* FooterWindow.m */; };
+		E4AD2B6A16E4368F00419AFC /* ProgressWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6916E4368F00419AFC /* ProgressWindow.m */; };
+		E4AD2B6B16E4386300419AFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A3E16E30C4400419AFC /* main.m */; };
+		E4AD2B6F16E458EC00419AFC /* PrepareWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6E16E458EC00419AFC /* PrepareWindow.m */; };
+		E4AD2B7216E46A5D00419AFC /* DirPromptWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B7116E46A5C00419AFC /* DirPromptWindow.m */; };
 		E4C1868116DE7EC200B78A3B /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C1868016DE7EC200B78A3B /* test.m */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +65,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E44E9A1716E518A400C08E1F /* ScreenInput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScreenInput.h; sourceTree = "<group>"; };
+		E44E9A1816E5191E00C08E1F /* InitialCheckWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialCheckWindow.h; sourceTree = "<group>"; };
+		E44E9A1916E5191E00C08E1F /* InitialCheckWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialCheckWindow.m; sourceTree = "<group>"; };
+		E44E9A1B16E519F900C08E1F /* MainScreen_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainScreen_Private.h; sourceTree = "<group>"; };
+		E44E9A1D16E51D5F00C08E1F /* MultiLineWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiLineWrapper.h; sourceTree = "<group>"; };
+		E44E9A1E16E51D5F00C08E1F /* MultiLineWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiLineWrapper.m; sourceTree = "<group>"; };
+		E44E9A2016E53CEE00C08E1F /* MultiLineMessageWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiLineMessageWindow.h; sourceTree = "<group>"; };
+		E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiLineMessageWindow.m; sourceTree = "<group>"; };
+		E44E9A2316E54CF600C08E1F /* WSInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSInstall.h; sourceTree = "<group>"; };
+		E44E9A2416E54CF600C08E1F /* WSInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSInstall.m; sourceTree = "<group>"; };
+		E44E9A2616E54D1F00C08E1F /* EventCapturer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventCapturer.h; sourceTree = "<group>"; };
 		E4AD2A3116E15CA300419AFC /* test.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = test.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3916E30C4300419AFC /* wsinstall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wsinstall; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3B16E30C4300419AFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -64,6 +87,23 @@
 		E4AD2A4C16E32B2B00419AFC /* SFDownloaderProgressStdout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDownloaderProgressStdout.h; sourceTree = "<group>"; };
 		E4AD2A4D16E32B2B00419AFC /* SFDownloaderProgressStdout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDownloaderProgressStdout.m; sourceTree = "<group>"; };
 		E4AD2A4F16E32F4600419AFC /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libcurl.dylib; sourceTree = DEVELOPER_DIR; };
+		E4AD2A5116E352C300419AFC /* libncurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libncurses.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libncurses.dylib; sourceTree = DEVELOPER_DIR; };
+		E4AD2B5C16E435E200419AFC /* MainScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreen.h; sourceTree = "<group>"; };
+		E4AD2B5D16E435E200419AFC /* MainScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreen.m; sourceTree = "<group>"; };
+		E4AD2B5F16E4360C00419AFC /* TaskSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskSelection.h; sourceTree = "<group>"; };
+		E4AD2B6016E4360C00419AFC /* TaskSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSelection.m; sourceTree = "<group>"; };
+		E4AD2B6216E4362D00419AFC /* HeaderWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderWindow.h; sourceTree = "<group>"; };
+		E4AD2B6316E4362D00419AFC /* HeaderWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderWindow.m; sourceTree = "<group>"; };
+		E4AD2B6516E4363800419AFC /* FooterWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FooterWindow.h; sourceTree = "<group>"; };
+		E4AD2B6616E4363800419AFC /* FooterWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FooterWindow.m; sourceTree = "<group>"; };
+		E4AD2B6816E4368F00419AFC /* ProgressWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressWindow.h; sourceTree = "<group>"; };
+		E4AD2B6916E4368F00419AFC /* ProgressWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressWindow.m; sourceTree = "<group>"; };
+		E4AD2B6C16E4457800419AFC /* ScreenDrawable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScreenDrawable.h; sourceTree = "<group>"; };
+		E4AD2B6D16E458EC00419AFC /* PrepareWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareWindow.h; sourceTree = "<group>"; };
+		E4AD2B6E16E458EC00419AFC /* PrepareWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareWindow.m; sourceTree = "<group>"; };
+		E4AD2B7016E46A5C00419AFC /* DirPromptWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirPromptWindow.h; sourceTree = "<group>"; };
+		E4AD2B7116E46A5C00419AFC /* DirPromptWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirPromptWindow.m; sourceTree = "<group>"; };
+		E4AD2B7316E4707500419AFC /* libform.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libform.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libform.dylib; sourceTree = DEVELOPER_DIR; };
 		E4C1864416DE726E00B78A3B /* WiiStepSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WiiStepSDK.h; sourceTree = "<group>"; };
 		E4C1867E16DE759C00B78A3B /* WiiStepOGC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WiiStepOGC.h; sourceTree = "<group>"; };
 		E4C1868016DE7EC200B78A3B /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
@@ -83,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4AD2A5216E352C300419AFC /* libncurses.dylib in Frameworks */,
 				E4AD2A5016E32F4600419AFC /* libcurl.dylib in Frameworks */,
 				E4AD2A3C16E30C4300419AFC /* Foundation.framework in Frameworks */,
 			);
@@ -98,6 +139,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E44E9A1C16E51D2300C08E1F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E44E9A1D16E51D5F00C08E1F /* MultiLineWrapper.h */,
+				E44E9A1E16E51D5F00C08E1F /* MultiLineWrapper.m */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		E4AD2A3A16E30C4300419AFC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +159,9 @@
 		E4AD2A3D16E30C4300419AFC /* wsinstall */ = {
 			isa = PBXGroup;
 			children = (
+				E44E9A2316E54CF600C08E1F /* WSInstall.h */,
+				E44E9A2416E54CF600C08E1F /* WSInstall.m */,
+				E4AD2B5B16E433C000419AFC /* ScreenClasses */,
 				E4AD2A4716E30C6F00419AFC /* DownloaderClasses */,
 				E4AD2A3E16E30C4400419AFC /* main.m */,
 				E4AD2A4216E30C4400419AFC /* wsinstall.1 */,
@@ -120,6 +173,8 @@
 		E4AD2A4016E30C4400419AFC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E4AD2A5116E352C300419AFC /* libncurses.dylib */,
+				E4AD2B7316E4707500419AFC /* libform.dylib */,
 				E4AD2A4F16E32F4600419AFC /* libcurl.dylib */,
 				E4AD2A4116E30C4400419AFC /* wsinstall-Prefix.pch */,
 			);
@@ -135,6 +190,36 @@
 				E4AD2A4D16E32B2B00419AFC /* SFDownloaderProgressStdout.m */,
 			);
 			path = DownloaderClasses;
+			sourceTree = "<group>";
+		};
+		E4AD2B5B16E433C000419AFC /* ScreenClasses */ = {
+			isa = PBXGroup;
+			children = (
+				E44E9A1C16E51D2300C08E1F /* Utilities */,
+				E44E9A2616E54D1F00C08E1F /* EventCapturer.h */,
+				E4AD2B6C16E4457800419AFC /* ScreenDrawable.h */,
+				E44E9A1716E518A400C08E1F /* ScreenInput.h */,
+				E4AD2B5C16E435E200419AFC /* MainScreen.h */,
+				E44E9A1B16E519F900C08E1F /* MainScreen_Private.h */,
+				E4AD2B5D16E435E200419AFC /* MainScreen.m */,
+				E4AD2B6216E4362D00419AFC /* HeaderWindow.h */,
+				E4AD2B6316E4362D00419AFC /* HeaderWindow.m */,
+				E4AD2B6516E4363800419AFC /* FooterWindow.h */,
+				E4AD2B6616E4363800419AFC /* FooterWindow.m */,
+				E44E9A1816E5191E00C08E1F /* InitialCheckWindow.h */,
+				E44E9A1916E5191E00C08E1F /* InitialCheckWindow.m */,
+				E4AD2B7016E46A5C00419AFC /* DirPromptWindow.h */,
+				E4AD2B7116E46A5C00419AFC /* DirPromptWindow.m */,
+				E4AD2B6D16E458EC00419AFC /* PrepareWindow.h */,
+				E4AD2B6E16E458EC00419AFC /* PrepareWindow.m */,
+				E4AD2B5F16E4360C00419AFC /* TaskSelection.h */,
+				E4AD2B6016E4360C00419AFC /* TaskSelection.m */,
+				E4AD2B6816E4368F00419AFC /* ProgressWindow.h */,
+				E4AD2B6916E4368F00419AFC /* ProgressWindow.m */,
+				E44E9A2016E53CEE00C08E1F /* MultiLineMessageWindow.h */,
+				E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */,
+			);
+			path = ScreenClasses;
 			sourceTree = "<group>";
 		};
 		E4B76F9F16C809B200D38CB1 = {
@@ -338,9 +423,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4AD2A3F16E30C4400419AFC /* main.m in Sources */,
 				E4AD2A4B16E316B800419AFC /* SFDownloader.m in Sources */,
 				E4AD2A4E16E32B2B00419AFC /* SFDownloaderProgressStdout.m in Sources */,
+				E4AD2B5E16E435E200419AFC /* MainScreen.m in Sources */,
+				E4AD2B6116E4360C00419AFC /* TaskSelection.m in Sources */,
+				E4AD2B6416E4362D00419AFC /* HeaderWindow.m in Sources */,
+				E4AD2B6716E4363800419AFC /* FooterWindow.m in Sources */,
+				E4AD2B6A16E4368F00419AFC /* ProgressWindow.m in Sources */,
+				E4AD2B6B16E4386300419AFC /* main.m in Sources */,
+				E4AD2B6F16E458EC00419AFC /* PrepareWindow.m in Sources */,
+				E4AD2B7216E46A5D00419AFC /* DirPromptWindow.m in Sources */,
+				E44E9A1A16E5191E00C08E1F /* InitialCheckWindow.m in Sources */,
+				E44E9A1F16E51D5F00C08E1F /* MultiLineWrapper.m in Sources */,
+				E44E9A2216E53CEF00C08E1F /* MultiLineMessageWindow.m in Sources */,
+				E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +556,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "wsinstall/Dependencies/cdk-5.0-20120323/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/wsinstall/Dependencies/cdk-5.0-20120323\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -490,6 +591,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "wsinstall/Dependencies/cdk-5.0-20120323/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/wsinstall/Dependencies/cdk-5.0-20120323\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -663,6 +769,7 @@
 				E4AD2A4616E30C4400419AFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4B76FA316C809B200D38CB1 /* Build configuration list for PBXProject "WiiStep" */ = {
 			isa = XCConfigurationList;

@@ -161,7 +161,96 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
  * available. The progress delegate is used to get instant notifications of
  * download progress */
 - (NSURL*)downloadFileEntry:(NSString*)entryName toDirectory:(NSURL*)directory unarchive:(BOOL)unarchive progressDelegate:(id <SFDownloaderProgressDelegate>)progressDelegate {
+    NSURL* requested_url = _fileURLs[entryName];
+    if (!requested_url)
+        return nil;
     
+    // Target local URL (and a FILE handle)
+    NSURL* target_url = [directory URLByAppendingPathComponent:[entryName lastPathComponent]];
+    FILE* target_file = fopen([[target_url path] UTF8String], "w");
+    if (!target_file)
+        return nil;
+    
+    // Configure cURL for direct-to-disk download
+    CURL* curl_h = curl_easy_init();
+    __block BOOL report_progress = NO;
+    curl_set_write_body_block(curl_h, ^size_t(char *ptr, size_t size, size_t nmemb) {
+        report_progress = YES;
+        return fwrite(ptr, size, nmemb, target_file);
+    });
+    __block BOOL header_received = NO;
+    curl_set_write_header_block(curl_h, ^size_t(char *ptr, size_t size, size_t nmemb) {
+        if (!header_received) {
+            if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBegan:)])
+                [progressDelegate downloadBegan:entryName];
+        }
+        header_received = YES;
+        return size*nmemb;
+    });
+    curl_set_progress_block(curl_h, ^int(double dltotal, double dlnow, double ultotal, double ulnow) {
+        if (report_progress && progressDelegate && [progressDelegate respondsToSelector:@selector(download:progressBytes:outOfBytes:)])
+            [progressDelegate download:entryName progressBytes:@(dlnow) outOfBytes:@(dltotal)];
+        return 0;
+    });
+    char err_buf[CURL_ERROR_SIZE];
+    curl_easy_setopt(curl_h, CURLOPT_ERRORBUFFER, err_buf);
+    curl_easy_setopt(curl_h, CURLOPT_FOLLOWLOCATION, 1);
+    curl_easy_setopt(curl_h, CURLOPT_URL, [[requested_url absoluteString] UTF8String]);
+    
+    // Begin download
+    CURLcode res_code = curl_easy_perform(curl_h);
+    curl_easy_cleanup(curl_h);
+    fclose(target_file);
+    if (res_code) {
+        if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToBegin:reason:)])
+            [progressDelegate downloadFailedToBegin:entryName reason:@(err_buf)];
+        return nil;
+    }
+    if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompleted:)])
+        [progressDelegate downloadCompleted:entryName];
+    
+    // Good at this point; unarchive if extension is for supported archive format
+    if (!unarchive)
+        return target_url;
+    
+    NSString* ext_string = [[[target_url lastPathComponent] pathExtension] lowercaseString];
+    if ([ext_string isEqualToString:@"bz2"]) {
+        NSTask* bunzip_task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/bunzip2" arguments:@[[target_url path]]];
+        if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBeganUnarchive:)])
+            [progressDelegate downloadBeganUnarchive:entryName];
+        [bunzip_task waitUntilExit];
+        int term_code = [bunzip_task terminationStatus];
+        if (term_code && progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToUnarchive:failCode:)])
+            [progressDelegate downloadFailedToUnarchive:entryName failCode:term_code];
+        else if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompletedUnarchive:)])
+            [progressDelegate downloadCompletedUnarchive:entryName];
+        
+        target_url = [NSURL URLWithString:[[target_url path] stringByDeletingPathExtension]];
+    }
+    
+    // Check to see if we have a tar
+    ext_string = [[[target_url lastPathComponent] pathExtension] lowercaseString];
+    if ([ext_string isEqualToString:@"tar"]) {
+        NSTask* tar_task = [NSTask new];
+        [tar_task setCurrentDirectoryPath:[[target_url path] stringByDeletingLastPathComponent]];
+        [tar_task setLaunchPath:@"/usr/bin/tar"];
+        [tar_task setArguments:@[@"-xf", [target_url path]]];
+        [tar_task launch];
+        if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBeganUnarchive:)])
+            [progressDelegate downloadBeganUnarchive:entryName];
+        [tar_task waitUntilExit];
+        int term_code = [tar_task terminationStatus];
+        if (term_code && progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToUnarchive:failCode:)])
+            [progressDelegate downloadFailedToUnarchive:entryName failCode:term_code];
+        else if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompletedUnarchive:)]) {
+            [progressDelegate downloadCompletedUnarchive:entryName];
+            [[NSFileManager defaultManager] removeItemAtURL:target_url error:nil];
+        }
+    }
+    
+    
+    return target_url;
+
 }
 
 @end

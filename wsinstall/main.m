@@ -8,27 +8,33 @@
 
 #import <Foundation/Foundation.h>
 #import <curl/curl.h>
+#import <ncurses.h>
 #import "SFDownloader.h"
 #import "SFDownloaderProgressStdout.h"
+#import "MainScreen.h"
+#import "WSInstall.h"
+
+static void interrupt_handler(int sig) {
+    endwin();
+    exit(0);
+}
 
 int main(int argc, const char * argv[])
 {
 
+    // Terminate on interrupt
+    signal(SIGINT, interrupt_handler);
+    
     @autoreleasepool {
         
         // We're going to be using libcurl (get it ready)
         curl_global_init(CURL_GLOBAL_ALL);
+
+        // Start install
+        [WSInstall startWSInstall];
         
-        // Download devkitPPC index
-        SFDownloaderProgressStdout* progress = [SFDownloaderProgressStdout new];
-        SFDownloader* sfd = [SFDownloader sfDownloaderWithProjectID:@"114505" subPath:@"devkitPPC" progressDelegate:progress];
-        
-        // Test print
-        for (NSString* name in sfd.files) {
-            NSLog(@"%@", name);
-            if ([name rangeOfString:@"osx"].location != NSNotFound)
-                NSLog(@"Found OSX!!");
-        }
+        // Ensure terminal returns to term mode
+        endwin();
         
         // Done with libcurl
         curl_global_cleanup();

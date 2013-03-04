@@ -30,6 +30,9 @@
 /* Unarchive began */
 - (void)downloadBeganUnarchive:(NSString*)entryTitle;
 
+/* Unarchive failed */
+- (void)downloadFailedToUnarchive:(NSString*)entryTitle failCode:(int)failCode;
+
 /* Unarchive completed */
 - (void)downloadCompletedUnarchive:(NSString*)entryTitle;
 
