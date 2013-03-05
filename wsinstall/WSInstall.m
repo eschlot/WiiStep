@@ -9,6 +9,7 @@
 #import "WSInstall.h"
 #import "MainScreen.h"
 #import "InitialCheckWindow.h"
+#import "MultiLineMessageWindow.h"
 
 @interface WSInstall () {
     @private
@@ -19,6 +20,14 @@
 @implementation WSInstall
 
 - (id)init {return nil;}
+- (id)_init {return [super init];}
+
+
+#pragma mark Phase Zero: Confirm install location with user
+
+- (void)phaseZero {
+    
+}
 
 
 #pragma mark Phase One: Check currently installed dependencies
@@ -30,8 +39,31 @@
 }
 
 
+#pragma mark Phase Two: Check to see if dependencies can be externally obtained
+
+- (void)phaseTwo {
+    
+}
+
+
+#pragma mark Phase Three: Deliver dependency report to user and receive confirmation
+
+- (void)phaseThree {
+    
+}
+
+
+#pragma mark Phase Four: Download any external dependencies and install everything
+
+- (void)phaseFour {
+    
+}
+
+
+#pragma mark Installer Entry Point
+
 + (id)startWSInstall {
-    WSInstall* install = [WSInstall new];
+    WSInstall* install = [[WSInstall alloc] _init];
     /*
      // Download devkitPPC index
      SFDownloaderProgressStdout* progress = [SFDownloaderProgressStdout new];
@@ -52,12 +84,30 @@
         
     // Init ncurses screen and global params
     install->mainScreen = [MainScreen new];
+    //[install->mainScreen setInputWindow:[MultiLineMessageWindow messageWindowInMainScreen:install->mainScreen windowTitle:@"Test Title" windowTitleAttr:COLOR_PAIR(3) message:@"Loremlonglonglonglonglong ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et nisi eros, adipiscing pellentesque urna. Curabitur ullamcorper, augue hendrerit placerat interdum, mi enim lacinia lorem, at convallis dolor lectus in turpis. Nunc bibendum faucibus urna nec suscipit. Vivamus lacinia viverra facilisis. Mauris adipiscing bibendum est ut ullamcorper." messageAttr:COLOR_PAIR(1) anyKeyHandler:install]];
+    [install->mainScreen setInputWindow:[OneLineInputWindow oneLineInputInMainScreen:install->mainScreen title:@"WiiStep Directory" titleAttr:COLOR_PAIR(3) prompt:@"Please confirm WiiStep install directory:" promptAttr:COLOR_PAIR(1) defaultValue:@"/opt/wiistep" delegate:install]];
+    [install->mainScreen redraw];
     [install->mainScreen activate];
     
     return install;
 }
 
+
+#pragma mark "Candy Cane" Responder Capturer
+
 - (void)receiver:(id)receiver sentCapturableKeyPress:(char)key {
+    
+}
+
+- (void)inputWindow:(OneLineInputWindow *)window valueChangedTo:(NSString *)value {
+    
+}
+
+- (void)inputWindowOK:(OneLineInputWindow *)window {
+    
+}
+
+- (void)inputWindowCancel:(OneLineInputWindow *)window {
     
 }
 

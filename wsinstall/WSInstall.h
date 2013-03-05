@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "EventCapturer.h"
+#import "OneLineInputWindow.h"
 
-@interface WSInstall : NSObject <EventCapturer>
+@interface WSInstall : NSObject <EventCapturer, InputWindowDelegate>
 
 + (id)startWSInstall;
 

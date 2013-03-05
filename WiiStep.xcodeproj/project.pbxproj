@@ -11,6 +11,7 @@
 		E44E9A1F16E51D5F00C08E1F /* MultiLineWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A1E16E51D5F00C08E1F /* MultiLineWrapper.m */; };
 		E44E9A2216E53CEF00C08E1F /* MultiLineMessageWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */; };
 		E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2416E54CF600C08E1F /* WSInstall.m */; };
+		E44E9A2916E5A00F00C08E1F /* OneLineInputWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2816E5A00F00C08E1F /* OneLineInputWindow.m */; };
 		E4AD2A3C16E30C4300419AFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
 		E4AD2A4316E30C4400419AFC /* wsinstall.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4AD2A4216E30C4400419AFC /* wsinstall.1 */; };
 		E4AD2A4B16E316B800419AFC /* SFDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4916E30C9600419AFC /* SFDownloader.m */; };
@@ -76,6 +77,8 @@
 		E44E9A2316E54CF600C08E1F /* WSInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSInstall.h; sourceTree = "<group>"; };
 		E44E9A2416E54CF600C08E1F /* WSInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSInstall.m; sourceTree = "<group>"; };
 		E44E9A2616E54D1F00C08E1F /* EventCapturer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventCapturer.h; sourceTree = "<group>"; };
+		E44E9A2716E5A00E00C08E1F /* OneLineInputWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneLineInputWindow.h; sourceTree = "<group>"; };
+		E44E9A2816E5A00F00C08E1F /* OneLineInputWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneLineInputWindow.m; sourceTree = "<group>"; };
 		E4AD2A3116E15CA300419AFC /* test.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = test.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3916E30C4300419AFC /* wsinstall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wsinstall; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3B16E30C4300419AFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -218,6 +221,8 @@
 				E4AD2B6916E4368F00419AFC /* ProgressWindow.m */,
 				E44E9A2016E53CEE00C08E1F /* MultiLineMessageWindow.h */,
 				E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */,
+				E44E9A2716E5A00E00C08E1F /* OneLineInputWindow.h */,
+				E44E9A2816E5A00F00C08E1F /* OneLineInputWindow.m */,
 			);
 			path = ScreenClasses;
 			sourceTree = "<group>";
@@ -437,6 +442,7 @@
 				E44E9A1F16E51D5F00C08E1F /* MultiLineWrapper.m in Sources */,
 				E44E9A2216E53CEF00C08E1F /* MultiLineMessageWindow.m in Sources */,
 				E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */,
+				E44E9A2916E5A00F00C08E1F /* OneLineInputWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,11 +562,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "wsinstall/Dependencies/cdk-5.0-20120323/include";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/wsinstall/Dependencies/cdk-5.0-20120323\"",
-				);
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -591,11 +594,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "wsinstall/Dependencies/cdk-5.0-20120323/include";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/wsinstall/Dependencies/cdk-5.0-20120323\"",
-				);
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

@@ -40,6 +40,11 @@
     return me;
 }
 
+- (void)dealloc {
+    delwin(window);
+    delwin(shadow);
+}
+
 /* Draw Routine */
 #define WIN_LINES 4
 #define WIN_COLS 70
@@ -83,7 +88,7 @@
     // Draw "any key" text
     wmove(window, win_lines-2, 1);
     wattron(window, A_BOLD);
-    wattrset(window, titleAttr);
+    wattrset(window, COLOR_PAIR(3));
     waddstr(window, ANY_KEY);
     wattroff(window, A_BOLD);
     
@@ -91,8 +96,7 @@
 
 /* Input handler */
 - (void)receiveInputCharacter:(char)aChar {
-    if (aChar != 410) // "Any key" except term resize
-        [akh receiver:self sentCapturableKeyPress:aChar];
+    [akh receiver:self sentCapturableKeyPress:aChar];
 }
 
 @end

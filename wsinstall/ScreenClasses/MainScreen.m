@@ -13,6 +13,7 @@
 #import "PrepareWindow.h"
 #import "DirPromptWindow.h"
 #import "MultiLineMessageWindow.h"
+#import "OneLineInputWindow.h"
 
 @interface MainScreen () {
     @private
@@ -38,9 +39,7 @@
     noecho();
     header = [HeaderWindow headerWindowInScreenWindow:screen];
     footer = [FooterWindow footerWindowInScreenWindow:screen];
-    currentInputWindow = [MultiLineMessageWindow messageWindowInMainScreen:self windowTitle:@"Test Title" windowTitleAttr:COLOR_PAIR(3) message:@"Loremlonglonglonglonglong ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et nisi eros, adipiscing pellentesque urna. Curabitur ullamcorper, augue hendrerit placerat interdum, mi enim lacinia lorem, at convallis dolor lectus in turpis. Nunc bibendum faucibus urna nec suscipit. Vivamus lacinia viverra facilisis. Mauris adipiscing bibendum est ut ullamcorper." messageAttr:COLOR_PAIR(1) anyKeyHandler:nil];
-    
-    [self redraw];
+    currentInputWindow = nil;
     return self;
 }
 
