@@ -8,6 +8,12 @@
 
 #import "MainScreen.h"
 
+/* Ncurses color pair enumerations */
+#define COLOR_NORMAL_TEXT 1
+#define COLOR_POPPING_TEXT 2
+#define COLOR_ERROR_TEXT 3
+#define COLOR_SHADOW 4
+
 @interface MainScreen () {
     @package
     WINDOW* screen;

@@ -7,13 +7,14 @@
 //
 
 #import "WSInstall.h"
-#import "MainScreen.h"
+#import "MainScreen_Private.h"
 #import "InitialCheckWindow.h"
 #import "MultiLineMessageWindow.h"
 
 @interface WSInstall () {
     @private
     MainScreen* mainScreen;
+    NSInteger curPhase;
 }
 @end
 
@@ -26,7 +27,9 @@
 #pragma mark Phase Zero: Confirm install location with user
 
 - (void)phaseZero {
-    
+    curPhase = 0;
+    mainScreen.inputWindow = [OneLineInputWindow oneLineInputInMainScreen:mainScreen title:@"WiiStep Directory" titleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) prompt:@"Please confirm WiiStep install directory:" promptAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) defaultValue:@"/opt/wiistep" delegate:self];
+    [mainScreen redraw];
 }
 
 
@@ -84,9 +87,8 @@
         
     // Init ncurses screen and global params
     install->mainScreen = [MainScreen new];
-    //[install->mainScreen setInputWindow:[MultiLineMessageWindow messageWindowInMainScreen:install->mainScreen windowTitle:@"Test Title" windowTitleAttr:COLOR_PAIR(3) message:@"Loremlonglonglonglonglong ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et nisi eros, adipiscing pellentesque urna. Curabitur ullamcorper, augue hendrerit placerat interdum, mi enim lacinia lorem, at convallis dolor lectus in turpis. Nunc bibendum faucibus urna nec suscipit. Vivamus lacinia viverra facilisis. Mauris adipiscing bibendum est ut ullamcorper." messageAttr:COLOR_PAIR(1) anyKeyHandler:install]];
-    [install->mainScreen setInputWindow:[OneLineInputWindow oneLineInputInMainScreen:install->mainScreen title:@"WiiStep Directory" titleAttr:COLOR_PAIR(3) prompt:@"Please confirm WiiStep install directory:" promptAttr:COLOR_PAIR(1) defaultValue:@"/opt/wiistep" delegate:install]];
-    [install->mainScreen redraw];
+    //[install->mainScreen setInputWindow:[MultiLineMessageWindow messageWindowInMainScreen:install->mainScreen windowTitle:@"Test Title" windowTitleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) message:@"Loremlonglonglonglonglong ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et nisi eros, adipiscing pellentesque urna. Curabitur ullamcorper, augue hendrerit placerat interdum, mi enim lacinia lorem, at convallis dolor lectus in turpis. Nunc bibendum faucibus urna nec suscipit. Vivamus lacinia viverra facilisis. Mauris adipiscing bibendum est ut ullamcorper." messageAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) anyKeyHandler:install]];
+    [install phaseZero];
     [install->mainScreen activate];
     
     return install;
@@ -95,7 +97,7 @@
 
 #pragma mark "Candy Cane" Responder Capturer
 
-- (void)receiver:(id)receiver sentCapturableKeyPress:(char)key {
+- (void)receiver:(id)receiver sentCapturableKeyPress:(int)key {
     
 }
 
@@ -108,7 +110,8 @@
 }
 
 - (void)inputWindowCancel:(OneLineInputWindow *)window {
-    
+    if (curPhase == 0) // Directory screen
+        [mainScreen deactivate];
 }
 
 @end

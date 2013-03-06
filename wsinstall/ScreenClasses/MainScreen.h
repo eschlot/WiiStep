@@ -16,7 +16,7 @@
 @interface MainScreen : NSObject <ScreenDrawable>
 
 /* Set current input window */
-- (void)setInputWindow:(id <ScreenDrawable>)drawable;
+@property (nonatomic) id <ScreenDrawable> inputWindow;
 
 /* Redraw (if content changes) */
 - (void)redraw;
@@ -26,5 +26,8 @@
 
 /* Main activate method (waits for user to do something in current mode) */
 - (void)activate;
+
+/* Deactivate method (breaks out of user input loop) */
+- (void)deactivate;
 
 @end

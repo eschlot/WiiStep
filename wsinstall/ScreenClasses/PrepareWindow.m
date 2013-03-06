@@ -7,6 +7,7 @@
 //
 
 #import "PrepareWindow.h"
+#import "MainScreen_Private.h"
 
 @interface PrepareWindow () {
     @private
@@ -41,10 +42,10 @@
     int win_x = center_justify_off(win_cols, cols);
     delwin(shadow);
     shadow = subwin(screen, win_lines, win_cols, win_y+1, win_x+1);
-    wbkgd(shadow, COLOR_PAIR(2));
+    wbkgd(shadow, COLOR_PAIR(COLOR_SHADOW));
     delwin(window);
     window = subwin(screen, win_lines, win_cols, win_y, win_x);
-    wbkgd(window, COLOR_PAIR(1));
+    wbkgd(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
     box(window, 0, 0);
     
     // Prepare header text
@@ -57,16 +58,18 @@
     char line1buf[256];
     truncate_string([line1 UTF8String], win_cols-2, line1buf);
     wmove(window, 1, 1);
-    wattrset(window, COLOR_PAIR(3));
+    wattrset(window, COLOR_PAIR(COLOR_POPPING_TEXT));
     waddstr(window, line1buf);
     
     // Status text line2
     char line2buf[256];
     truncate_string([line2 UTF8String], win_cols-2, line2buf);
     wmove(window, 2, 1);
-    wattrset(window, COLOR_PAIR(1));
+    wattrset(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
     waddstr(window, line2buf);
 }
+- (void)doRefresh {wrefresh(window);}
+
 
 /* Set text lines */
 - (void)setLine1:(NSString*)str {

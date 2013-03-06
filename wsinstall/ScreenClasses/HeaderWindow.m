@@ -7,6 +7,7 @@
 //
 
 #import "HeaderWindow.h"
+#import "MainScreen_Private.h"
 
 @interface HeaderWindow () {
     @private
@@ -27,10 +28,11 @@
 #define WS_INSTALLER_LEN sizeof(WS_INSTALLER)+1
 - (void)doDrawLines:(int)lines Cols:(int)cols {
     wmove(window, 0, center_justify_off(WS_INSTALLER_LEN, cols));
-    wbkgd(window, COLOR_PAIR(1));
-    wattrset(window, COLOR_PAIR(3));
+    wbkgd(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
+    wattrset(window, COLOR_PAIR(COLOR_POPPING_TEXT));
     wattron(window, A_BOLD);
     waddstr(window, WS_INSTALLER);
 }
+- (void)doRefresh {wrefresh(window);}
 
 @end

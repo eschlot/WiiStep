@@ -26,4 +26,7 @@
 /* Insert into main screen */
 + (id)oneLineInputInMainScreen:(MainScreen*)ms title:(NSString*)title titleAttr:(int)titleAttr prompt:(NSString*)prompt promptAttr:(int)promptAttr defaultValue:(NSString*)defaultValue delegate:(id <InputWindowDelegate>)delegate;
 
+/* Current value */
+@property (nonatomic, readonly) NSString* value;
+
 @end

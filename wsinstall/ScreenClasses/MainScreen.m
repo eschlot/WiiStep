@@ -21,6 +21,8 @@
     FooterWindow* footer;
     
     id <ScreenInput, ScreenDrawable> currentInputWindow;
+    
+    BOOL deactivate;
 }
 @end
 
@@ -31,26 +33,28 @@
     self = [super init];
     screen = initscr();
     start_color();
-    init_pair(1, COLOR_WHITE, COLOR_BLUE);
-    init_pair(2, COLOR_BLACK+8, COLOR_BLACK+8);
-    init_pair(3, COLOR_WHITE+8, COLOR_BLUE);
-    init_pair(4, COLOR_RED+8, COLOR_BLUE);
+    init_pair(COLOR_NORMAL_TEXT, COLOR_WHITE, COLOR_BLUE);
+    init_pair(COLOR_POPPING_TEXT, COLOR_WHITE+8, COLOR_BLUE);
+    init_pair(COLOR_ERROR_TEXT, COLOR_RED+8, COLOR_BLUE);
+    init_pair(COLOR_SHADOW, COLOR_BLACK+8, COLOR_BLACK+8);
     curs_set(0);
     noecho();
+    keypad(screen, YES);
     header = [HeaderWindow headerWindowInScreenWindow:screen];
     footer = [FooterWindow footerWindowInScreenWindow:screen];
     currentInputWindow = nil;
+    deactivate = NO;
     return self;
 }
 
 /* Set current input window */
-- (void)setInputWindow:(id <ScreenDrawable, ScreenInput>)drawable {
-    currentInputWindow = drawable;
-}
+@synthesize inputWindow=currentInputWindow;
 
 /* Redraw (if content changes) */
 - (void)redraw {
     [self redrawDrawable:self];
+    if (currentInputWindow)
+        [currentInputWindow doRefresh];
 }
 
 /* Redraw only one drawable (if that content changes) */
@@ -58,11 +62,14 @@
     int lines, cols;
     getmaxyx(screen, lines, cols);
     [drawable doDrawLines:lines Cols:cols];
+    [drawable doRefresh];
 }
 
-/* Main activate method (waits for user to do something in current mode) */
+/* Main activate method (waits for user to do something with current window) */
 - (void)activate {
     while (TRUE) {
+        if (deactivate)
+            break;
         int c = wgetch(screen);
         // Handle xterm resize
         if (c == 410) {
@@ -74,13 +81,18 @@
     }
 }
 
+/* Deactivate method (breaks out of user input loop) */
+- (void)deactivate {
+    deactivate = YES;
+}
+
 - (void)doDrawLines:(int)lines Cols:(int)cols {
     clear();
     wbkgd(screen, COLOR_PAIR(0));
     [header doDrawLines:lines Cols:cols];
     [footer doDrawLines:lines Cols:cols];
     [currentInputWindow doDrawLines:lines Cols:cols];
-    wrefresh(screen);
 }
+- (void)doRefresh {wrefresh(screen);}
 
 @end

@@ -66,10 +66,10 @@
     int win_x = center_justify_off(win_cols, cols);
     delwin(shadow);
     shadow = subwin(mainScreen->screen, win_lines, win_cols, win_y+1, win_x+1);
-    wbkgd(shadow, COLOR_PAIR(2));
+    wbkgd(shadow, COLOR_PAIR(COLOR_SHADOW));
     delwin(window);
     window = subwin(mainScreen->screen, win_lines, win_cols, win_y, win_x);
-    wbkgd(window, COLOR_PAIR(1));
+    wbkgd(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
     box(window, 0, 0);
     
     // Draw window title text
@@ -88,14 +88,16 @@
     // Draw "any key" text
     wmove(window, win_lines-2, 1);
     wattron(window, A_BOLD);
-    wattrset(window, COLOR_PAIR(3));
+    wattrset(window, COLOR_PAIR(COLOR_POPPING_TEXT));
     waddstr(window, ANY_KEY);
     wattroff(window, A_BOLD);
     
 }
+- (void)doRefresh {wrefresh(window);}
+
 
 /* Input handler */
-- (void)receiveInputCharacter:(char)aChar {
+- (void)receiveInputCharacter:(int)aChar {
     [akh receiver:self sentCapturableKeyPress:aChar];
 }
 

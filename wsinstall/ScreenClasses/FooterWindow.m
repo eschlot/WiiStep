@@ -7,6 +7,7 @@
 //
 
 #import "FooterWindow.h"
+#import "MainScreen_Private.h"
 
 @interface FooterWindow () {
 @private
@@ -30,10 +31,11 @@
 - (void)doDrawLines:(int)lines Cols:(int)cols {
     delwin(window);
     window = subwin(screen, 1, 0, lines-1, 0);
-    wbkgd(window, COLOR_PAIR(1));
+    wbkgd(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
     waddstr(window, "github.com/jackoalan/WiiStep");
     wmove(window, 0, cols-Q_TO_QUIT_LEN);
     waddstr(window, Q_TO_QUIT);
 }
+- (void)doRefresh {wrefresh(window);}
 
 @end

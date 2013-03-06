@@ -55,28 +55,30 @@
     int win_x = center_justify_off(win_cols, cols);
     delwin(shadow);
     shadow = subwin(mainScreen->screen, win_lines, win_cols, win_y+1, win_x+1);
-    wbkgd(shadow, COLOR_PAIR(2));
+    wbkgd(shadow, COLOR_PAIR(COLOR_SHADOW));
     delwin(window);
     window = subwin(mainScreen->screen, win_lines, win_cols, win_y, win_x);
-    wbkgd(window, COLOR_PAIR(1));
+    wbkgd(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
     box(window, 0, 0);
     
     // Draw window header text
     wmove(window, 0, center_justify_off(WINDOW_HEADER_LEN, win_cols));
     wattron(window, A_BOLD);
-    wattrset(window, COLOR_PAIR(4));
+    wattrset(window, COLOR_PAIR(COLOR_ERROR_TEXT));
     waddstr(window, WINDOW_HEADER);
     //wprintw(window, "%d", body_line_count);
     wattroff(window, A_BOLD);
     
     // Draw body text
-    wattrset(window, COLOR_PAIR(1));
+    wattrset(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
     [testWrapper drawIntoWindow:window topMarginLine:1 leftMarginCol:1 bottomMarginLine:win_lines rightMarginCol:win_cols-1];
     
 }
+- (void)doRefresh {wrefresh(window);}
+
 
 /* Input handler */
-- (void)receiveInputCharacter:(char)aChar {
+- (void)receiveInputCharacter:(int)aChar {
     
 }
 

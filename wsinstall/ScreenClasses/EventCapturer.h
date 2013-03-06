@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @protocol EventCapturer <NSObject>
-- (void)receiver:(id)receiver sentCapturableKeyPress:(char)key;
+- (void)receiver:(id)receiver sentCapturableKeyPress:(int)key;
 @end

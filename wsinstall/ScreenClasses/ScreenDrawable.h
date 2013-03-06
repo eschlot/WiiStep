@@ -13,4 +13,5 @@
 
 @protocol ScreenDrawable <NSObject>
 - (void)doDrawLines:(int)lines Cols:(int)cols;
+- (void)doRefresh;
 @end

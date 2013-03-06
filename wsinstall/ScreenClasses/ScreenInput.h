@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @protocol ScreenInput <NSObject>
-- (void)receiveInputCharacter:(char)aChar;
+- (void)receiveInputCharacter:(int)aChar;
 @end
