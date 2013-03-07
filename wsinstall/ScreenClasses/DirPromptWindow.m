@@ -32,6 +32,15 @@
 
 @implementation DirPromptWindow
 
+/* Horizontal scroll resolution algorithm */
+static inline size_t ResolveScroll(size_t h_scroll, size_t c_pos, int field_cols) {
+    if (c_pos < h_scroll)
+        return c_pos;
+    else if (c_pos-h_scroll > field_cols)
+        return c_pos-field_cols;
+    return h_scroll;
+}
+
 /* Insert into main screen */
 + (id)dirPromptInMainScreen:(MainScreen*)ms title:(NSString*)title titleAttr:(int)titleAttr prompt:(NSString*)prompt promptAttr:(int)promptAttr defaultValue:(NSString*)defaultValue delegate:(id <InputWindowDelegate>)delegate {
     DirPromptWindow* me = [DirPromptWindow new];
@@ -107,8 +116,8 @@
     wattrset(window, COLOR_PAIR(COLOR_NORMAL_TEXT));
     waddstr(window, USAGE_5);
     
-
-    
+    // Current scroll
+    h_scroll = ResolveScroll(h_scroll, c_pos, win_cols-2);
 }
 - (void)doRefresh {
     // Draw field (heeding current horizontal scroll)
@@ -119,11 +128,10 @@
     for(i=1;i<win_cols-1;++i)
         waddch(window, ' ');
     wmove(window, 2, 1);
-    //wprintw(window, "%.s", win_cols-2, [value UTF8String]+h_scroll);
-    waddstr(window, [value UTF8String]+h_scroll);
+    waddnstr(window, [value UTF8String]+h_scroll, win_cols-2);
     wattroff(window, A_STANDOUT);
     // Position cursor on text at stored position and show it
-    wmove(window, 2, (int)c_pos+1);
+    wmove(window, 2, (int)(c_pos+1-h_scroll));
     curs_set(1);
     wrefresh(window);
 }
@@ -171,8 +179,11 @@
             completed_path = filename_completion_function([value UTF8String], 0);
             if (completed_path) {
                 [value setString:@(completed_path)];
-                [delegate inputWindow:self valueChangedTo:value];
                 free(completed_path);
+                BOOL isDir = NO;
+                if ([[NSFileManager defaultManager] fileExistsAtPath:value isDirectory:&isDir] && isDir)
+                    [value appendString:@"/"];
+                [delegate inputWindow:self valueChangedTo:value];
                 c_pos = [value length];
             } else
                 printf("\a");
@@ -187,6 +198,8 @@
             ++c_pos;
             break;
     }
+    // Current scroll
+    h_scroll = ResolveScroll(h_scroll, c_pos, win_cols-2);
     [self doRefresh];
 }
 

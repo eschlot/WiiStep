@@ -15,6 +15,7 @@
     @private
     MainScreen* mainScreen;
     NSInteger curPhase;
+    NSString* dir;
 }
 @end
 
@@ -28,7 +29,7 @@
 
 - (void)phaseZero {
     curPhase = 0;
-    mainScreen.inputWindow = [DirPromptWindow dirPromptInMainScreen:mainScreen title:@"WiiStep Directory" titleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) prompt:@"Please confirm WiiStep install directory:" promptAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) defaultValue:@"/opt/wiistep" delegate:self];
+    mainScreen.inputWindow = [DirPromptWindow dirPromptInMainScreen:mainScreen title:@"WiiStep Directory" titleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) prompt:@"Please confirm WiiStep install directory:" promptAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) defaultValue:(dir)?dir:@"/opt/wiistep" delegate:self];
     [mainScreen redraw];
 }
 
@@ -65,8 +66,9 @@
 
 #pragma mark Installer Entry Point
 
-+ (id)startWSInstall {
++ (id)startWSInstall:(NSString *)dir {
     WSInstall* install = [[WSInstall alloc] _init];
+    install->dir = dir;
     /*
      // Download devkitPPC index
      SFDownloaderProgressStdout* progress = [SFDownloaderProgressStdout new];

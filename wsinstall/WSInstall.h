@@ -12,6 +12,6 @@
 
 @interface WSInstall : NSObject <EventCapturer, InputWindowDelegate>
 
-+ (id)startWSInstall;
++ (id)startWSInstall:(NSString*)dir;
 
 @end

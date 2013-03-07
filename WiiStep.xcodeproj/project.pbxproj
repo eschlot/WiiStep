@@ -13,7 +13,6 @@
 		E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2416E54CF600C08E1F /* WSInstall.m */; };
 		E44E9A2916E5A00F00C08E1F /* DirPromptWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */; };
 		E4AD2A3C16E30C4300419AFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
-		E4AD2A4316E30C4400419AFC /* wsinstall.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4AD2A4216E30C4400419AFC /* wsinstall.1 */; };
 		E4AD2A4B16E316B800419AFC /* SFDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4916E30C9600419AFC /* SFDownloader.m */; };
 		E4AD2A4E16E32B2B00419AFC /* SFDownloaderProgressStdout.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4D16E32B2B00419AFC /* SFDownloaderProgressStdout.m */; };
 		E4AD2A5016E32F4600419AFC /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A4F16E32F4600419AFC /* libcurl.dylib */; };
@@ -59,7 +58,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				E4AD2A4316E30C4400419AFC /* wsinstall.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -84,7 +82,6 @@
 		E4AD2A3B16E30C4300419AFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E4AD2A3E16E30C4400419AFC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E4AD2A4116E30C4400419AFC /* wsinstall-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "wsinstall-Prefix.pch"; sourceTree = "<group>"; };
-		E4AD2A4216E30C4400419AFC /* wsinstall.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = wsinstall.1; sourceTree = "<group>"; };
 		E4AD2A4816E30C9600419AFC /* SFDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDownloader.h; sourceTree = "<group>"; };
 		E4AD2A4916E30C9600419AFC /* SFDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDownloader.m; sourceTree = "<group>"; };
 		E4AD2A4C16E32B2B00419AFC /* SFDownloaderProgressStdout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDownloaderProgressStdout.h; sourceTree = "<group>"; };
@@ -167,7 +164,6 @@
 				E4AD2B5B16E433C000419AFC /* ScreenClasses */,
 				E4AD2A4716E30C6F00419AFC /* DownloaderClasses */,
 				E4AD2A3E16E30C4400419AFC /* main.m */,
-				E4AD2A4216E30C4400419AFC /* wsinstall.1 */,
 				E4AD2A4016E30C4400419AFC /* Supporting Files */,
 			);
 			path = wsinstall;

@@ -18,7 +18,7 @@ find_library(FOUNDATION_LIBRARY Foundation)
 target_link_libraries(wsinstall
 WSInstallScreens
 curl
-edit
+readline
 ncurses
 ${FOUNDATION_LIBRARY})
 

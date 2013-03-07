@@ -31,7 +31,10 @@ int main(int argc, const char * argv[])
         curl_global_init(CURL_GLOBAL_ALL);
 
         // Start install
-        [WSInstall startWSInstall];
+        NSString* dir = nil;
+        if (argc > 1)
+            dir = @(argv[1]);
+        [WSInstall startWSInstall:dir];
         
         // Ensure terminal returns to term mode
         endwin();
