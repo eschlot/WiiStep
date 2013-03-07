@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "EventCapturer.h"
-#import "OneLineInputWindow.h"
+#import "DirPromptWindow.h"
 
 @interface WSInstall : NSObject <EventCapturer, InputWindowDelegate>
 

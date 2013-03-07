@@ -11,7 +11,7 @@
 		E44E9A1F16E51D5F00C08E1F /* MultiLineWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A1E16E51D5F00C08E1F /* MultiLineWrapper.m */; };
 		E44E9A2216E53CEF00C08E1F /* MultiLineMessageWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */; };
 		E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2416E54CF600C08E1F /* WSInstall.m */; };
-		E44E9A2916E5A00F00C08E1F /* OneLineInputWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2816E5A00F00C08E1F /* OneLineInputWindow.m */; };
+		E44E9A2916E5A00F00C08E1F /* DirPromptWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */; };
 		E4AD2A3C16E30C4300419AFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
 		E4AD2A4316E30C4400419AFC /* wsinstall.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4AD2A4216E30C4400419AFC /* wsinstall.1 */; };
 		E4AD2A4B16E316B800419AFC /* SFDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4916E30C9600419AFC /* SFDownloader.m */; };
@@ -25,7 +25,6 @@
 		E4AD2B6A16E4368F00419AFC /* ProgressWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6916E4368F00419AFC /* ProgressWindow.m */; };
 		E4AD2B6B16E4386300419AFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A3E16E30C4400419AFC /* main.m */; };
 		E4AD2B6F16E458EC00419AFC /* PrepareWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6E16E458EC00419AFC /* PrepareWindow.m */; };
-		E4AD2B7216E46A5D00419AFC /* DirPromptWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B7116E46A5C00419AFC /* DirPromptWindow.m */; };
 		E4B9708116E6D05000A8F1DF /* libedit.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B9707F16E6CD4700A8F1DF /* libedit.dylib */; };
 		E4C1868116DE7EC200B78A3B /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C1868016DE7EC200B78A3B /* test.m */; };
 /* End PBXBuildFile section */
@@ -78,8 +77,8 @@
 		E44E9A2316E54CF600C08E1F /* WSInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSInstall.h; sourceTree = "<group>"; };
 		E44E9A2416E54CF600C08E1F /* WSInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSInstall.m; sourceTree = "<group>"; };
 		E44E9A2616E54D1F00C08E1F /* EventCapturer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventCapturer.h; sourceTree = "<group>"; };
-		E44E9A2716E5A00E00C08E1F /* OneLineInputWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneLineInputWindow.h; sourceTree = "<group>"; };
-		E44E9A2816E5A00F00C08E1F /* OneLineInputWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneLineInputWindow.m; sourceTree = "<group>"; };
+		E44E9A2716E5A00E00C08E1F /* DirPromptWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirPromptWindow.h; sourceTree = "<group>"; };
+		E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirPromptWindow.m; sourceTree = "<group>"; };
 		E4AD2A3116E15CA300419AFC /* test.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = test.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3916E30C4300419AFC /* wsinstall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wsinstall; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3B16E30C4300419AFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -105,8 +104,6 @@
 		E4AD2B6C16E4457800419AFC /* ScreenDrawable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScreenDrawable.h; sourceTree = "<group>"; };
 		E4AD2B6D16E458EC00419AFC /* PrepareWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareWindow.h; sourceTree = "<group>"; };
 		E4AD2B6E16E458EC00419AFC /* PrepareWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareWindow.m; sourceTree = "<group>"; };
-		E4AD2B7016E46A5C00419AFC /* DirPromptWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirPromptWindow.h; sourceTree = "<group>"; };
-		E4AD2B7116E46A5C00419AFC /* DirPromptWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirPromptWindow.m; sourceTree = "<group>"; };
 		E4AD2B7316E4707500419AFC /* libform.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libform.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libform.dylib; sourceTree = DEVELOPER_DIR; };
 		E4B9707F16E6CD4700A8F1DF /* libedit.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libedit.dylib; sourceTree = DEVELOPER_DIR; };
 		E4C1864416DE726E00B78A3B /* WiiStepSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WiiStepSDK.h; sourceTree = "<group>"; };
@@ -215,8 +212,6 @@
 				E4AD2B6616E4363800419AFC /* FooterWindow.m */,
 				E44E9A1816E5191E00C08E1F /* InitialCheckWindow.h */,
 				E44E9A1916E5191E00C08E1F /* InitialCheckWindow.m */,
-				E4AD2B7016E46A5C00419AFC /* DirPromptWindow.h */,
-				E4AD2B7116E46A5C00419AFC /* DirPromptWindow.m */,
 				E4AD2B6D16E458EC00419AFC /* PrepareWindow.h */,
 				E4AD2B6E16E458EC00419AFC /* PrepareWindow.m */,
 				E4AD2B5F16E4360C00419AFC /* TaskSelection.h */,
@@ -225,8 +220,8 @@
 				E4AD2B6916E4368F00419AFC /* ProgressWindow.m */,
 				E44E9A2016E53CEE00C08E1F /* MultiLineMessageWindow.h */,
 				E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */,
-				E44E9A2716E5A00E00C08E1F /* OneLineInputWindow.h */,
-				E44E9A2816E5A00F00C08E1F /* OneLineInputWindow.m */,
+				E44E9A2716E5A00E00C08E1F /* DirPromptWindow.h */,
+				E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */,
 			);
 			path = ScreenClasses;
 			sourceTree = "<group>";
@@ -441,12 +436,11 @@
 				E4AD2B6A16E4368F00419AFC /* ProgressWindow.m in Sources */,
 				E4AD2B6B16E4386300419AFC /* main.m in Sources */,
 				E4AD2B6F16E458EC00419AFC /* PrepareWindow.m in Sources */,
-				E4AD2B7216E46A5D00419AFC /* DirPromptWindow.m in Sources */,
 				E44E9A1A16E5191E00C08E1F /* InitialCheckWindow.m in Sources */,
 				E44E9A1F16E51D5F00C08E1F /* MultiLineWrapper.m in Sources */,
 				E44E9A2216E53CEF00C08E1F /* MultiLineMessageWindow.m in Sources */,
 				E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */,
-				E44E9A2916E5A00F00C08E1F /* OneLineInputWindow.m in Sources */,
+				E44E9A2916E5A00F00C08E1F /* DirPromptWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,7 +13,7 @@
 #import "PrepareWindow.h"
 #import "DirPromptWindow.h"
 #import "MultiLineMessageWindow.h"
-#import "OneLineInputWindow.h"
+#import "DirPromptWindow.h"
 
 @interface MainScreen () {
     @private

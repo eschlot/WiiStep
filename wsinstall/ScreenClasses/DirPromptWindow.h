@@ -2,20 +2,31 @@
 //  DirPromptWindow.h
 //  WiiStep
 //
-//  Created by Jack Andersen on 3/3/13.
+//  Created by Jack Andersen on 3/4/13.
 //
 //
 
 #import <Foundation/Foundation.h>
-#import <curses.h>
+#import "MainScreen.h"
+#import "ScreenInput.h"
 #import "ScreenDrawable.h"
+#import "EventCapturer.h"
+@class DirPromptWindow;
 
-@interface DirPromptWindow : NSObject <ScreenDrawable>
+@protocol InputWindowDelegate <NSObject>
+- (void)inputWindow:(DirPromptWindow*)window valueChangedTo:(NSString*)value;
+- (void)inputWindowOK:(DirPromptWindow*)window;
+- (void)inputWindowCancel:(DirPromptWindow*)window;
+@end
 
-+ (id)dirPromptInScreenWindow:(WINDOW*)screen prompt:(NSString*)prompt withDefaultDir:(NSString*)defaultDir;
+#pragma mark -
 
-@property (nonatomic) NSString* dir;
+@interface DirPromptWindow : NSObject <ScreenInput, ScreenDrawable>
 
-- (void)activateForm;
+/* Insert into main screen */
++ (id)dirPromptInMainScreen:(MainScreen*)ms title:(NSString*)title titleAttr:(int)titleAttr prompt:(NSString*)prompt promptAttr:(int)promptAttr defaultValue:(NSString*)defaultValue delegate:(id <InputWindowDelegate>)delegate;
+
+/* Current value */
+@property (nonatomic, readonly) NSString* value;
 
 @end

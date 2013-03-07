@@ -28,7 +28,7 @@
 
 - (void)phaseZero {
     curPhase = 0;
-    mainScreen.inputWindow = [OneLineInputWindow oneLineInputInMainScreen:mainScreen title:@"WiiStep Directory" titleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) prompt:@"Please confirm WiiStep install directory:" promptAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) defaultValue:@"/opt/wiistep" delegate:self];
+    mainScreen.inputWindow = [DirPromptWindow dirPromptInMainScreen:mainScreen title:@"WiiStep Directory" titleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) prompt:@"Please confirm WiiStep install directory:" promptAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) defaultValue:@"/opt/wiistep" delegate:self];
     [mainScreen redraw];
 }
 
@@ -101,15 +101,15 @@
     
 }
 
-- (void)inputWindow:(OneLineInputWindow *)window valueChangedTo:(NSString *)value {
+- (void)inputWindow:(DirPromptWindow *)window valueChangedTo:(NSString *)value {
     
 }
 
-- (void)inputWindowOK:(OneLineInputWindow *)window {
+- (void)inputWindowOK:(DirPromptWindow *)window {
     
 }
 
-- (void)inputWindowCancel:(OneLineInputWindow *)window {
+- (void)inputWindowCancel:(DirPromptWindow *)window {
     if (curPhase == 0) // Directory screen
         [mainScreen deactivate];
 }
