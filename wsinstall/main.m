@@ -21,7 +21,7 @@ static void interrupt_handler(int sig) {
 
 int main(int argc, const char * argv[])
 {
-
+    
     // Terminate on interrupt
     signal(SIGINT, interrupt_handler);
     
@@ -43,6 +43,8 @@ int main(int argc, const char * argv[])
         curl_global_cleanup();
         
     }
+    
+    
     return 0;
 }
 

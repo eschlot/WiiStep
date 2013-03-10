@@ -67,6 +67,7 @@
 
 /* Main activate method (waits for user to do something with current window) */
 - (void)activate {
+    // Now our input loop
     while (TRUE) {
         if (deactivate)
             break;
