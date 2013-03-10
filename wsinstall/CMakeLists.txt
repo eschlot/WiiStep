@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(wsinstall)
 
+# Xcode-style project-header resolution
 include_directories(ScreenClasses DownloaderClasses)
 
-# Xcode-style project-header resolution
+# Sub-project classes (defined as static library targets)
 add_subdirectory(ScreenClasses)
 
 # Lazy me :)
