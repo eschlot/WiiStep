@@ -10,8 +10,8 @@
 #import "EventCapturer.h"
 #import "DirPromptWindow.h"
 
-@interface WSInstall : NSObject <EventCapturer, InputWindowDelegate>
+@interface WSInstall : NSObject <EventCapturer, InputWindowDelegate, SFDownloaderProgressDelegate>
 
-+ (id)startWSInstall:(NSString*)dir;
++ (id)startWSInstall:(NSString*)dir optionalRVLSDK:(NSString*)sdk;
 
 @end

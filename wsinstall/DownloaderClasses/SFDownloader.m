@@ -105,19 +105,22 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
         available_size -= this_size;
         return this_size;
     });
-    NSString* progress_name_string = [NSString stringWithFormat:@"SF Project File Index: %@/%@", projId, subPath];
+    SFHash* index_hash = [SFHash new];
+    index_hash->algo = nil;
+    index_hash->hash = nil;
+    index_hash->name = [NSString stringWithFormat:@"SF Project File Index: %@/%@", projId, subPath];
     __block BOOL header_received = NO;
     curl_set_write_header_block(curl_h, ^size_t(char *ptr, size_t size, size_t nmemb) {
         if (!header_received) {
             if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBegan:)])
-                [progressDelegate downloadBegan:progress_name_string];
+                [progressDelegate downloadBegan:index_hash];
         }
         header_received = YES;
         return size*nmemb;
     });
     curl_set_progress_block(curl_h, ^int(double dltotal, double dlnow, double ultotal, double ulnow) {
         if (report_progress && progressDelegate && [progressDelegate respondsToSelector:@selector(download:progressBytes:outOfBytes:)])
-            [progressDelegate download:progress_name_string progressBytes:@(dlnow) outOfBytes:@(dltotal)];
+            [progressDelegate download:index_hash progressBytes:@(dlnow) outOfBytes:@(dltotal)];
         return 0;
     });
     char err_buf[CURL_ERROR_SIZE];
@@ -130,11 +133,11 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
     if (res_code) {
         free(index_buf);
         if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToBegin:reason:)])
-            [progressDelegate downloadFailedToBegin:progress_name_string reason:@(err_buf)];
+            [progressDelegate downloadFailedToBegin:index_hash reason:@(err_buf)];
         return nil;
     }
     if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompleted:)])
-        [progressDelegate downloadCompleted:progress_name_string];
+        [progressDelegate downloadCompleted:index_hash];
     
     // Good at this point; parse index_buf
     NSData* index_doc_data = [NSData dataWithBytesNoCopy:index_buf length:index_buf_cur freeWhenDone:YES];
@@ -144,10 +147,15 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
     
     // Enumerate Channel
     [[index_channel elementsForName:@"item"] enumerateObjectsUsingBlock:^(NSXMLElement* item, NSUInteger idx, BOOL *stop) {
-        NSString* title = [[item elementsForName:@"title"][0] stringValue];
+        NSXMLElement* media = [item elementsForName:@"media:content"][0];
+        NSXMLElement* media_hash = [media elementsForName:@"media:hash"][0];
+        SFHash* hash = [SFHash new];
+        hash->algo = [[media_hash attributeForName:@"algo"] stringValue];
+        hash->hash = [media_hash stringValue];
+        hash->name = [[item elementsForName:@"title"][0] stringValue];
+        dl->_files[idx] = hash;
         NSURL* link = [NSURL URLWithString:[[item elementsForName:@"link"][0] stringValue]];
-        dl->_files[idx] = title;
-        dl->_fileURLs[title] = link;
+        dl->_fileURLs[hash] = link;
     }];
     
     return dl;
@@ -160,13 +168,13 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
  * Local File URL is returned when complete. The option to perform a bunzip is also
  * available. The progress delegate is used to get instant notifications of
  * download progress */
-- (NSURL*)downloadFileEntry:(NSString*)entryName toDirectory:(NSURL*)directory unarchive:(BOOL)unarchive progressDelegate:(id <SFDownloaderProgressDelegate>)progressDelegate {
-    NSURL* requested_url = _fileURLs[entryName];
+- (NSURL*)downloadFileEntry:(SFHash*)entry toDirectory:(NSURL*)directory unarchive:(BOOL)unarchive progressDelegate:(id <SFDownloaderProgressDelegate>)progressDelegate {
+    NSURL* requested_url = _fileURLs[entry];
     if (!requested_url)
         return nil;
     
     // Target local URL (and a FILE handle)
-    NSURL* target_url = [directory URLByAppendingPathComponent:[entryName lastPathComponent]];
+    NSURL* target_url = [directory URLByAppendingPathComponent:[entry->name lastPathComponent]];
     FILE* target_file = fopen([[target_url path] UTF8String], "w");
     if (!target_file)
         return nil;
@@ -182,14 +190,14 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
     curl_set_write_header_block(curl_h, ^size_t(char *ptr, size_t size, size_t nmemb) {
         if (!header_received) {
             if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBegan:)])
-                [progressDelegate downloadBegan:entryName];
+                [progressDelegate downloadBegan:entry];
         }
         header_received = YES;
         return size*nmemb;
     });
     curl_set_progress_block(curl_h, ^int(double dltotal, double dlnow, double ultotal, double ulnow) {
         if (report_progress && progressDelegate && [progressDelegate respondsToSelector:@selector(download:progressBytes:outOfBytes:)])
-            [progressDelegate download:entryName progressBytes:@(dlnow) outOfBytes:@(dltotal)];
+            [progressDelegate download:entry progressBytes:@(dlnow) outOfBytes:@(dltotal)];
         return 0;
     });
     char err_buf[CURL_ERROR_SIZE];
@@ -203,11 +211,11 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
     fclose(target_file);
     if (res_code) {
         if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToBegin:reason:)])
-            [progressDelegate downloadFailedToBegin:entryName reason:@(err_buf)];
+            [progressDelegate downloadFailedToBegin:entry reason:@(err_buf)];
         return nil;
     }
     if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompleted:)])
-        [progressDelegate downloadCompleted:entryName];
+        [progressDelegate downloadCompleted:entry];
     
     // Good at this point; unarchive if extension is for supported archive format
     if (!unarchive)
@@ -216,14 +224,14 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
     NSString* ext_string = [[[target_url lastPathComponent] pathExtension] lowercaseString];
     if ([ext_string isEqualToString:@"bz2"]) {
         NSTask* bunzip_task = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/bunzip2" arguments:@[[target_url path]]];
-        if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBeganUnarchive:)])
-            [progressDelegate downloadBeganUnarchive:entryName];
+        if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBeganDecompress:)])
+            [progressDelegate downloadBeganDecompress:entry];
         [bunzip_task waitUntilExit];
         int term_code = [bunzip_task terminationStatus];
-        if (term_code && progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToUnarchive:failCode:)])
-            [progressDelegate downloadFailedToUnarchive:entryName failCode:term_code];
-        else if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompletedUnarchive:)])
-            [progressDelegate downloadCompletedUnarchive:entryName];
+        if (term_code && progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToDecompress:failCode:)])
+            [progressDelegate downloadFailedToDecompress:entry failCode:term_code];
+        else if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompletedDecompress:)])
+            [progressDelegate downloadCompletedDecompress:entry];
         
         target_url = [NSURL URLWithString:[[target_url path] stringByDeletingPathExtension]];
     }
@@ -237,15 +245,16 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
         [tar_task setArguments:@[@"-xf", [target_url path]]];
         [tar_task launch];
         if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadBeganUnarchive:)])
-            [progressDelegate downloadBeganUnarchive:entryName];
+            [progressDelegate downloadBeganUnarchive:entry];
         [tar_task waitUntilExit];
         int term_code = [tar_task terminationStatus];
         if (term_code && progressDelegate && [progressDelegate respondsToSelector:@selector(downloadFailedToUnarchive:failCode:)])
-            [progressDelegate downloadFailedToUnarchive:entryName failCode:term_code];
+            [progressDelegate downloadFailedToUnarchive:entry failCode:term_code];
         else if (progressDelegate && [progressDelegate respondsToSelector:@selector(downloadCompletedUnarchive:)]) {
-            [progressDelegate downloadCompletedUnarchive:entryName];
-            [[NSFileManager defaultManager] removeItemAtURL:target_url error:nil];
+            [progressDelegate downloadCompletedUnarchive:entry];
         }
+        [[NSFileManager defaultManager] removeItemAtPath:[target_url path] error:nil];
+
     }
     
     
@@ -253,4 +262,38 @@ static inline CURLcode curl_set_progress_block(CURL* curl, CurlProgressBlock blo
 
 }
 
+@end
+
+@implementation SFHash
+- (NSUInteger)hash {return *(NSUInteger*)[hash UTF8String];}
+- (BOOL)isEqual:(SFHash*)object {
+    if (!object || ![object isKindOfClass:[SFHash class]])
+        return NO;
+    if ([object->algo isEqualToString:algo] && [object->hash isEqualToString:hash])
+        return YES;
+    return NO;
+}
+- (id)copyWithZone:(NSZone *)zone {
+    SFHash* hashCopy = [SFHash allocWithZone:zone];
+    hashCopy->algo = algo;
+    hashCopy->hash = hash;
+    hashCopy->name = name;
+    return hashCopy;
+}
+- (NSString*)description {return name;}
+
++ (SFHash*)hashFromPath:(NSString*)path {
+    NSDictionary* hashInfo = [NSDictionary dictionaryWithContentsOfFile:path];
+    if (!hashInfo)
+        return nil;
+    SFHash* hash = [SFHash new];
+    hash->algo = hashInfo[@"algo"];
+    hash->hash = hashInfo[@"hash"];
+    hash->name = hashInfo[@"name"];
+    return hash;
+}
+- (void)hashToPath:(NSString*)path {
+    NSDictionary* hashInfo = @{@"algo":algo,@"hash":hash,@"name":name};
+    [hashInfo writeToFile:path atomically:YES];
+}
 @end

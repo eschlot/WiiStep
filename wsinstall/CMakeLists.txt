@@ -6,6 +6,7 @@ include_directories(ScreenClasses DownloaderClasses)
 
 # Sub-project classes (defined as static library targets)
 add_subdirectory(ScreenClasses)
+add_subdirectory(DownloaderClasses)
 
 # Lazy me :)
 add_definitions(-fobjc-arc)
@@ -14,12 +15,13 @@ add_executable(wsinstall
 WSInstall.m
 main.m)
 
-find_library(FOUNDATION_LIBRARY Foundation)
+find_library(FOUNDATION_FRAMEWORK Foundation)
 
 target_link_libraries(wsinstall
 WSInstallScreens
+WSInstallDownloaders
 curl
 readline
 ncurses
-${FOUNDATION_LIBRARY})
+${FOUNDATION_FRAMEWORK})
 

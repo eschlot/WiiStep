@@ -13,5 +13,6 @@
 @interface HeaderWindow : NSObject <ScreenDrawable>
 
 + (id)headerWindowInScreenWindow:(WINDOW*)screen;
+- (void)progIdx:(char)pc;
 
 @end

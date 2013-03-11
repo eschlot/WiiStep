@@ -11,7 +11,9 @@ MainScreen.m
 HeaderWindow.m
 FooterWindow.m
 DirPromptWindow.m
-InitialCheckWindow.m)
+ProgressWindow.m
+MultiLineMessageWindow.m
+NeededDependenciesReportWindow.m)
 
 target_link_libraries(WSInstallScreens
 WSInstallScreenUtilities)

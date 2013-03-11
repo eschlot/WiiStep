@@ -93,7 +93,7 @@
     wattroff(window, A_BOLD);
     
 }
-- (void)doRefresh {wrefresh(window);}
+- (void)doRefresh {curs_set(0); wrefresh(window);}
 
 
 /* Input handler */

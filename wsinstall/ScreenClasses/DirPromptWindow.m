@@ -21,6 +21,7 @@
     NSString* prompt;
     int promptAttr;
     NSMutableString* value;
+    BOOL editEnabled;
     id <InputWindowDelegate> delegate;
     
     // Cursor input stuff
@@ -42,7 +43,7 @@ static inline size_t ResolveScroll(size_t h_scroll, size_t c_pos, int field_cols
 }
 
 /* Insert into main screen */
-+ (id)dirPromptInMainScreen:(MainScreen*)ms title:(NSString*)title titleAttr:(int)titleAttr prompt:(NSString*)prompt promptAttr:(int)promptAttr defaultValue:(NSString*)defaultValue delegate:(id <InputWindowDelegate>)delegate {
++ (id)dirPromptInMainScreen:(MainScreen*)ms title:(NSString*)title titleAttr:(int)titleAttr prompt:(NSString*)prompt promptAttr:(int)promptAttr defaultValue:(NSString*)defaultValue editEnabled:(BOOL)edit delegate:(id <InputWindowDelegate>)delegate {
     DirPromptWindow* me = [DirPromptWindow new];
     me->window = nil;
     me->shadow = nil;
@@ -52,6 +53,7 @@ static inline size_t ResolveScroll(size_t h_scroll, size_t c_pos, int field_cols
     me->prompt = prompt;
     me->promptAttr = promptAttr;
     me->value = (defaultValue)?[NSMutableString stringWithString:defaultValue]:@"";
+    me->editEnabled = edit;
     me->delegate = delegate;
     me->h_scroll = 0;
     me->c_pos = [me->value length];
@@ -158,7 +160,7 @@ static inline size_t ResolveScroll(size_t h_scroll, size_t c_pos, int field_cols
             [delegate inputWindowOK:self];
             return;
         case '\x7f': // Backspace
-            if (c_pos) {
+            if (editEnabled && c_pos) {
                 [value deleteCharactersInRange:NSMakeRange(c_pos-1, 1)];
                 [delegate inputWindow:self valueChangedTo:value];
                 --c_pos;
@@ -166,7 +168,7 @@ static inline size_t ResolveScroll(size_t h_scroll, size_t c_pos, int field_cols
                 printf("\a");
             break;
         case 330: // Forward Delete
-            if (c_pos < [value length]) {
+            if (editEnabled && c_pos < [value length]) {
                 [value deleteCharactersInRange:NSMakeRange(c_pos, 1)];
                 [delegate inputWindow:self valueChangedTo:value];
             } else
@@ -176,6 +178,10 @@ static inline size_t ResolveScroll(size_t h_scroll, size_t c_pos, int field_cols
             [delegate inputWindowCancel:self];
             return;
         case 9: // Tab (autocomplete courtesy of libedit)
+            if (!editEnabled) {
+                printf("\a");
+                break;
+            }
             completed_path = filename_completion_function([value UTF8String], 0);
             if (completed_path) {
                 [value setString:@(completed_path)];
@@ -191,6 +197,10 @@ static inline size_t ResolveScroll(size_t h_scroll, size_t c_pos, int field_cols
         default: // Insert the character
             if (aChar < 0x20 || aChar > 0x7e) // Sanitise to legal characters
                 break;
+            if (!editEnabled) {
+                printf("\a");
+                break;
+            }
             str_cast[0] = aChar;
             str_cast[1] = '\0';
             [value insertString:@(str_cast) atIndex:c_pos];

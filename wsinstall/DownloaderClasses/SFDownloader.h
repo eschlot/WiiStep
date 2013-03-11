@@ -10,32 +10,58 @@
  * and greatest project files */
 
 #import <Foundation/Foundation.h>
+@class ProgressWindowBar;
+@class SFHash;
 
 /* Protocol for getting download and bunzip progress */
 @protocol SFDownloaderProgressDelegate <NSObject>
 @optional
 
 /* Downloader began successfully */
-- (void)downloadBegan:(NSString*)entryTitle;
+- (void)downloadBegan:(SFHash*)entryTitle;
 
 /* Downloader unable to start (due to HTTP error) */
-- (void)downloadFailedToBegin:(NSString*)entryTitle reason:(NSString*)reason;
+- (void)downloadFailedToBegin:(SFHash*)entry reason:(NSString*)reason;
 
 /* Downloader progress update */
-- (void)download:(NSString*)entryTitle progressBytes:(NSNumber*)currentBytes outOfBytes:(NSNumber*)outOfBytes;
+- (void)download:(SFHash*)entry progressBytes:(NSNumber*)currentBytes outOfBytes:(NSNumber*)outOfBytes;
 
 /* Download completed */
-- (void)downloadCompleted:(NSString*)entryTitle;
+- (void)downloadCompleted:(SFHash*)entry;
+
+/* Decompress began */
+- (void)downloadBeganDecompress:(SFHash*)entry;
+
+/* Decompress failed */
+- (void)downloadFailedToDecompress:(SFHash*)entry failCode:(int)failCode;
+
+/* Decompress completed */
+- (void)downloadCompletedDecompress:(SFHash*)entry;
 
 /* Unarchive began */
-- (void)downloadBeganUnarchive:(NSString*)entryTitle;
+- (void)downloadBeganUnarchive:(SFHash*)entry;
 
 /* Unarchive failed */
-- (void)downloadFailedToUnarchive:(NSString*)entryTitle failCode:(int)failCode;
+- (void)downloadFailedToUnarchive:(SFHash*)entry failCode:(int)failCode;
 
 /* Unarchive completed */
-- (void)downloadCompletedUnarchive:(NSString*)entryTitle;
+- (void)downloadCompletedUnarchive:(SFHash*)entry;
 
+@end
+
+#pragma mark -
+
+@interface SFHash : NSObject <NSCopying> {
+    @public
+    NSString* algo;
+    NSString* hash;
+    NSString* name;
+    ProgressWindowBar* dl_bar;
+    ProgressWindowBar* decomp_bar;
+    ProgressWindowBar* unarc_bar;
+}
++ (SFHash*)hashFromPath:(NSString*)path;
+- (void)hashToPath:(NSString*)path;
 @end
 
 #pragma mark -
@@ -53,6 +79,6 @@
  * Local File URL is returned when complete. The option to perform a bunzip is also
  * available. The progress delegate is used to get instant notifications of 
  * download progress */
-- (NSURL*)downloadFileEntry:(NSString*)entryName toDirectory:(NSURL*)directory unarchive:(BOOL)unarchive progressDelegate:(id <SFDownloaderProgressDelegate>)progressDelegate;
+- (NSURL*)downloadFileEntry:(SFHash*)entry toDirectory:(NSURL*)directory unarchive:(BOOL)unarchive progressDelegate:(id <SFDownloaderProgressDelegate>)progressDelegate;
 
 @end

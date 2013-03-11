@@ -7,7 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SFDownloader.h"
+#import "ScreenDrawable.h"
+@class MainScreen;
 
-@interface ProgressWindow : NSObject
+@interface ProgressWindowBar : NSObject
+@end
+
+@interface ProgressWindow : NSObject <ScreenDrawable, SFDownloaderProgressDelegate>
+
++ (id)progressWindowInMainScreen:(MainScreen*)ms;
+
+- (void)addInstallBar;
+- (void)installBarComplete;
 
 @end

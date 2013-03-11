@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <curses.h>
-#import "TaskSelection.h"
 #import "ProgressWindow.h"
 #import "ScreenDrawable.h"
 #import "ScreenInput.h"
@@ -17,6 +16,9 @@
 
 /* Set current input window */
 @property (nonatomic) id <ScreenDrawable> inputWindow;
+
+/* Set current progress window */
+@property (nonatomic) ProgressWindow* progWin;
 
 /* Redraw (if content changes) */
 - (void)redraw;
@@ -29,5 +31,8 @@
 
 /* Deactivate method (breaks out of user input loop) */
 - (void)deactivate;
+
+/* Indeterminate progress indicator (on/off) */
+@property (nonatomic) BOOL progIndicator;
 
 @end

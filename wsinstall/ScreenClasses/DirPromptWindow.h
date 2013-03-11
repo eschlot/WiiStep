@@ -15,8 +15,8 @@
 
 @protocol InputWindowDelegate <NSObject>
 - (void)inputWindow:(DirPromptWindow*)window valueChangedTo:(NSString*)value;
-- (void)inputWindowOK:(DirPromptWindow*)window;
-- (void)inputWindowCancel:(DirPromptWindow*)window;
+- (void)inputWindowOK:(id)window;
+- (void)inputWindowCancel:(id)window;
 @end
 
 #pragma mark -
@@ -24,7 +24,7 @@
 @interface DirPromptWindow : NSObject <ScreenInput, ScreenDrawable>
 
 /* Insert into main screen */
-+ (id)dirPromptInMainScreen:(MainScreen*)ms title:(NSString*)title titleAttr:(int)titleAttr prompt:(NSString*)prompt promptAttr:(int)promptAttr defaultValue:(NSString*)defaultValue delegate:(id <InputWindowDelegate>)delegate;
++ (id)dirPromptInMainScreen:(MainScreen*)ms title:(NSString*)title titleAttr:(int)titleAttr prompt:(NSString*)prompt promptAttr:(int)promptAttr defaultValue:(NSString*)defaultValue editEnabled:(BOOL)edit delegate:(id <InputWindowDelegate>)delegate;
 
 /* Current value */
 @property (nonatomic, readonly) NSString* value;

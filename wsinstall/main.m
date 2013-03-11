@@ -22,7 +22,7 @@ static void interrupt_handler(int sig) {
 int main(int argc, const char * argv[])
 {
     
-    // Terminate on interrupt
+    // Sudden-terminate on interrupt (but kindly return to terminal mode)
     signal(SIGINT, interrupt_handler);
     
     @autoreleasepool {
@@ -34,7 +34,10 @@ int main(int argc, const char * argv[])
         NSString* dir = nil;
         if (argc > 1)
             dir = @(argv[1]);
-        [WSInstall startWSInstall:dir];
+        NSString* rvlLoc = nil;
+        if (argc > 2)
+            rvlLoc = @(argv[2]);
+        [WSInstall startWSInstall:dir optionalRVLSDK:rvlLoc];
         
         // Ensure terminal returns to term mode
         endwin();
