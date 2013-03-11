@@ -162,8 +162,8 @@
         dispatch_group_async(downloader_group, downloader_queue, ^{
             NSString* plPath = [dir stringByAppendingPathComponent:@"devkitPPC-info.plist"];
             [[NSFileManager defaultManager] removeItemAtPath:plPath error:nil];
-            [dkPPCHash hashToPath:plPath];
             [dkPPCDownloader downloadFileEntry:dkPPCHash toDirectory:[NSURL URLWithString:dir] unarchive:YES progressDelegate:self];
+            [dkPPCHash hashToPath:plPath];
         });
     }
     
@@ -171,14 +171,8 @@
         dispatch_group_async(downloader_group, downloader_queue, ^{
             NSString* plPath = [dir stringByAppendingPathComponent:@"libogc-info.plist"];
             [[NSFileManager defaultManager] removeItemAtPath:plPath error:nil];
-            [libogcHash hashToPath:plPath];
             [libogcDownloader downloadFileEntry:libogcHash toDirectory:[NSURL URLWithString:dir] unarchive:YES progressDelegate:self];
-            [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:nil] enumerateObjectsUsingBlock:^(NSString* obj, NSUInteger idx, BOOL *stop) {
-                NSString* last_comp = [obj lastPathComponent];
-                if ([[last_comp lowercaseString] hasPrefix:@"libogc"] && [last_comp length] > 6) {
-                    [[NSFileManager defaultManager] moveItemAtPath:obj toPath:[[obj stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"libogc"] error:nil];
-                }
-            }];
+            [libogcHash hashToPath:plPath];
         });
     }
     
@@ -194,6 +188,9 @@
     mainScreen.progIndicator = NO;
     mainScreen.inputWindow = [MultiLineMessageWindow messageWindowInMainScreen:mainScreen windowTitle:@"Installation Complete" windowTitleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) message:@"Installation of WiiStep dependency-binaries complete. Cmake will now continue." messageAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) anyKeyHandler:self];
     [mainScreen redraw];
+    
+    // Write wsinstall-ran stub for Cmake
+    [[NSData data] writeToFile:[dir stringByAppendingPathComponent:@"wsinstall-ran"] options:NSDataWritingAtomic error:nil];
     
 }
 

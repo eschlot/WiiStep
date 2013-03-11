@@ -6,11 +6,14 @@ add_subdirectory(wsinstall)
 
 # Add command to run wsinstall to download needed binaries
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-add_custom_target(wsinstall-ran ALL ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
-DEPENDS wsinstall
+add_custom_command(OUTPUT wsinstall-ran COMMAND ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh ARGS $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
+MAIN_DEPENDENCY wsinstall
 COMMENT "Now running wsinstall...")
 else()
-add_custom_target(wsinstall-ran ALL $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
-DEPENDS wsinstall
+add_custom_command(OUTPUT wsinstall-ran $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ARGS ${PROJECT_BINARY_DIR}
+MAIN_DEPENDENCY wsinstall
 COMMENT "Now running wsinstall...")
 endif()
+
+# Temporary custom target to test custom command
+add_custom_target(WiiStep ALL DEPENDS wsinstall-ran)
