@@ -25,6 +25,9 @@ int main(int argc, const char * argv[])
     // Sudden-terminate on interrupt (but kindly return to terminal mode)
     signal(SIGINT, interrupt_handler);
     
+    // Term code
+    int termCode = -1;
+    
     @autoreleasepool {
         
         // We're going to be using libcurl (get it ready)
@@ -37,7 +40,13 @@ int main(int argc, const char * argv[])
         NSString* rvlLoc = nil;
         if (argc > 2)
             rvlLoc = @(argv[2]);
-        [WSInstall startWSInstall:dir optionalRVLSDK:rvlLoc];
+        
+        NSString* fail_stub_path = [dir stringByAppendingPathComponent:@"wsinstall-fail"];
+        [[NSData data] writeToFile:fail_stub_path options:NSDataWritingAtomic error:nil];
+        termCode = [WSInstall startWSInstall:dir optionalRVLSDK:rvlLoc].termCode;
+        if (!termCode)
+            [[NSFileManager defaultManager] removeItemAtPath:fail_stub_path error:nil];
+
         
         // Ensure terminal returns to term mode
         endwin();
@@ -48,6 +57,6 @@ int main(int argc, const char * argv[])
     }
     
     
-    return 0;
+    return termCode;
 }
 

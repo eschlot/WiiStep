@@ -41,7 +41,7 @@
     start_color();
     init_pair(COLOR_NORMAL_TEXT, COLOR_WHITE, COLOR_BLUE);
     init_pair(COLOR_POPPING_TEXT, COLOR_WHITE+8, COLOR_BLUE);
-    init_pair(COLOR_ERROR_TEXT, COLOR_RED+8, COLOR_WHITE);
+    init_pair(COLOR_ERROR_TEXT, COLOR_RED+8, COLOR_WHITE+8);
     init_pair(COLOR_SHADOW, COLOR_BLACK+8, COLOR_BLACK+8);
     curs_set(0);
     noecho();

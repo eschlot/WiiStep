@@ -79,6 +79,6 @@
  * Local File URL is returned when complete. The option to perform a bunzip is also
  * available. The progress delegate is used to get instant notifications of 
  * download progress */
-- (NSURL*)downloadFileEntry:(SFHash*)entry toDirectory:(NSURL*)directory unarchive:(BOOL)unarchive progressDelegate:(id <SFDownloaderProgressDelegate>)progressDelegate;
+- (NSString*)downloadFileEntry:(SFHash*)entry toDirectory:(NSString*)directory unarchive:(BOOL)unarchive progressDelegate:(id <SFDownloaderProgressDelegate>)progressDelegate;
 
 @end

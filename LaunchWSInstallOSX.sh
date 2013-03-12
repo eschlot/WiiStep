@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if test $# -eq 2
 then
 nl='
@@ -16,6 +16,10 @@ echo \
 end tell${nl}" | osascript
 sleep 0.5
 while pgrep `basename "$1"` > /dev/null; do sleep 0.5; done
+if [ -e "$2/wsinstall-fail" ]
+then
+exit -1
+fi
 else
 echo "Usage: LaunchWSInstall.sh <wsinstall path> <project binary dir>"
 fi

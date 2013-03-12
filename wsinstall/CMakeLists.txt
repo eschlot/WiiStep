@@ -22,6 +22,6 @@ WSInstallScreens
 WSInstallDownloaders
 curl
 readline
-ncurses
+curses
 ${FOUNDATION_FRAMEWORK})
 

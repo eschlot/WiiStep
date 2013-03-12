@@ -12,6 +12,9 @@
 
 @interface WSInstall : NSObject <EventCapturer, InputWindowDelegate, SFDownloaderProgressDelegate>
 
-+ (id)startWSInstall:(NSString*)dir optionalRVLSDK:(NSString*)sdk;
++ (WSInstall*)startWSInstall:(NSString*)dir optionalRVLSDK:(NSString*)sdk;
+
+/* Termination code when finished */
+@property (nonatomic, readonly) int termCode;
 
 @end

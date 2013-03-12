@@ -10,3 +10,6 @@
 [submodule "gnustep-base"]
 	path = gnustep-base
 	url = git@github.com:jackoalan/gnustep-base.git
+[submodule "llvm"]
+	path = llvm
+	url = git@github.com:jackoalan/llvm.git

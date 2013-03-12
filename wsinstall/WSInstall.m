@@ -34,6 +34,10 @@
     
     // Phase neg1 message
     NSString* neg1message;
+    
+    
+    // Term code
+    int termCode;
 }
 @end
 
@@ -162,7 +166,7 @@
         dispatch_group_async(downloader_group, downloader_queue, ^{
             NSString* plPath = [dir stringByAppendingPathComponent:@"devkitPPC-info.plist"];
             [[NSFileManager defaultManager] removeItemAtPath:plPath error:nil];
-            [dkPPCDownloader downloadFileEntry:dkPPCHash toDirectory:[NSURL URLWithString:dir] unarchive:YES progressDelegate:self];
+            [dkPPCDownloader downloadFileEntry:dkPPCHash toDirectory:dir unarchive:YES progressDelegate:self];
             [dkPPCHash hashToPath:plPath];
         });
     }
@@ -171,7 +175,9 @@
         dispatch_group_async(downloader_group, downloader_queue, ^{
             NSString* plPath = [dir stringByAppendingPathComponent:@"libogc-info.plist"];
             [[NSFileManager defaultManager] removeItemAtPath:plPath error:nil];
-            [libogcDownloader downloadFileEntry:libogcHash toDirectory:[NSURL URLWithString:dir] unarchive:YES progressDelegate:self];
+            NSString* libogcSubDir = [dir stringByAppendingPathComponent:@"libogc"];
+            [[NSFileManager defaultManager] createDirectoryAtPath:libogcSubDir withIntermediateDirectories:YES attributes:nil error:nil];
+            [libogcDownloader downloadFileEntry:libogcHash toDirectory:libogcSubDir unarchive:YES progressDelegate:self];
             [libogcHash hashToPath:plPath];
         });
     }
@@ -181,16 +187,19 @@
     
     
     // Install everything
+    /*
     [mainScreen.progWin addInstallBar];
     sleep(5);
     [mainScreen.progWin installBarComplete];
+     */
     
     mainScreen.progIndicator = NO;
     mainScreen.inputWindow = [MultiLineMessageWindow messageWindowInMainScreen:mainScreen windowTitle:@"Installation Complete" windowTitleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) message:@"Installation of WiiStep dependency-binaries complete. Cmake will now continue." messageAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) anyKeyHandler:self];
     [mainScreen redraw];
     
-    // Write wsinstall-ran stub for Cmake
+    // Write wsinstall-ran stub for Cmake and return 0
     [[NSData data] writeToFile:[dir stringByAppendingPathComponent:@"wsinstall-ran"] options:NSDataWritingAtomic error:nil];
+    termCode = 0;
     
 }
 
@@ -201,18 +210,19 @@
     curPhase = -1;
     
     mainScreen.progIndicator = NO;
-    mainScreen.inputWindow = [MultiLineMessageWindow messageWindowInMainScreen:mainScreen windowTitle:@"OH NOES!!" windowTitleAttr:COLOR_PAIR(COLOR_ERROR_TEXT) message:(neg1message)?neg1message:@"There are no internets" messageAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) anyKeyHandler:self];
+    mainScreen.inputWindow = [MultiLineMessageWindow messageWindowInMainScreen:mainScreen windowTitle:@"OH NOES!!" windowTitleAttr:COLOR_PAIR(COLOR_ERROR_TEXT)|A_STANDOUT message:(neg1message)?neg1message:@"There are no internets" messageAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) anyKeyHandler:self];
     [mainScreen redraw];
 }
 
 
 #pragma mark Installer Entry Point
 
-+ (id)startWSInstall:(NSString *)dir optionalRVLSDK:(NSString*)sdk {
++ (WSInstall*)startWSInstall:(NSString *)dir optionalRVLSDK:(NSString*)sdk {
     WSInstall* install = [[WSInstall alloc] _init];
     install->dir = dir;
     install->rvlSDKLocation = sdk;
     install->neg1message = nil;
+    install->termCode = -1;
         
     // Init ncurses screen and global params
     install->mainScreen = [MainScreen new];
@@ -310,5 +320,7 @@
     if (curPhase == 4)
         [mainScreen.progWin downloadCompletedUnarchive:entry];
 }
+
+@synthesize termCode;
 
 @end
