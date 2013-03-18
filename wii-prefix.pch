@@ -1,0 +1,15 @@
+#ifndef WII_PREFIX_PCH
+#define WII_PREFIX_PCH
+
+/* This file coaxes clang (and clang's <stddef.h>) into 
+ * using Wii-compatible data-types */
+#include <gctypes.h>
+
+#define _SIZE_T
+typedef uint32_t size_t;
+
+#include <ogcsys.h>
+
+
+
+#endif
