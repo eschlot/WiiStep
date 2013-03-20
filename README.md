@@ -22,6 +22,7 @@ What I Need
 -----------
 
 * [Clang/LLVM toolchain](http://llvm.org)
+    * `clang` C/C++/Objective-C compiler frontend
     * `llc` static compiler (for [PowerPC Code Generation](http://llvm.org/docs/CodeGenerator.html#the-powerpc-backend))
     * Xcode's bundled `clang` works fine (but doesn't include `llc`)
     * [MacPorts](http://macports.org) distributes a working `llc` as `llc-mp-3.3`
