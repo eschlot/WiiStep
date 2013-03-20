@@ -8,6 +8,21 @@ Development Environment**.
 The environment is suitable for authoring Objective-C sources against
 familiar Framework-APIs for intended execution on the Wii.
 
+
+### Modern Objective-C Awesomeness
+
+Most features available to Mac and iOS developers compiling with Xcode 
+are available via WiiStep. 
+
+The entire *Foundation Framework* is available via the 
+[GNUStep-Base](https://github.com/gnustep/gnustep-base) implementation.
+
+
+
+
+
+### Platform Integration
+
 Code-linking tools and the fundamental C/C++ runtimes are provided 
 by [devkitPPC](http://devkitpro.org). Platform abstraction is 
 accomplished using externally-linked [libogc](http://libogc.devkitpro.org). 
