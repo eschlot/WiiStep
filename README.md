@@ -14,7 +14,7 @@ familiar Framework-APIs for intended execution on the Wii.
 Most features available to Mac and iOS developers compiling with Xcode 
 are available via WiiStep. 
 
-The entire *Foundation Framework* is available via the 
+A significant portion of the *Foundation Framework* is available via the 
 [GNUStep-Base](https://github.com/gnustep/gnustep-base) implementation.
 
 The GNUStep project also provides the [libobjc2](https://github.com/gnustep/gnustep-libobjc2)
