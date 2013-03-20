@@ -19,8 +19,7 @@ A significant portion of the *Foundation Framework* is available via the
 
 The GNUStep project also provides the [libobjc2](https://github.com/gnustep/gnustep-libobjc2)
 Objective-C runtime library. A PowerPC-aware fork of this library has
-been created as the [WiiStep Runtime](https://github.com/jackoalan/gnustep-libobjc2).
-
+been created as the [WiiStep Runtime](https://github.com/jackoalan/gnustep-libobjc2). 
 The runtime provides Clang-ABI-compatible implementations supporting 
 [Block objects](http://clang.llvm.org/docs/BlockLanguageSpec.html) and
 [Automatic Reference Counting (ARC)](http://clang.llvm.org/docs/AutomaticReferenceCounting.html).
