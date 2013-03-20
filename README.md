@@ -70,7 +70,8 @@ cmake ..
 make
 ```
 
-After the (noisy) build completes, the `libobjc.a` may be linked into an
-ELF executable with devkitPPC's `powerpc-eabi-gcc` alongside `libogc.a` and the 
-application code. After running `elf2dol` on this ELF, the resulting DOL 
-may be loaded onto an actual Wii using one of the many homebrew methods available.
+After the (noisy) build completes, the resulting `libobjc.a` in the Cmake build
+directory may be linked into an ELF executable with devkitPPC's `powerpc-eabi-gcc` 
+alongside `libogc.a` and the application code. After running `elf2dol` on this ELF, 
+the resulting DOL may be loaded onto an actual Wii using one of the many homebrew 
+methods available.
