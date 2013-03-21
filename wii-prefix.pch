@@ -3,6 +3,7 @@
 
 /* This file coaxes clang (and clang's <stddef.h>) into 
  * using Wii-compatible data-types */
+#undef __GNUC__
 #include <gctypes.h>
 
 #define _SIZE_T
