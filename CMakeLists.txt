@@ -45,27 +45,25 @@ ws_resolve_sources(libobjc_OBJC_SRCS gnustep-libobjc2)
 ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 
-# Also include sources from compiler-rt
-
-#list(APPEND COMPILER_RT_SOURCES compiler-rt/lib/gcc_personality_v0.c)
-
-
 # Now our objc target
 
-add_library(objc-static STATIC wsinstall-ran ${libobjc_C_SRCS_LIST} ${libobjc_ASM_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-static STATIC wsinstall-ran ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-asm STATIC wsinstall-ran ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
 
 
 # Compiler rules
 
-set(CMAKE_CXX_COMPILE_OBJECT "clang-mp-3.3 -E -emit-llvm -c <FLAGS> -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch -o <OBJECT>.c <SOURCE> && clang-mp-3.3 -emit-llvm -c -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch <FLAGS> -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch -o <OBJECT>.bc <SOURCE> && llc-mp-3.3 -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -march=ppc32 -mcpu=750 -float-abi=hard -relocation-model=static -o <OBJECT>.S <OBJECT>.bc && ${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-as -o <OBJECT> -m750cl <OBJECT>.S")
+set(CMAKE_CXX_COMPILE_OBJECT "clang-mp-3.3 -E -emit-llvm -c <FLAGS> -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch -o <OBJECT>.c <SOURCE> && clang-mp-3.3 -emit-llvm -c -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch <FLAGS> -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch -o <OBJECT> <SOURCE>")
 
 set(CMAKE_C_COMPILE_OBJECT ${CMAKE_CXX_COMPILE_OBJECT})
 
 set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc -c -I\"${CMAKE_BINARY_DIR}/libogc/include\" -x assembler-with-cpp -D __ppc__=1 -Wa,-m750cl -o <OBJECT> <SOURCE>")
 
-set(CMAKE_CXX_CREATE_STATIC_LIBRARY "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-ar rs <TARGET> <OBJECTS>")
+set(CMAKE_CXX_CREATE_STATIC_LIBRARY "llvm-link-mp-3.3 -o <TARGET> <OBJECTS>")
+
+set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-ar rs <TARGET> <OBJECTS>")
 
 set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <OBJECTS> <LINK_LIBRARIES>")
 
@@ -82,4 +80,4 @@ endif ()
 
 # Temporary custom target to test custom command
 
-add_custom_target(WiiStep ALL DEPENDS objc-static)
+add_custom_target(WiiStep ALL DEPENDS objc-static objc-asm)
