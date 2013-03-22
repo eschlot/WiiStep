@@ -4,6 +4,8 @@
 /* This file coaxes clang (and clang's <stddef.h>) into 
  * using Wii-compatible data-types */
 #undef __GNUC__
+#undef __PTRDIFF_TYPE__
+#define __PTRDIFF_TYPE__ int
 #include <gctypes.h>
 
 #define _SIZE_T

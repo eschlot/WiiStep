@@ -71,7 +71,7 @@ set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gc
 
 set_target_properties(objc-static PROPERTIES OUTPUT_NAME "objc")
 
-add_definitions( -D WIISTEP=1 -D NO_PTHREADS -D __TOY_DISPATCH__ -fno-builtin -Wno-deprecated-objc-isa-usage -Wno-objc-root-class -fobjc-runtime=gnustep-1.7 -fobjc-exceptions)
+add_definitions( -D WIISTEP=1 -D NO_PTHREADS -D __TOY_DISPATCH__ -D NO_LEGACY -fno-builtin -Wno-deprecated-objc-isa-usage -Wno-objc-root-class -fobjc-runtime=gnustep-1.7 -fobjc-exceptions)
 
 if (WIISTEP_PLATFORM STREQUAL "RVL_SDK")
 	add_definitions( -D WIISTEP_RVL_SDK=1 -D WIISTEP_LIBOGC=0)
