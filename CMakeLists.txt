@@ -47,8 +47,8 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 # Now our objc target
 
-add_library(objc-static STATIC wsinstall-ran ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
-add_library(objc-asm STATIC wsinstall-ran ${libobjc_ASM_SRCS_LIST})
+add_library(objc-wii STATIC wsinstall-ran ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-wii-asm STATIC wsinstall-ran ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
 
@@ -67,8 +67,6 @@ set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-e
 
 set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <OBJECTS> <LINK_LIBRARIES>")
 
-set_target_properties(objc-static PROPERTIES OUTPUT_NAME "objc")
-
 add_definitions( -D WIISTEP=1 -D NO_PTHREADS -D __TOY_DISPATCH__ -D NO_LEGACY -fno-builtin -Wno-deprecated-objc-isa-usage -Wno-objc-root-class -fobjc-runtime=gnustep-1.7 -fobjc-exceptions)
 
 if (WIISTEP_PLATFORM STREQUAL "RVL_SDK")
@@ -80,4 +78,4 @@ endif ()
 
 # Temporary custom target to test custom command
 
-add_custom_target(WiiStep ALL DEPENDS objc-static objc-asm)
+add_custom_target(WiiStep ALL DEPENDS objc-wii objc-wii-asm)
