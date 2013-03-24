@@ -15,9 +15,9 @@ Most features available to Mac and iOS developers compiling with Xcode
 are available via WiiStep. 
 
 A significant portion of the *Foundation Framework* is available via the 
-[GNUStep-Base](https://github.com/gnustep/gnustep-base) implementation.
+[GNUstep-Base](https://github.com/gnustep/gnustep-base) implementation.
 
-The GNUStep project also provides the [libobjc2](https://github.com/gnustep/gnustep-libobjc2)
+The GNUstep project also provides the [libobjc2](https://github.com/gnustep/gnustep-libobjc2)
 Objective-C runtime library. A PowerPC-aware fork of this library has
 been created as the [WiiStep Runtime](https://github.com/jackoalan/gnustep-libobjc2). 
 The runtime provides Clang-ABI-compatible implementations supporting 
@@ -69,8 +69,55 @@ cmake ..
 make
 ```
 
-After the (noisy) build completes, the resulting `libobjc.a` in the Cmake build
-directory may be linked into an ELF executable with devkitPPC's `powerpc-eabi-gcc` 
-alongside `libogc.a` and the application code. After running `elf2dol` on this ELF, 
-the resulting DOL may be loaded onto an actual Wii using one of the many homebrew 
-methods available.
+After the (noisy) build completes, there will be two *important* files in the 
+build directory:
+
+
+### libobjc-wii.a
+
+First, `**libobjc-wii.a**` *isn't* a gcc-compatible ELF archive; it actually
+is *LLVM-IR-bitcode* linked together (with [`llvm-link`](http://llvm.org/docs/CommandGuide/llvm-link.html)) and used like an archive. 
+This *.bc* file is utilised by the application build system's own invocation 
+of `llvm-link`. A CMake module will soon be written to simplify WiiStep's 
+integration into an application's CMake project. 
+
+Once the application's 
+WiiStep-using code is linked with `libobjc-wii.a`, LLVM's [`opt`](http://llvm.org/docs/CommandGuide/opt.html)
+may be ran with the `-gnu-objc` flag to apply various transformations
+to the code making it run very efficiently within the WiiStep Runtime.
+
+Finally, the LLVM static compiler, [`llc`](http://llvm.org/docs/CommandGuide/llc.html),
+performs the final LLVM-to-PPC conversion and emits a PPC-assembly
+(.S) file. 
+
+This file may essentially be the entire application and WiiStep runtime
+minus any gnu-archives that should be linked in during the final link (*libogc*
+and *wiiuse* are notable examples).
+
+### libobjc-wii-asm.a
+
+Next, `**libobjc-wii-asm.a**` *is* a gcc-compatible ELF archive that 
+contains *platform-native, direct-assembled* objects that *need*
+to be linked in the final phase. 
+
+Once this file is in place, linking of the final application executable
+may occur. Essentially, that involves a straight `-mrvl` linking pass to 
+`powerpc-eabi-gcc` in devkitPPC. Perhaps some C/C++ files may
+be compiled and linked at this time as well, within the *GCC environment*. 
+
+Essentially, `powerpc-eabi-gcc` needs to link:
+* Your application-produced LLVM-to-PPC assembly file
+    * Also includes libobjc-wii.a
+    * May include extra Objective-C frameworks like *Foundation*
+* libobjc-wii-asm.a
+* libogc
+* wiiuse for Wiimote input
+* Any other what-have-you ELF archives
+
+The result will be an *.ELF* executable file ready for conversion into a 
+*.DOL* executable. `elf2dol` in devkitPPC may be used to do the conversion.
+
+Again, the pending CMake module may perform all of these tasks as well. 
+
+Once done, the DOL should launch on a production Wii and return to the 
+launching app correctly according to Nintendo's apploader design.
