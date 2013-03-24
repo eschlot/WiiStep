@@ -112,7 +112,7 @@ Essentially, `powerpc-eabi-gcc` needs to link:
     * May include extra Objective-C frameworks like *Foundation*
 * libobjc-wii-asm.a
 * libogc
-* wiiuse for Wiimote input
+* wiiuse (for Wiimote input)
 * Any other what-have-you ELF archives
 
 The result will be an *.ELF* executable file ready for conversion into a 
