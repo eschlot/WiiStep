@@ -91,7 +91,7 @@ performs the final LLVM-to-PPC conversion and emits a PPC-assembly
 (.S) file. 
 
 This file may essentially be the entire application and WiiStep runtime
-minus any gnu-archives that should be linked in during the final link (*libogc*
+minus any ELF archives that should be linked in during the final link (*libogc*
 and *wiiuse* are notable examples).
 
 ### libobjc-wii-asm.a
