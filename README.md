@@ -111,8 +111,9 @@ Essentially, `powerpc-eabi-gcc` needs to link:
     * Also includes libobjc-wii.a
     * May include extra Objective-C frameworks like *Foundation*
 * libobjc-wii-asm.a
-* libogc
-* wiiuse (for Wiimote input)
+* libogc (OS and most drivers)
+* libbte (Bluetooth stack)
+* libwiiuse (Wii Remote API)
 * Any other what-have-you ELF archives
 
 The result will be an *.ELF* executable file ready for conversion into a 
