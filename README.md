@@ -75,7 +75,7 @@ build directory:
 
 ### libobjc-wii.a
 
-First, **`libobjc-wii.a`** *isn't* a gcc-compatible ELF archive; it actually
+First, `libobjc-wii.a` *isn't* a gcc-compatible ELF archive; it actually
 is *LLVM-IR-bitcode* linked together (with [`llvm-link`](http://llvm.org/docs/CommandGuide/llvm-link.html)) and used like an archive. 
 This *.bc* file is utilised by the application build system's own invocation 
 of `llvm-link`. A CMake module will soon be written to simplify WiiStep's 
@@ -96,7 +96,7 @@ and *wiiuse* are notable examples).
 
 ### libobjc-wii-asm.a
 
-Next, **`libobjc-wii-asm.a`** *is* a gcc-compatible ELF archive that 
+Next, `libobjc-wii-asm.a` *is* a gcc-compatible ELF archive that 
 contains *platform-native, direct-assembled* objects that *need*
 to be linked in the final phase. 
 
