@@ -13,3 +13,9 @@
 [submodule "llvm"]
 	path = llvm
 	url = git@github.com:jackoalan/llvm.git
+[submodule "clang"]
+	path = clang
+	url = git@github.com:jackoalan/clang.git
+[submodule "compiler-rt"]
+	path = compiler-rt
+	url = git@github.com:jackoalan/compiler-rt.git
