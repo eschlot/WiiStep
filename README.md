@@ -63,8 +63,7 @@ Basically:
 cd <Where i should be>
 git clone https://github.com/jackoalan/WiiStep.git
 cd WiiStep
-git submodule init
-git submodule update
+./ws_prep.sh
 mkdir build && cd build
 cmake ..
 make
