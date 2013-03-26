@@ -69,16 +69,16 @@
     mainScreen.inputWindow = nil;
     mainScreen.progIndicator = YES;
     [mainScreen redraw];
-        
+    
     // DKPPC hash?
     NSString* dkppcPath = [dir stringByAppendingPathComponent:@"devkitPPC"];
-	if ([[NSFileManager defaultManager] fileExistsAtPath:dkppcPath isDirectory:&isDir] && isDir)
-		dkPPCHash = [SFHash hashFromPath:[dkppcPath stringByAppendingString:@"-info.plist"]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:dkppcPath isDirectory:&isDir] && isDir)
+        dkPPCHash = [SFHash hashFromPath:[dkppcPath stringByAppendingString:@"-info.plist"]];
     
     // libogc hash?
     NSString* libogcPath = [dir stringByAppendingPathComponent:@"libogc"];
-	if ([[NSFileManager defaultManager] fileExistsAtPath:libogcPath isDirectory:&isDir] && isDir)
-		libogcHash = [SFHash hashFromPath:[libogcPath stringByAppendingString:@"-info.plist"]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:libogcPath isDirectory:&isDir] && isDir)
+        libogcHash = [SFHash hashFromPath:[libogcPath stringByAppendingString:@"-info.plist"]];
 
     
     [self phaseTwo];
