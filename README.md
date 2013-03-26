@@ -63,7 +63,7 @@ Basically:
 cd <Where i should be>
 git clone https://github.com/jackoalan/WiiStep.git
 cd WiiStep
-./ws_prep.sh
+./wsprep.sh
 mkdir build && cd build
 cmake ..
 make
