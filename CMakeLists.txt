@@ -15,11 +15,11 @@ add_subdirectory(wsinstall)
 # Add command to run wsinstall to download needed binaries
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-add_custom_command(OUTPUT wsinstall-ran COMMAND ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh ARGS $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
+add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc COMMAND ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh ARGS $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
 MAIN_DEPENDENCY wsinstall
 COMMENT "Now running wsinstall...")
 else()
-add_custom_command(OUTPUT wsinstall-ran $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ARGS ${PROJECT_BINARY_DIR}
+add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc COMMAND $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ARGS ${PROJECT_BINARY_DIR}
 MAIN_DEPENDENCY wsinstall
 COMMENT "Now running wsinstall...")
 endif()
@@ -57,8 +57,8 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 # Now our objc target
 
-add_library(objc-wii STATIC wsinstall-ran ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
-add_library(objc-wii-asm STATIC wsinstall-ran ${libobjc_ASM_SRCS_LIST})
+add_library(objc-wii STATIC wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-wii-asm STATIC wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
 

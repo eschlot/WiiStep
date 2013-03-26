@@ -62,6 +62,8 @@
 
 - (void)phaseOne {
     curPhase = 1;
+	
+	BOOL isDir;
 
     // Put up spinners
     mainScreen.inputWindow = nil;
@@ -70,11 +72,13 @@
         
     // DKPPC hash?
     NSString* dkppcPath = [dir stringByAppendingPathComponent:@"devkitPPC"];
-    dkPPCHash = [SFHash hashFromPath:[dkppcPath stringByAppendingString:@"-info.plist"]];
+	if ([[NSFileManager defaultManager] fileExistsAtPath:dkppcPath isDirectory:&isDir] && isDir)
+		dkPPCHash = [SFHash hashFromPath:[dkppcPath stringByAppendingString:@"-info.plist"]];
     
     // libogc hash?
     NSString* libogcPath = [dir stringByAppendingPathComponent:@"libogc"];
-    libogcHash = [SFHash hashFromPath:[libogcPath stringByAppendingString:@"-info.plist"]];
+	if ([[NSFileManager defaultManager] fileExistsAtPath:libogcPath isDirectory:&isDir] && isDir)
+		libogcHash = [SFHash hashFromPath:[libogcPath stringByAppendingString:@"-info.plist"]];
 
     
     [self phaseTwo];
