@@ -46,6 +46,7 @@ What I Need
     * `clang` C/C++/Objective-C compiler frontend and supporting LLVM backend required
     * [Xcode's](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12) bundled toolchain works fine, and CMake will discover it within `Xcode.app`
 * [CMake 2.8](http://www.cmake.org) (or greater)
+* [Git](http://git-scm.com) (naturally)
 
 Aaand...That's it. All other dependencies are automatically fetched within 
 `git submodule` and the provided `wsinstall` target.
@@ -60,8 +61,7 @@ Aaand...That's it. All other dependencies are automatically fetched within
     * `libffi`
     * `compiler-rt`
     * `gnustep-make`
-
-* Via **wsinstall**
+* Via **wsinstall**:
     * [devkitPPC](http://devkitpro.org) GCC-forked toolchain for performing final .ELF link
     * [libogc](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers (also in app)
 
@@ -69,7 +69,7 @@ Aaand...That's it. All other dependencies are automatically fetched within
 How To Do
 ---------
 
-Basically:
+### Basically:
 
 ```sh
 cd <Where i should be>
@@ -81,17 +81,22 @@ cmake ..
 make
 ```
 
-After the build completes, there will be two *important* files in the 
-build directory:
+[Details on the CMake method](https://github.com/jackoalan/WiiStep/tree/master/cmake#readme) 
+are also available. 
 
+After the build completes, there will be two *important* files in the 
+build directory. These files are used by [adoptable CMake modules](https://github.com/jackoalan/WiiStep/tree/master/cmake#making-a-wiistep-application-with-cmake) 
+to automate the correct compilation sequence for app sources. 
+
+
+### Using these two files, the general build process goes like this:
 
 ### libobjc-wii.a
 
 First, `libobjc-wii.a` *isn't* a gcc-compatible ELF archive; it actually
 is *LLVM-IR-bitcode* linked together (with [`llvm-link`](http://llvm.org/docs/CommandGuide/llvm-link.html)) and used like an archive. 
 This *.bc* file is utilised by the application build system's own invocation 
-of `llvm-link`. A CMake module will soon be written to simplify WiiStep's 
-integration into an application's CMake project. 
+of `llvm-link`.
 
 Once the application's 
 WiiStep-using code is linked with `libobjc-wii.a`, LLVM's [`opt`](http://llvm.org/docs/CommandGuide/opt.html)
@@ -128,9 +133,7 @@ Essentially, `powerpc-eabi-gcc` needs to link:
 * Any other what-have-you ELF archives
 
 The result will be an *.ELF* executable file ready for conversion into a 
-*.DOL* executable. `elf2dol` in devkitPPC may be used to do the conversion.
-
-Again, the pending CMake module may perform all of these tasks as well. 
+*.DOL* executable. `elf2dol` in devkitPPC may be used to do the 
 
 Once done, the DOL should launch on a production Wii and return to the 
 launching app correctly according to Nintendo's apploader design.
