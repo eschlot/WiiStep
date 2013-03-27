@@ -63,7 +63,7 @@ Aaand...That's it. All other dependencies are automatically fetched within
     * `gnustep-make`
 * Via **wsinstall**:
     * [devkitPPC](http://devkitpro.org) GCC-forked toolchain for performing final .ELF link
-    * [libogc](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers ([also in app](http://libogc.devkitpro.org))
+    * [libogc](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers ([also in app](http://libogc.devkitpro.org/api_doc.html))
 
 
 How To Do
@@ -109,7 +109,7 @@ performs the final LLVM-to-PPC conversion and emits a PPC-assembly
 
 This file may essentially be the entire application and WiiStep runtime
 minus any ELF archives that should be linked in during the final link 
-(*libogc* and *wiiuse* are notable examples).
+( *libogc* and *wiiuse* are notable examples).
 
 ### libobjc-wii-asm.a
 
