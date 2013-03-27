@@ -42,7 +42,7 @@ in the Cmake build directory and add `-DWIISTEP_PLATFORM="RVL_SDK"` to the
 What I Need
 -----------
 
-* [LLVM/Clang toolchain](http://llvm.org)
+* [LLVM/Clang toolchain](http://llvm.org) (for PowerPC toolchain bootstrap)
     * `clang` C/C++/Objective-C compiler frontend and supporting LLVM backend required
     * [Xcode's](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12) bundled toolchain works fine, and CMake will discover it within `Xcode.app`
 * [CMake 2.8](http://www.cmake.org) (or greater)
