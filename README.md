@@ -42,16 +42,28 @@ in the Cmake build directory and add `-DWIISTEP_PLATFORM="RVL_SDK"` to the
 What I Need
 -----------
 
-* [Clang/LLVM toolchain](http://llvm.org)
-    * `clang` C/C++/Objective-C compiler frontend
-    * `llvm-link` LLVM bitcode linker
-    * `llc` LLVM static compiler (for [PowerPC Code Generation](http://llvm.org/docs/CodeGenerator.html#the-powerpc-backend))
-    * Xcode's bundled `clang` works fine (but doesn't include `llc` or `llvm-link`)
-    * [MacPorts](http://macports.org) distributes a working `llc` and `llvm-link` as `llc-mp-3.3` and `llvm-link-mp-3.3`
-* [Cmake 2.8](http://www.cmake.org) (or greater)
+* [LLVM/Clang toolchain](http://llvm.org)
+    * `clang` C/C++/Objective-C compiler frontend and supporting LLVM backend required
+    * [Xcode's](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12) bundled toolchain works fine, and CMake will discover it within `Xcode.app`
+* [CMake 2.8](http://www.cmake.org) (or greater)
 
 Aaand...That's it. All other dependencies are automatically fetched within 
 `git submodule` and the provided `wsinstall` target.
+
+### And Those Would Be?
+
+* Via **Git-Submodule**:
+    * [`llvm`](http://llvm.org/) for [linking](http://llvm.org/docs/CommandGuide/llvm-link.html), [optimising](http://llvm.org/docs/CommandGuide/opt.html), and [PowerPC](http://llvm.org/docs/CodeGenerator.html#the-powerpc-backend) [Code Generation](http://llvm.org/docs/CommandGuide/llc.html)
+    * [`clang`](http://clang.llvm.org) for providing modern [C](http://clang.llvm.org/docs/BlockLanguageSpec.html) and [Objective-C](http://clang.llvm.org/docs/AutomaticReferenceCounting.html) magic
+    * [`gnustep-libobjc2`](http://GNUstep.org) continuing the magic [at runtime](https://github.com/jackoalan/gnustep-libobjc2#readme)
+    * [`gnustep-base`](http://GNUstep.org) providing a default *Foundation.framework* implementation
+    * `libffi`
+    * `compiler-rt`
+    * `gnustep-make`
+
+* Via **wsinstall**
+    * [devkitPPC](http://devkitpro.org) GCC-forked toolchain for performing final .ELF link
+    * [libogc](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers (also in app)
 
 
 How To Do
@@ -69,7 +81,7 @@ cmake ..
 make
 ```
 
-After the (noisy) build completes, there will be two *important* files in the 
+After the build completes, there will be two *important* files in the 
 build directory:
 
 
