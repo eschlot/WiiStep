@@ -47,7 +47,8 @@ WiiStep has the following cache variables available:
 By nature of the Wii's software platform, there is no *dynamic linking* 
 available to applications. Furthermore, as an 
 [embedded system](http://en.wikipedia.org/wiki/Embedded_system), 
-the Wii has no kernel to load and manage driver code for platform hardware. 
+the Wii has no common kernel to load and manage driver code for platform 
+hardware. 
 This means that the OS, hardware drivers and third-party middleware must all 
 be introduced ahead of time via 
 *[static linking](http://en.wikipedia.org/wiki/Static_library)* 
