@@ -93,7 +93,7 @@ to automate the correct compilation sequence for app sources.
 ### libobjc-wii.a
 
 First, `libobjc-wii.a` *isn't* a gcc-compatible ELF archive; it actually
-is *LLVM-IR-bitcode* linked together (with [`llvm-link`](http://llvm.org/docs/CommandGuide/llvm-link.html)) and used like an archive. 
+is *LLVM-IR-bitcode* (.bc) linked together (with [`llvm-link`](http://llvm.org/docs/CommandGuide/llvm-link.html)) and used like an archive. 
 This *.bc* file is utilised by the application build system's own invocation 
 of `llvm-link`.
 
