@@ -18,15 +18,10 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 	    CACHE PATH "Installation prefix (system-wide) directory for WiiStep" FORCE)
 endif()
 
-set(INSTALL_WS_DIR wiistep CACHE PATH "Installation directory for WiiStep within CMAKE_INSTALL_PREFIX")
+set(INSTALL_WS_DIR wiistep CACHE PATH 
+  "Installation directory for WiiStep within CMAKE_INSTALL_PREFIX")
 
-# Offer the user the choice of overriding the installation directories
-if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
-else()
-  set(DEF_INSTALL_CMAKE_DIR lib/CMake/WiiStep)
-endif()
-set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+set(INSTALL_CMAKE_DIR wiistep/cmake CACHE PATH
   "Installation directory for CMake files")
  
 # Make relative paths absolute (needed later on)
@@ -36,6 +31,7 @@ foreach(p WS CMAKE)
     set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
   endif()
 endforeach()
+
 
 # Command to run wsprep (if not done already)
 
