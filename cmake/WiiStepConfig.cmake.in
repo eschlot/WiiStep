@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 2.8)
+
+# Path of *this* cmake file
+get_filename_component(WIISTEP_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+# WS directory
+set(WIISTEP_DIR "@CONF_WS_DIRS@")
+
+# Include WiiStep CMake macros
+include(${WIISTEP_CMAKE_DIR}/WiiStepProjectMacros.cmake)
+
+# Find our compiler
+
+# Set variables referencing important library/include files
+set(WIISTEP_LLVM_LIBRARY objc-wii)
+set(WIISTEP_ELF_LIBRARY objc-wii-asm)
+
+

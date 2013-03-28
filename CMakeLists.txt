@@ -1,15 +1,63 @@
-cmake_minimum_required (VERSION 2.8)
-project (WiiStep)
+cmake_minimum_required(VERSION 2.8)
+project(WiiStep)
+
+# CMake install stuff
+
+set(CMAKE_MODULE_PATH cmake)
+
+
+# Default install prefix
+if(WIN32 AND NOT CYGWIN)
+	set(DEF_CMAKE_INSTALL_PREFIX /)
+else()
+	set(DEF_CMAKE_INSTALL_PREFIX /opt)
+endif()
+
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+	set(CMAKE_INSTALL_PREFIX ${DEF_CMAKE_INSTALL_PREFIX} 
+	    CACHE PATH "Installation prefix (system-wide) directory for WiiStep" FORCE)
+endif()
+
+set(INSTALL_WS_DIR wiistep CACHE PATH "Installation directory for WiiStep within CMAKE_INSTALL_PREFIX")
+
+# Offer the user the choice of overriding the installation directories
+if(WIN32 AND NOT CYGWIN)
+  set(DEF_INSTALL_CMAKE_DIR CMake)
+else()
+  set(DEF_INSTALL_CMAKE_DIR lib/CMake/WiiStep)
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+  "Installation directory for CMake files")
+ 
+# Make relative paths absolute (needed later on)
+foreach(p WS CMAKE)
+  set(var INSTALL_${p}_DIR)
+  if(NOT IS_ABSOLUTE "${${var}}")
+    set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+  endif()
+endforeach()
+
+# Command to run wsprep (if not done already)
+
+add_custom_command(OUTPUT "${CMAKE_SOURCE_DIR}/wsprep-ran" 
+COMMAND "${CMAKE_SOURCE_DIR}/wsprep.sh"
+WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" 
+COMMENT "Fetching Git-Submodule dependencies; This could take awhile...")
+
 
 # Clang and LLVM
 
 set(LLVM_DIR ${CMAKE_SOURCE_DIR}/llvm/build/bin)
 set(CLANG_DIR ${LLVM_DIR})
 
+add_custom_command(OUTPUT "${CMAKE_SOURCE_DIR}/llvm-built" 
+COMMAND "${CMAKE_SOURCE_DIR}/build-llvm.sh" 
+ARGS "${INSTALL_WS_DIR}"
+MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/wsprep-ran"
+WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+COMMENT "Building llvm and clang; This could take awhile...")
 
-# Command to run wsprep (if not done already)
-
-add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/wsprep-ran COMMAND ${CMAKE_SOURCE_DIR}/wsprep.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMENT "Performing wsprep; This will take awhile...")
+install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY \"${CMAKE_SOURCE_DIR}/llvm/build\")")
 
 
 # Add wsinstall target (or omit if requested)
@@ -74,8 +122,8 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 # Now our objc target
 
-add_library(objc-wii STATIC ${CMAKE_SOURCE_DIR}/wsprep-ran wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
-add_library(objc-wii-asm STATIC ${CMAKE_SOURCE_DIR}/wsprep-ran wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
+add_library(objc-wii STATIC ${CMAKE_SOURCE_DIR}/wsprep-ran ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-wii-asm STATIC ${CMAKE_SOURCE_DIR}/wsprep-ran ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
 
@@ -127,6 +175,39 @@ endif ()
 
 # Temporary custom target to test custom command
 
-add_custom_target(WiiStep ALL DEPENDS objc-wii objc-wii-asm)
+# Aggregate target
+#add_custom_target(WiiStep ALL DEPENDS objc-wii objc-wii-asm)
 
+# Install targets
+install(TARGETS objc-wii objc-wii-asm 
+EXPORT WiiStepTargets 
+ARCHIVE DESTINATION "${INSTALL_WS_DIR}/ppc/lib"
+COMPONENT dev)
+
+# Export target list (for benefit of both build-set and external projects)
+export(TARGETS objc-wii objc-wii-asm FILE ${PROJECT_BINARY_DIR}/WiiStepTargets.cmake)
+
+# Register WiiStep with user's CMake
+export(PACKAGE WiiStep)
+
+# Create the WiiStepConfig.cmake file
+file(RELATIVE_PATH REL_WS_DIR "${INSTALL_CMAKE_DIR}"
+   "${INSTALL_WS_DIR}")
+# ... for the build tree
+set(CONF_WS_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
+configure_file(${CMAKE_MODULE_PATH}/WiiStepConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/WiiStepConfig.cmake" @ONLY)
+# ... for the install tree
+set(CONF_WS_DIRS "\${WIISTEP_CMAKE_DIR}/${REL_WS_DIR}")
+configure_file(${CMAKE_MODULE_PATH}/WiiStepConfig.cmake.in
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/WiiStepConfig.cmake" @ONLY)
+ 
+# Install the WiiStepConfig.cmake and WiiStepConfigVersion.cmake
+install(FILES
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/WiiStepConfig.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+ 
+# Install the export set for use with the install-tree
+install(EXPORT WiiStepTargets DESTINATION
+  "${INSTALL_CMAKE_DIR}" COMPONENT dev)
 
