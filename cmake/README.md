@@ -119,20 +119,6 @@ find_package(WiiStep MODULE REQUIRED)
 Making A WiiStep Application With CMake
 ---------------------------------------
 
-### add_wii_executable
-
-```cmake
-add_wii_executable(<name> [EXCLUDE_FROM_ALL]
-                   source1 source2 ... sourceN)
-```
-
-Using a `CMakeLists.txt` like the one illustrated above, the `add_wii_executable`
-macro is available to establish a target defining all sources that should
-be present in the final .ELF and .DOL. 
-
-`libogc` and `libobjc-wii` will implicitly be linked in this executable. Other
-libraries-to-link must be specified using a combination of the following macros.
-
 ### [include_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include_directories)
 
 ```cmake
@@ -156,6 +142,20 @@ link_directories(directory1 directory2 ...)
 Another CMake built-in. This allows the `target_link_wii_*_libraries` macros below
 to resolve LLVM and ELF libraries by name without concern of their path
 location.
+
+### add_wii_executable
+
+```cmake
+add_wii_executable(<name> [EXCLUDE_FROM_ALL]
+                   source1 source2 ... sourceN)
+```
+
+Using a `CMakeLists.txt` like the one illustrated above, the `add_wii_executable`
+macro is available to establish a target defining all sources that should
+be present in the final .ELF and .DOL. 
+
+`libogc` and `libobjc-wii` will implicitly be linked in this executable. Other
+libraries-to-link must be specified using a combination of the following macros.
 
 ### target_link_wii_llvm_libraries
 
