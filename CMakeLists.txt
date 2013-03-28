@@ -77,6 +77,21 @@ else()
 endif()
 
 
+# Install devkitPPC and libogc
+
+set(DEVKITPPC_DIR ${PROJECT_BINARY_DIR}/devkitPPC)
+file(GLOB DEVKITPPC_BIN_LIST ${DEVKITPPC_DIR}/bin/*)
+install(PROGRAMS ${DEVKITPPC_BIN_LIST} DESTINATION ${INSTALL_WS_DIR}/bin)
+install(DIRECTORY ${DEVKITPPC_DIR}/powerpc-eabi/include DESTINATION ${INSTALL_WS_DIR}/ppc)
+file(GLOB_RECURSE DEVKITPPC_LIB_LIST ${DEVKITPPC_DIR}/powerpc-eabi/lib/*.a)
+install(FILES ${DEVKITPPC_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/ppc/lib)
+
+set(LIBOGC_DIR ${PROJECT_BINARY_DIR}/libogc)
+install(DIRECTORY ${LIBOGC_DIR}/include DESTINATION ${INSTALL_WS_DIR}/ppc)
+file(GLOB LIBOGC_LIB_LIST ${LIBOGC_DIR}/lib/wii/*.a)
+install(FILES ${LIBOGC_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/ppc/lib)
+
+
 # Add libobjc2 properties
 
 add_subdirectory(gnustep-libobjc2 EXCLUDE_FROM_ALL)
@@ -110,6 +125,7 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 # Now our objc target
 
 add_library(objc-wii STATIC ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+set_target_properties(objc-wii PROPERTIES SUFFIX .bc)
 add_library(objc-wii-asm STATIC ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
