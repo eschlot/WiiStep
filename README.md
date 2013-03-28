@@ -62,8 +62,28 @@ Aaand...That's it. All other dependencies are automatically fetched within
     * `compiler-rt`
     * `gnustep-make`
 * Via **wsinstall**:
-    * [devkitPPC](http://devkitpro.org) GCC-forked toolchain for performing final .ELF link
-    * [libogc](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers ([also in app](http://libogc.devkitpro.org/api_doc.html))
+    * [`devkitPPC`](http://devkitpro.org) GCC-forked toolchain for performing final .ELF link
+    * [`libogc`](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers ([also in app](http://libogc.devkitpro.org/api_doc.html))
+
+At writing, `wsinstall` (an Objective-C based installer) only links against the actual 
+Apple *Foundation.framework* and downloads the OS X version of *devkitPPC*, effectively 
+making `wsinstall` compatible only with **OS X 10.7 and later**. I'd like to eventually get 
+WiiStep's CMake bootstrapping its own copy of `gnustep-base` and the master branch of 
+`gnustep-libobjc2` for a native Objective-C build environment and wider platform
+support for `wsinstall`.
+
+As a workaround for other platforms, add `-DNO_WSINSTALL=TRUE` to the `cmake` command.
+This will prevent `wsinstall` from building/running during the build process.
+Of course, this *requires* the developer to manually download/build 
+[devkitPPC](http://sourceforge.net/projects/devkitpro/files/devkitPPC/) 
+and [libogc](http://sourceforge.net/projects/devkitpro/files/libogc/). 
+Afterwards, place their roots in WiiStep's CMake build directory.
+
+Please note that libogc's tar is something of a 
+[tarbomb](http://en.wikipedia.org/wiki/Tar_(computing)#Tarbomb) and will
+need to be extracted within a new directory named `libogc` within WiiStep's
+build directory.
+
 
 
 How To Do
