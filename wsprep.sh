@@ -12,3 +12,6 @@ cmake -DLLVM_TARGETS_TO_BUILD="PowerPC" ..
 make
 popd
 popd
+
+# Note that we finished
+touch wsprep-ran
