@@ -33,14 +33,6 @@ foreach(p WS CMAKE)
 endforeach()
 
 
-# Command to run wsprep (if not done already)
-
-add_custom_command(OUTPUT "${CMAKE_SOURCE_DIR}/wsprep-ran" 
-COMMAND "${CMAKE_SOURCE_DIR}/wsprep.sh"
-WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" 
-COMMENT "Fetching Git-Submodule dependencies; This could take awhile...")
-
-
 # Clang and LLVM
 
 set(LLVM_DIR ${CMAKE_SOURCE_DIR}/llvm/build/bin)
@@ -49,7 +41,6 @@ set(CLANG_DIR ${LLVM_DIR})
 add_custom_command(OUTPUT "${CMAKE_SOURCE_DIR}/llvm-built" 
 COMMAND "${CMAKE_SOURCE_DIR}/build-llvm.sh" 
 ARGS "${INSTALL_WS_DIR}"
-MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/wsprep-ran"
 WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
 COMMENT "Building llvm and clang; This could take awhile...")
 
@@ -118,8 +109,8 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 # Now our objc target
 
-add_library(objc-wii STATIC ${CMAKE_SOURCE_DIR}/wsprep-ran ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
-add_library(objc-wii-asm STATIC ${CMAKE_SOURCE_DIR}/wsprep-ran ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
+add_library(objc-wii STATIC ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-wii-asm STATIC ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
 
