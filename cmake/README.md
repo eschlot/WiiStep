@@ -141,7 +141,8 @@ link_directories(directory1 directory2 ...)
 
 Another CMake built-in. This allows the `target_link_wii_*_libraries` macros below
 to resolve LLVM and ELF libraries by name without concern of their path
-location.
+location. Note that this macro is not necessary for resolving external targets included
+with `find_package` (like WiiStep itself).
 
 ### add_wii_executable
 
