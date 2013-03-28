@@ -86,12 +86,6 @@ stub into the build directory for correct dependency resolution.
 Making A CMake Project Against WiiStep
 --------------------------------------
 
-At the moment, there is no `make install` support for WiiStep. The development
-environment is contained entirely within the post-build `WiiStep` directory.
-This means that an external project wanting to build against WiiStep will
-need to discover a post-build WiiStep before building itself.
-On the plus side, WiiStep may be built and used entirely within user-space.
-
 CMake has a nifty 
 [`find_package`](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:find_package) 
 command that can be used to resolve WiiStep and load its settings and macros
