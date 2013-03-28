@@ -81,7 +81,7 @@ Afterwards, place their roots in WiiStep's CMake build directory and build WiiSt
 as normal.
 
 Please note that libogc's tar is something of a 
-[tarbomb](http://en.wikipedia.org/wiki/Tar_(computing)#Tarbomb) and will
+[tarbomb](http://en.wikipedia.org/wiki/Tar_%28computing%29#Tarbomb) and will
 need to be extracted within a new directory named `libogc` within WiiStep's
 build directory.
 
