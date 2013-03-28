@@ -16,6 +16,9 @@ add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/wsprep-ran COMMAND ${CMAKE_SOURCE_
 
 set(NO_WSINSTALL FALSE CACHE BOOL 
 	"Omit (if set) building/running `wsinstall`")
+if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	set(NO_WSINSTALL TRUE) # Disable wsinstall on non-Mac platforms
+endif()
 if(NOT ${NO_WSINSTALL})
 	add_subdirectory(wsinstall)
 
