@@ -77,7 +77,8 @@ This will prevent `wsinstall` from building/running during the build process.
 Of course, this *requires* the developer to manually download/build 
 [devkitPPC](http://sourceforge.net/projects/devkitpro/files/devkitPPC/) 
 and [libogc](http://sourceforge.net/projects/devkitpro/files/libogc/). 
-Afterwards, place their roots in WiiStep's CMake build directory.
+Afterwards, place their roots in WiiStep's CMake build directory and build WiiStep
+as normal.
 
 Please note that libogc's tar is something of a 
 [tarbomb](http://en.wikipedia.org/wiki/Tar_(computing)#Tarbomb) and will
