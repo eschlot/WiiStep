@@ -11,7 +11,7 @@
 #import <curses.h>
 
 @interface ProgressWindowBar () {
-    @public
+    @package
     BOOL fail;
     NSString* text;
     double percent_fac;
@@ -116,7 +116,7 @@
         ProgressWindowBar* bar = [ProgressWindowBar new];
         bar->fail = NO;
         bar->percent_fac = 0.0;
-        bar->text = entry->name;
+        bar->text = [NSString stringWithFormat:@"Download: %@", entry->name];
         [bars addObject:bar];
         entry->dl_bar = bar;
     });
@@ -128,7 +128,7 @@
         ProgressWindowBar* bar = [ProgressWindowBar new];
         bar->fail = YES;
         bar->percent_fac = 1.0;
-        bar->text = [NSString stringWithFormat:@"[FAIL: %@]", reason];
+        bar->text = [NSString stringWithFormat:@"Download: %@ [FAIL: %@]", entry->name, reason];
         [bars addObject:bar];
         entry->dl_bar = bar;
     });

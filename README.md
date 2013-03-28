@@ -1,7 +1,7 @@
 What It Is
 ----------
 
-A *Cmake-driven, auto-installing suite of free software*; combined to
+A *CMake-driven, auto-installing suite of free software*; combined to
 form a *Foundation Framework based* (non-GUI), modern **Objective-C 
 Development Environment**. 
 
