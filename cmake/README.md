@@ -83,11 +83,135 @@ Since `wsinstall` currently only builds and runs correctly on
 stub into the build directory for correct dependency resolution.
 
 
+Making A CMake Project Against WiiStep
+--------------------------------------
+
+At the moment, there is no `make install` support for WiiStep. The development
+environment is contained entirely within the post-build `WiiStep` directory.
+This means that an external project wanting to build against WiiStep will
+need to discover a post-build WiiStep before building itself.
+On the plus side, WiiStep may be built and used entirely within user-space.
+
+CMake has a nifty 
+[`find_package`](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:find_package) 
+command that can be used to resolve WiiStep and load its settings and macros
+into an external CMake project. `find_package` requires the `CMAKE_MODULE_PATH` list
+to include `<PATH TO WIISTEP SOURCE>/cmake`. After augmenting the module path list,
+`find_package` may be invoked.
+
+An example project's `CMakeLists.txt` may look like the following:
+
+```cmake
+cmake_minimum_required(VERSION 2.8)
+project(My-Awesome-ObjC-On-Wii-App)
+
+# Get WiiStep integrated (discovers within home dir by default)
+set(MYPROJ_WS_PATH "~/WiiStep" CACHE PATH
+	"Path my project uses to access WiiStep")
+list(APPEND CMAKE_MODULE_PATH ${MYPROJ_WS_PATH}/cmake)
+
+find_package(WiiStep MODULE REQUIRED)
+
+# Create targets and what-not down here
+```
+
+
 Making A WiiStep Application With CMake
 ---------------------------------------
+
+### add_wii_executable
+
+```cmake
+add_wii_executable(<name> [EXCLUDE_FROM_ALL]
+                   source1 source2 ... sourceN)
+```
+
+Using a `CMakeLists.txt` like the one illustrated above, the `add_wii_executable`
+macro is available to establish a target defining all sources that should
+be present in the final .ELF and .DOL. 
+
+`libogc` and `libobjc-wii` will implicitly be linked in this executable. Other
+libraries-to-link must be specified using a combination of the following macros.
+
+### [include_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include_directories)
+
+```cmake
+include_directories([AFTER|BEFORE] dir1 dir2 ...)
+```
+
+This is actually a CMake built-in function, though it plays a key role 
+in WiiStep's build process and is worth drawing attention to. Xcode users
+may be familiar with the *project headers* section of the *Copy Headers*
+build phase. `include_directories` is CMake's equivalent of it, and behaves
+roughly the same way. It ultimately allows `#include "someheader.h"` directives 
+to reference header files in a project-wide manner, without concern of directory 
+traversal.
+
+### [link_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:link_directories)
+
+```cmake
+link_directories(directory1 directory2 ...)
+```
+
+Another CMake built-in. This allows the `target_link_wii_*_libraries` macros below
+to resolve LLVM and ELF libraries by name without concern of their path
+location.
+
+### target_link_wii_llvm_libraries
+
+```cmake
+target_link_wii_llvm_libraries(<target> 
+                               item1 item2 ... itemN)
+```
+
+This macro will gather any **LLVM-bitcode** based library targets and 
+stage them for a pre-optimisation `llvm-link`. This is the recommended
+way to integrate libraries that directly interact with other LLVM-compiled
+code components within the project. 
+
+### target_link_wii_dkppc_libraries
+
+```cmake
+target_link_wii_dkppc_libraries(<target> 
+                                item1 item2 ... itemN)
+```
+
+This macro will gather **ELF-archive** based library targets and stage
+them for final .ELF application inclusion. Library names 
+(whose file names follow the standard lib<name>.a convention) may be specified
+in this macro. Note that libogc's wii library path is implicitly searched;
+so library names like `bte` or `wiiuse` may be specified without performing
+`link_directories`.
 
 
 Making A WiiStep Middleware Library With CMake
 ----------------------------------------------
 
+For those wishing to package WiiStep-using libraries for other developers 
+(or simply for projects spanning multiple subdirectories), macros are available
+to easily accomplish this. 
 
+There are two options for specifying library targets: 
+
+### add_wii_llvm_library
+
+```cmake
+add_wii_llvm_library(<name> [EXCLUDE_FROM_ALL]
+                     source1 source2 ... sourceN)
+```
+
+This macro will produce a target generating a linked **LLVM-bitcode** (.bc) file
+packaged as an archive (.a) and linkable with `target_link_wii_llvm_libraries`. 
+Producing LLVM-based libraries ensure LLVM is able to comprehensively optimise
+code in a unified manner (even *inlining* post-compiled routines together).
+
+### add_wii_dkppc_library
+
+```cmake
+add_wii_dkppc_library(<name> [EXCLUDE_FROM_ALL]
+                      source1 source2 ... sourceN)
+```
+
+For sources needing to be compiled and linked in the traditional GCC
+manner, this macro will produce a target generating an **ELF-archive** (.a)
+linkable with `target_link_wii_dkppc_libraries`. 
