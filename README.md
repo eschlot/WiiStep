@@ -105,7 +105,7 @@ make
 are also available. 
 
 After the build completes, there will be two *important* files in the 
-build directory. These files are used by [adoptable CMake modules](https://github.com/jackoalan/WiiStep/tree/master/cmake#making-a-wiistep-application-with-cmake) 
+build directory. These files are used by [adoptable CMake modules](https://github.com/jackoalan/WiiStep/blob/master/cmake/README.md#making-a-cmake-project-against-wiistep) 
 to automate the correct compilation sequence for app sources. 
 
 
