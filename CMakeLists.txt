@@ -7,6 +7,10 @@ set(LLVM_DIR ${CMAKE_SOURCE_DIR}/llvm/build/bin)
 set(CLANG_DIR ${LLVM_DIR})
 
 
+# Command to run wsprep (if not done already)
+
+add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/wsprep-ran COMMAND ${CMAKE_SOURCE_DIR}/wsprep.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMENT "Performing wsprep; This will take awhile...")
+
 # Add wsinstall target
 
 add_subdirectory(wsinstall)
