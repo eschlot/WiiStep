@@ -74,6 +74,14 @@ from the SDK. For obvious reasons, the SDK must be provided by the developer.
 Simply place the `RVL_SDK` root into WiiStep's CMake build directory and 
 specify "RVL_SDK" as the WIISTEP_PLATFORM to go this route.
 
+### NO_WSINSTALL
+
+Since `wsinstall` currently only builds and runs correctly on 
+**OS X 10.7 and later**, users of other platforms may add 
+`-DNO_WSINSTALL=TRUE` to the CMake command in order to omit 
+`wsinstall` entirely. When set, CMake will still insert the `wsinstall-ran`
+stub into the build directory for correct dependency resolution.
+
 
 Making A WiiStep Application With CMake
 ---------------------------------------
