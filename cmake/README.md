@@ -178,7 +178,7 @@ target_link_wii_dkppc_libraries(<target>
 
 This macro will gather **ELF-archive** based library targets and stage
 them for final .ELF application inclusion. Library names 
-(whose file names follow the standard lib<name>.a convention) may be specified
+(whose file names follow the standard lib&lt;name&gt;.a convention) may be specified
 in this macro. Note that libogc's wii library path is implicitly searched;
 so library names like `bte` or `wiiuse` may be specified without performing
 `link_directories`.
