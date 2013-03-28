@@ -83,7 +83,7 @@ as normal.
 Please note that libogc's tar is something of a 
 [tarbomb](http://en.wikipedia.org/wiki/Tar_%28computing%29#Tarbomb) and will
 need to be extracted within a new directory named `libogc` within WiiStep's
-build directory.
+build directory. devkitPPC's tar is OK to extract directly in the build directory.
 
 
 
