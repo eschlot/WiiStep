@@ -99,10 +99,18 @@ cd WiiStep
 mkdir build && cd build
 cmake ..
 make
+sudo make install
 ```
 
 [Details on the CMake method](https://github.com/jackoalan/WiiStep/tree/master/cmake#readme) 
 are also available. 
+
+The install destination is `/opt` by default. A single directory named
+`wiistep` is placed in the install destination containing PowerPC-enabled
+LLVM and Clang as well as devkitPPC, libogc and the files described below.
+The install destination may be adjusted (perhaps within user-space) by
+adding the standard `-DCMAKE_INSTALL_PREFIX="<INSTALL_DIR>"` to the `cmake`
+command.
 
 After the build completes, there will be two *important* files in the 
 build directory. These files are used by [adoptable CMake modules](https://github.com/jackoalan/WiiStep/blob/master/cmake/README.md#making-a-cmake-project-against-wiistep) 
