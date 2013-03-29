@@ -115,31 +115,6 @@ target_link_wii_dkppc_libraries(my-awesome-app wiiuse bte)
 Making A WiiStep Application With CMake
 ---------------------------------------
 
-### [include_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include_directories)
-
-```cmake
-include_directories([AFTER|BEFORE] dir1 dir2 ...)
-```
-
-This is actually a CMake built-in function, though it plays a key role 
-in WiiStep's build process and is worth drawing attention to. Xcode users
-may be familiar with the *project headers* section of the *Copy Headers*
-build phase. `include_directories` is CMake's equivalent of it, and behaves
-roughly the same way. It ultimately allows `#include "someheader.h"` directives 
-to reference header files in a project-wide manner, without concern of directory 
-traversal.
-
-### [link_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:link_directories)
-
-```cmake
-link_directories(directory1 directory2 ...)
-```
-
-Another CMake built-in. This allows the `target_link_wii_*_libraries` macros below
-to resolve LLVM and ELF libraries by name without concern of their path
-location. Note that this macro is not necessary for resolving external targets included
-with `find_package` (like WiiStep itself).
-
 ### add_wii_executable
 
 ```cmake
@@ -199,4 +174,43 @@ This macro will produce a target generating a linked **LLVM-bitcode** (.bc) file
 packaged as an archive (.a) and linkable with `target_link_wii_llvm_libraries`. 
 Producing LLVM-based libraries ensure LLVM is able to comprehensively optimise
 code in a unified manner (even *inlining* post-compiled routines together).
+
+
+Some Handy CMake Built-in Commands
+----------------------------------
+
+### [add_subdirectory](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:add_subdirectory)
+
+```cmake
+add_subdirectory(source_dir [binary_dir] 
+                 [EXCLUDE_FROM_ALL])
+```
+
+For large projects that would be most comfortable spread across multiple
+subdirectories, this command may be used to string together a project's
+subdirectories.
+
+### [include_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include_directories)
+
+```cmake
+include_directories([AFTER|BEFORE] dir1 dir2 ...)
+```
+
+Xcode users
+may be familiar with the *project headers* section of the *Copy Headers*
+build phase. `include_directories` is CMake's equivalent of it, and behaves
+roughly the same way. It ultimately allows `#include "someheader.h"` directives 
+to reference header files in a project-wide manner, without concern of directory 
+traversal.
+
+### [link_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:link_directories)
+
+```cmake
+link_directories(directory1 directory2 ...)
+```
+
+This allows the `target_link_wii_*_libraries` macros 
+to resolve LLVM and ELF libraries by name without concern of their path
+location. Note that this macro is not necessary for resolving external targets included
+with `find_package` (like WiiStep itself).
 
