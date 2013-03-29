@@ -1,9 +1,9 @@
 Using CMake with WiiStep
 ========================
 
-In order to allow WiiStep to build on as many platforms as possible, 
-[CMake](http://cmake.org) has been chosen as its primary build method. Also,
-WiiStep's main dependencies (llvm, libobjc2) use CMake as their build systems;
+In order to allow WiiStep's development environment to build on as many platforms 
+as possible, [CMake](http://cmake.org) has been chosen as its primary build method. 
+Also, WiiStep's main dependencies (llvm, libobjc2) use CMake as their build systems;
 making for a very consistent developer experience.
 
 I recommend reading [LLVM's CMake tutorial](http://llvm.org/docs/CMake.html)
