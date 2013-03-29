@@ -47,6 +47,7 @@ What I Need
     * [Xcode's](http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12) bundled toolchain works fine, and CMake will discover it within `Xcode.app`
 * [CMake 2.8](http://www.cmake.org) (or greater)
 * [Git](http://git-scm.com) (naturally)
+* **~3GB** of disk space; LLVM's build process is rather file-intensive
 
 Aaand...That's it. All other dependencies are automatically fetched within 
 `git submodule` and the provided `wsinstall` target.
