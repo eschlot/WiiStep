@@ -8,14 +8,14 @@ set(CMAKE_MODULE_PATH cmake)
 
 # Default install prefix
 if(WIN32 AND NOT CYGWIN)
-	set(DEF_CMAKE_INSTALL_PREFIX /)
+  set(DEF_CMAKE_INSTALL_PREFIX /)
 else()
-	set(DEF_CMAKE_INSTALL_PREFIX /opt)
+  set(DEF_CMAKE_INSTALL_PREFIX /opt)
 endif()
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-	set(CMAKE_INSTALL_PREFIX ${DEF_CMAKE_INSTALL_PREFIX} 
-	    CACHE PATH "Installation prefix (system-wide) directory for WiiStep" FORCE)
+  set(CMAKE_INSTALL_PREFIX ${DEF_CMAKE_INSTALL_PREFIX} 
+    CACHE PATH "Installation prefix (system-wide) directory for WiiStep" FORCE)
 endif()
 
 set(INSTALL_WS_DIR wiistep CACHE PATH 
@@ -43,10 +43,9 @@ add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/llvm-built
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
 COMMAND mkdir ARGS -p llvm 
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/llvm
-COMMAND cmake ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_WS_DIR} -DLLVM_DEFAULT_TARGET_TRIPLE="powerpc-generic-eabi" -DLLVM_TARGETS_TO_BUILD="PowerPC" ${CMAKE_SOURCE_DIR}/llvm
+COMMAND cmake ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_WS_DIR} -DLLVM_DEFAULT_TARGET_TRIPLE="powerpc-generic-eabi" -DLLVM_TARGETS_TO_BUILD="PowerPC" -DLLVM_BUILD_RUNTIME=OFF ${CMAKE_SOURCE_DIR}/llvm
 COMMAND make
 COMMAND touch ARGS ${PROJECT_BINARY_DIR}/llvm-built 
-
 COMMENT "Building llvm and clang; This could take awhile...")
 
 install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY \"${PROJECT_BINARY_DIR}/llvm\")")
@@ -55,30 +54,30 @@ install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY \"${PROJECT
 # Add wsinstall target (or omit if requested)
 
 set(NO_WSINSTALL FALSE CACHE BOOL 
-	"Omit (if set) building/running `wsinstall`")
+  "Omit (if set) building/running `wsinstall`")
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	set(NO_WSINSTALL TRUE) # Disable wsinstall on non-Mac platforms
+  set(NO_WSINSTALL TRUE) # Disable wsinstall on non-Mac platforms
 endif()
 if(NOT ${NO_WSINSTALL})
-	add_subdirectory(wsinstall)
+  add_subdirectory(wsinstall)
 
-	# Add command to run wsinstall to download needed binaries
+  # Add command to run wsinstall to download needed binaries
 
-	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-		add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc 
-		COMMAND ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh ARGS $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
-		MAIN_DEPENDENCY wsinstall
-		COMMENT "Now running wsinstall...")
-	else()
-		add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc 
-		COMMAND $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ARGS ${PROJECT_BINARY_DIR}
-		MAIN_DEPENDENCY wsinstall
-		COMMENT "Now running wsinstall...")
-	endif()
+  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc
+      COMMAND ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh ARGS $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
+      MAIN_DEPENDENCY wsinstall
+      COMMENT "Now running wsinstall...")
+  else()
+    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc
+      COMMAND $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ARGS ${PROJECT_BINARY_DIR}
+      MAIN_DEPENDENCY wsinstall
+      COMMENT "Now running wsinstall...")
+  endif()
 else()
-	add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc 
-	COMMAND touch wsinstall-ran
-	COMMENT "Skipping wsinstall")
+  add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc
+    COMMAND touch wsinstall-ran
+    COMMENT "Skipping wsinstall")
 endif()
 
 
@@ -106,7 +105,7 @@ add_subdirectory(gnustep-libobjc2 EXCLUDE_FROM_ALL)
 
 set(WIISTEP TRUE)
 set(WIISTEP_PLATFORM "libogc" CACHE STRING 
-	"Which Wii HW-abstraction software platform should be used: 'libogc' (default) or 'RVL_SDK'")
+  "Which Wii HW-abstraction software platform should be used: 'libogc' (default) or 'RVL_SDK'")
 
 
 # Macro to quickly resolve gnustep-libobjc2 sources
@@ -163,34 +162,38 @@ add_definitions( -DGNUSTEP -D__OBJC_RUNTIME_INTERNAL__=1)
 set(CMAKE_OBJC_FLAGS "${CMAKE_OBJC_FLAGS} -fobjc-runtime=gnustep-1.7")
 
 add_definitions( 
--D __PPC__=1 
--D _BIG_ENDIAN=1 
--D WIISTEP=1 
--D NO_PTHREADS 
--D __TOY_DISPATCH__ 
--D NO_LEGACY 
--fno-builtin 
--Wno-deprecated-objc-isa-usage 
--Wno-objc-root-class
--Wno-deprecated-declarations) 
+  -D __PPC__=1
+  -D _BIG_ENDIAN=1
+  -D WIISTEP=1
+  -D NO_PTHREADS
+  -D __TOY_DISPATCH__
+  -D NO_LEGACY
+  -fno-builtin
+  -Wno-deprecated-objc-isa-usage
+  -Wno-objc-root-class
+  -Wno-deprecated-declarations)
 
-if (WIISTEP_PLATFORM STREQUAL "RVL_SDK")
-	add_definitions( -D WIISTEP_RVL_SDK=1 -D WIISTEP_LIBOGC=0)
+if(WIISTEP_PLATFORM STREQUAL "RVL_SDK")
+  add_definitions( -D WIISTEP_RVL_SDK=1 -D WIISTEP_LIBOGC=0)
 elseif (WIISTEP_PLATFORM STREQUAL "libogc")
-	add_definitions( -D WIISTEP_RVL_SDK=0 -D WIISTEP_LIBOGC=1)
-endif ()
+  add_definitions( -D WIISTEP_RVL_SDK=0 -D WIISTEP_LIBOGC=1)
+endif()
 
 
-# Temporary custom target to test custom command
 
-# Aggregate target
-#add_custom_target(WiiStep ALL DEPENDS objc-wii objc-wii-asm)
 
 # Install targets
 install(TARGETS objc-wii objc-wii-asm 
-EXPORT WiiStepTargets 
-ARCHIVE DESTINATION "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib"
-COMPONENT dev)
+  EXPORT WiiStepTargets
+  ARCHIVE DESTINATION "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib"
+  COMPONENT dev)
+
+file(GLOB LIBOBJC2_PUB_HEADERS ${PROJECT_SOURCE_DIR}/gnustep-libobjc2/objc/*.h)
+install(FILES ${LIBOBJC2_PUB_HEADERS}
+  DESTINATION "${INSTALL_WS_DIR}/${PPC_WII_DIR}/include/objc" COMPONENT dev)
+
+install(FILES ${PROJECT_SOURCE_DIR}/wii-prefix.pch ${PROJECT_SOURCE_DIR}/wii-support.c 
+  DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR} COMPONENT dev)
 
 # Export target list (for benefit of both build-set and external projects)
 export(TARGETS objc-wii objc-wii-asm FILE ${PROJECT_BINARY_DIR}/WiiStepTargets.cmake)
@@ -198,22 +201,48 @@ export(TARGETS objc-wii objc-wii-asm FILE ${PROJECT_BINARY_DIR}/WiiStepTargets.c
 # Register WiiStep with user's CMake
 export(PACKAGE WiiStep)
 
+
 # Create the WiiStepConfig.cmake file
-file(RELATIVE_PATH REL_WS_DIR "${INSTALL_CMAKE_DIR}"
-   "${INSTALL_WS_DIR}")
+
 # ... for the build tree
-set(CONF_WS_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
+set(CONF_WS_LLVM_BIN_DIR "${PROJECT_BINARY_DIR}/llvm/bin")
+set(CONF_WS_DKPPC_BIN_DIR "${PROJECT_BINARY_DIR}/devkitPPC/bin")
+list(APPEND CONF_WS_PPC_INCLUDE_DIRS
+  ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/include
+  ${PROJECT_BINARY_DIR}/libogc/include
+  ${PROJECT_SOURCE_DIR}/gnustep-libobjc2)
+list(APPEND CONF_WS_PPC_LIB_DIRS
+  ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/lib
+  ${PROJECT_BINARY_DIR}/libogc/lib/wii)
+set(CONF_WS_PPC_OBJC_LLVM ${PROJECT_BINARY_DIR}/libobjc-wii.bc)
+set(CONF_WS_PPC_OBJC_ELF ${PROJECT_BINARY_DIR}/libobjc-wii-asm.a)
+set(CONF_WS_PPC_PCH ${PROJECT_SOURCE_DIR}/wii-prefix.pch)
+set(CONF_WS_PPC_SUPPORT_C ${PROJECT_SOURCE_DIR}/wii-support.c)
+set(CONF_WS_MACROS_FILE "${PROJECT_SOURCE_DIR}/cmake/WiiStepProjectMacros.cmake")
+
 configure_file(${CMAKE_MODULE_PATH}/WiiStepConfig.cmake.in
   "${PROJECT_BINARY_DIR}/WiiStepConfig.cmake" @ONLY)
+  
 # ... for the install tree
-set(CONF_WS_DIRS "\${WIISTEP_CMAKE_DIR}/${REL_WS_DIR}")
+set(CONF_WS_LLVM_BIN_DIR "${INSTALL_WS_DIR}/bin")
+set(CONF_WS_DKPPC_BIN_DIR "${INSTALL_WS_DIR}/bin")
+set(CONF_WS_PPC_INCLUDE_DIRS "${INSTALL_WS_DIR}/${PPC_WII_DIR}/include")
+set(CONF_WS_PPC_LIB_DIRS "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib")
+set(CONF_WS_PPC_OBJC_LLVM "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib/libobjc-wii.bc")
+set(CONF_WS_PPC_OBJC_ELF "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib/libobjc-wii-asm.a")
+set(CONF_WS_PPC_PCH "${INSTALL_WS_DIR}/${PPC_WII_DIR}/wii-prefix.pch")
+set(CONF_WS_PPC_SUPPORT_C "${INSTALL_WS_DIR}/${PPC_WII_DIR}/wii-support.c")
+set(CONF_WS_MACROS_FILE "${INSTALL_CMAKE_DIR}/WiiStepProjectMacros.cmake")
+
 configure_file(${CMAKE_MODULE_PATH}/WiiStepConfig.cmake.in
   "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/WiiStepConfig.cmake" @ONLY)
  
-# Install the WiiStepConfig.cmake and WiiStepConfigVersion.cmake
+# Install the WiiStepConfig.cmake and WiiStepProjectMacros.cmake
 install(FILES
   "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/WiiStepConfig.cmake"
+  "${PROJECT_SOURCE_DIR}/cmake/WiiStepProjectMacros.cmake"
   DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+
  
 # Install the export set for use with the install-tree
 install(EXPORT WiiStepTargets DESTINATION

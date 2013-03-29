@@ -1,18 +1,24 @@
 cmake_minimum_required(VERSION 2.8)
 
-# Path of *this* cmake file
-get_filename_component(WIISTEP_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+# Import targets
+get_filename_component(SELF_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include("${SELF_DIR}/WiiStepTargets.cmake")
 
-# WS directory
-set(WIISTEP_DIR "@CONF_WS_DIRS@")
+# Dev tool directories
+set(WS_LLVM_BIN_DIR "@CONF_WS_LLVM_BIN_DIR@")
+set(WS_DKPPC_BIN_DIR "@CONF_WS_DKPPC_BIN_DIR@")
+
+# PPC include/lib directories
+set(WS_PPC_INCLUDE_DIRS "@CONF_WS_PPC_INCLUDE_DIRS@")
+set(WS_PPC_LIB_DIRS "@CONF_WS_PPC_LIB_DIRS@")
+
+# Objective-C runtime built files
+set(WS_PPC_OBJC_LLVM "@CONF_WS_PPC_OBJC_LLVM@")
+set(WS_PPC_OBJC_ELF "@CONF_WS_PPC_OBJC_ELF@")
+
+# Compile support files
+set(WS_PPC_PCH "@CONF_WS_PPC_PCH@")
+set(WS_PPC_SUPPORT_C "@CONF_WS_PPC_SUPPORT_C@")
 
 # Include WiiStep CMake macros
-include(${WIISTEP_CMAKE_DIR}/WiiStepProjectMacros.cmake)
-
-# Find our compiler
-
-# Set variables referencing important library/include files
-set(WIISTEP_LLVM_LIBRARY objc-wii)
-set(WIISTEP_ELF_LIBRARY objc-wii-asm)
-
-
+include("@CONF_WS_MACROS_FILE@")
