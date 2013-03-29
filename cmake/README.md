@@ -141,8 +141,8 @@ add_wii_executable(<name> [EXCLUDE_FROM_ALL]
 ```
 
 Using a `CMakeLists.txt` like the one illustrated above, the `add_wii_executable`
-macro is available to establish a target defining all sources that should
-be present in the final .ELF and .DOL. 
+macro is available to establish a target defining all sources (for LLVM to build) 
+that should be present in the final .ELF and .DOL. 
 
 `libogc` and `libobjc-wii` will implicitly be linked in this executable. Other
 libraries-to-link must be specified using a combination of the following macros.
