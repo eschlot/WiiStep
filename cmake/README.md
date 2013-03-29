@@ -89,9 +89,9 @@ Making A CMake Project Against WiiStep
 CMake has a nifty 
 [`find_package`](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:find_package) 
 command that can be used to resolve WiiStep and load its settings and macros
-into an external CMake project. `find_package` requires the `CMAKE_MODULE_PATH` list
-to include `<PATH TO WIISTEP SOURCE>/cmake`. After augmenting the module path list,
-`find_package` may be invoked.
+into an external CMake project. CMake maintains a user package registry at `~/.cmake/packages/`.
+Simply by building WiiStep (no install necessary), `find_package` may be invoked
+and the external project will use the built WiiStep files in-place.
 
 An example project's `CMakeLists.txt` may look like the following:
 
@@ -99,12 +99,7 @@ An example project's `CMakeLists.txt` may look like the following:
 cmake_minimum_required(VERSION 2.8)
 project(My-Awesome-ObjC-On-Wii-App)
 
-# Get WiiStep integrated (discovers within home dir by default)
-set(MYPROJ_WS_PATH "~/WiiStep" CACHE PATH
-	"Path my project uses to access WiiStep")
-list(APPEND CMAKE_MODULE_PATH ${MYPROJ_WS_PATH}/cmake)
-
-find_package(WiiStep MODULE REQUIRED)
+find_package(WiiStep REQUIRED)
 
 # Create targets and what-not down here
 ```
