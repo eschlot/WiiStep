@@ -36,7 +36,7 @@ set(PPC_WII_DIR ppc-wii)
 
 # Clang and LLVM
 
-set(LLVM_DIR ${CMAKE_SOURCE_DIR}/llvm/build/bin)
+set(LLVM_DIR ${PROJECT_BINARY_DIR}/llvm/bin)
 set(CLANG_DIR ${LLVM_DIR})
 
 add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/llvm-built 
