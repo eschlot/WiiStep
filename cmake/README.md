@@ -178,10 +178,8 @@ Making A WiiStep Middleware Library With CMake
 ----------------------------------------------
 
 For those wishing to package WiiStep-using libraries for other developers 
-(or simply for projects spanning multiple subdirectories), macros are available
-to easily accomplish this. 
-
-There are two options for specifying library targets: 
+(or simply for projects spanning multiple subdirectories), a simple macro
+is available to easily accomplish this. 
 
 ### add_wii_llvm_library
 
@@ -195,13 +193,3 @@ packaged as an archive (.a) and linkable with `target_link_wii_llvm_libraries`.
 Producing LLVM-based libraries ensure LLVM is able to comprehensively optimise
 code in a unified manner (even *inlining* post-compiled routines together).
 
-### add_wii_dkppc_library
-
-```cmake
-add_wii_dkppc_library(<name> [EXCLUDE_FROM_ALL]
-                      source1 source2 ... sourceN)
-```
-
-For sources needing to be compiled and linked in the traditional GCC
-manner, this macro will produce a target generating an **ELF-archive** (.a)
-linkable with `target_link_wii_dkppc_libraries`. 
