@@ -121,15 +121,15 @@ to automate the correct compilation sequence for app sources.
 
 ### Using these two files, the general build process goes like this:
 
-### libobjc-wii.a
+### libobjc-wii.bc
 
-First, `libobjc-wii.a` *isn't* a gcc-compatible ELF archive; it actually
+First, `libobjc-wii.bc` *isn't* a gcc-compatible ELF archive; it actually
 is *LLVM-IR-bitcode* (.bc) linked together (with [`llvm-link`](http://llvm.org/docs/CommandGuide/llvm-link.html)) and used like an archive. 
-This *.bc* file is utilised by the application build system's own invocation 
+This bitcode file is utilised by the application build system's own invocation 
 of `llvm-link`.
 
 Once the application's 
-WiiStep-using code is linked with `libobjc-wii.a`, LLVM's [`opt`](http://llvm.org/docs/CommandGuide/opt.html)
+WiiStep-using code is linked with `libobjc-wii.bc`, LLVM's [`opt`](http://llvm.org/docs/CommandGuide/opt.html)
 may be ran with the `-gnu-objc` flag to apply various transformations
 to the code making it run very efficiently within the WiiStep Runtime.
 
@@ -154,12 +154,12 @@ be compiled and linked at this time as well, within the *GCC environment*.
 
 Essentially, `powerpc-eabi-gcc` needs to link:
 * Your application-produced LLVM-to-PPC assembly file
-    * Also includes libobjc-wii.a
+    * Also includes `libobjc-wii.bc`
     * May include extra Objective-C frameworks like *Foundation*
-* libobjc-wii-asm.a
-* libogc (OS and most drivers)
-* libbte (Bluetooth stack)
-* libwiiuse (Wii Remote API)
+* `libobjc-wii-asm.a`
+* `libogc` (OS and most drivers)
+* `libbte` (Bluetooth stack)
+* `libwiiuse` (Wii Remote API)
 * Any other what-have-you ELF archives
 
 The result will be an *.ELF* executable file ready for conversion into a 
