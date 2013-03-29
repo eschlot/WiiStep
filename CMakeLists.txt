@@ -32,6 +32,7 @@ foreach(p WS CMAKE)
   endif()
 endforeach()
 
+set(PPC_WII_DIR ppc-wii)
 
 # Clang and LLVM
 
@@ -82,14 +83,14 @@ endif()
 set(DEVKITPPC_DIR ${PROJECT_BINARY_DIR}/devkitPPC)
 file(GLOB DEVKITPPC_BIN_LIST ${DEVKITPPC_DIR}/bin/*)
 install(PROGRAMS ${DEVKITPPC_BIN_LIST} DESTINATION ${INSTALL_WS_DIR}/bin)
-install(DIRECTORY ${DEVKITPPC_DIR}/powerpc-eabi/include DESTINATION ${INSTALL_WS_DIR}/ppc)
+install(DIRECTORY ${DEVKITPPC_DIR}/powerpc-eabi/include DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR})
 file(GLOB_RECURSE DEVKITPPC_LIB_LIST ${DEVKITPPC_DIR}/powerpc-eabi/lib/*.a)
-install(FILES ${DEVKITPPC_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/ppc/lib)
+install(FILES ${DEVKITPPC_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib)
 
 set(LIBOGC_DIR ${PROJECT_BINARY_DIR}/libogc)
-install(DIRECTORY ${LIBOGC_DIR}/include DESTINATION ${INSTALL_WS_DIR}/ppc)
+install(DIRECTORY ${LIBOGC_DIR}/include DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR})
 file(GLOB LIBOGC_LIB_LIST ${LIBOGC_DIR}/lib/wii/*.a)
-install(FILES ${LIBOGC_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/ppc/lib)
+install(FILES ${LIBOGC_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib)
 
 
 # Add libobjc2 properties
@@ -184,7 +185,7 @@ endif ()
 # Install targets
 install(TARGETS objc-wii objc-wii-asm 
 EXPORT WiiStepTargets 
-ARCHIVE DESTINATION "${INSTALL_WS_DIR}/ppc/lib"
+ARCHIVE DESTINATION "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib"
 COMPONENT dev)
 
 # Export target list (for benefit of both build-set and external projects)
