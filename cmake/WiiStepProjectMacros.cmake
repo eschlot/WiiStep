@@ -16,6 +16,16 @@ set(CMAKE_C_CREATE_STATIC_LIBRARY ${CMAKE_CXX_CREATE_STATIC_LIBRARY})
 set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${WS_DKPPC_BIN_DIR}/powerpc-eabi-ar rs <TARGET> <OBJECTS>")
 
 
+# Optimiser Flags
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  set(LLVM_OPT_FLAGS -std-compile-opts)
+else()
+  set(LLVM_OPT_FLAGS "")
+endif()
+
+
+# Executable link rule
+
 macro(ws_set_link_rule)
 
   set(TARGET_LLVM_OBJECTS "")
@@ -25,7 +35,7 @@ macro(ws_set_link_rule)
 
   set(CMAKE_CXX_LINK_EXECUTABLE 
     "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET_BASE>-llvm.bc <OBJECTS> ${TARGET_LLVM_OBJECTS}" 
-    "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc <TARGET_BASE>-llvm.bc" 
+    "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc ${LLVM_OPT_FLAGS} <TARGET_BASE>-llvm.bc" 
     "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
     "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <TARGET_BASE>.S <LINK_LIBRARIES> ${WS_PPC_SUPPORT_C}" 
     "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol")
