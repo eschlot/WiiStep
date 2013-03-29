@@ -39,13 +39,17 @@ set(PPC_WII_DIR ppc-wii)
 set(LLVM_DIR ${CMAKE_SOURCE_DIR}/llvm/build/bin)
 set(CLANG_DIR ${LLVM_DIR})
 
-add_custom_command(OUTPUT "${CMAKE_SOURCE_DIR}/llvm-built" 
-COMMAND "${CMAKE_SOURCE_DIR}/build-llvm.sh" 
-ARGS "${INSTALL_WS_DIR}"
-WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/llvm-built 
+WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+COMMAND mkdir ARGS -p llvm 
+WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/llvm
+COMMAND cmake ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_WS_DIR} -DLLVM_DEFAULT_TARGET_TRIPLE="powerpc-generic-eabi" -DLLVM_TARGETS_TO_BUILD="PowerPC" ${CMAKE_SOURCE_DIR}/llvm
+COMMAND make
+COMMAND touch ARGS ${PROJECT_BINARY_DIR}/llvm-built 
+
 COMMENT "Building llvm and clang; This could take awhile...")
 
-install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY \"${CMAKE_SOURCE_DIR}/llvm/build\")")
+install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY \"${PROJECT_BINARY_DIR}/llvm\")")
 
 
 # Add wsinstall target (or omit if requested)
@@ -125,9 +129,9 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 # Now our objc target
 
-add_library(objc-wii STATIC ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-wii STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
 set_target_properties(objc-wii PROPERTIES SUFFIX .bc)
-add_library(objc-wii-asm STATIC ${CMAKE_SOURCE_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
+add_library(objc-wii-asm STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
 
