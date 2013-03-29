@@ -101,6 +101,8 @@ cd WiiStep
 mkdir build && cd build
 cmake ..
 make
+
+# Optional (WiiStep's build directory may be directly utilised for external development):
 sudo make install
 ```
 
