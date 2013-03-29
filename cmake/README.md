@@ -171,7 +171,7 @@ add_wii_library(<name> [EXCLUDE_FROM_ALL]
 ```
 
 This macro will produce a target generating a linked **LLVM-bitcode** (.bc) file
-packaged as an archive (.a) and linkable with `target_link_wii_llvm_libraries`. 
+linkable with `target_link_wii_llvm_libraries`. 
 Producing LLVM-based libraries ensure LLVM is able to comprehensively optimise
 code in a unified manner (even *inlining* post-compiled routines together).
 
