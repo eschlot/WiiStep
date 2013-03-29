@@ -181,11 +181,11 @@ For those wishing to package WiiStep-using libraries for other developers
 (or simply for projects spanning multiple subdirectories), a simple macro
 is available to easily accomplish this. 
 
-### add_wii_llvm_library
+### add_wii_library
 
 ```cmake
-add_wii_llvm_library(<name> [EXCLUDE_FROM_ALL]
-                     source1 source2 ... sourceN)
+add_wii_library(<name> [EXCLUDE_FROM_ALL]
+                source1 source2 ... sourceN)
 ```
 
 This macro will produce a target generating a linked **LLVM-bitcode** (.bc) file
