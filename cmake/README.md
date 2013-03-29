@@ -8,7 +8,7 @@ making for a very consistent developer experience.
 
 I recommend reading [LLVM's CMake tutorial](http://llvm.org/docs/CMake.html)
 for a good primer in using CMake for the construction and use of developer 
-tools. Additionally, WiiStep's `CMakeLists.txt` files also use many of the 
+tools. Additionally, WiiStep's various `cmake` files also use many of the 
 principes used by LLVM. 
 
 
