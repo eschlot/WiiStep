@@ -188,7 +188,7 @@ add_subdirectory(source_dir [binary_dir]
 
 For large projects that would be most comfortable spread across multiple
 subdirectories, this command may be used to string together a project's
-subdirectories.
+subdirectories. Each subdirectory must contain its own `CMakeLists.txt` file.
 
 ### [include_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:include_directories)
 
