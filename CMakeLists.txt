@@ -39,16 +39,15 @@ set(PPC_WII_DIR ppc-wii)
 set(LLVM_DIR ${PROJECT_BINARY_DIR}/llvm/bin)
 set(CLANG_DIR ${LLVM_DIR})
 
-add_custom_command(OUTPUT mk-llvm-dir 
-COMMAND mkdir ARGS -p ${PROJECT_BINARY_DIR}/llvm
-COMMAND touch ARGS mk-llvm-dir)
+add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/llvm 
+COMMAND mkdir ARGS -p ${PROJECT_BINARY_DIR}/llvm)
 
 add_custom_command(OUTPUT ${PROJECT_BINARY_DIR}/llvm-built  
 WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/llvm
 COMMAND cmake ARGS -DCMAKE_INSTALL_PREFIX=${INSTALL_WS_DIR} -DLLVM_DEFAULT_TARGET_TRIPLE="powerpc-generic-eabi" -DLLVM_TARGETS_TO_BUILD="PowerPC" -DLLVM_BUILD_RUNTIME=OFF ${CMAKE_SOURCE_DIR}/llvm
 COMMAND make
 COMMAND touch ARGS ${PROJECT_BINARY_DIR}/llvm-built 
-MAIN_DEPENDENCY mk-llvm-dir
+MAIN_DEPENDENCY ${PROJECT_BINARY_DIR}/llvm
 COMMENT "Building llvm and clang; This could take awhile...")
 
 
