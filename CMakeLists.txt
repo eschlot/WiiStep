@@ -160,9 +160,9 @@ set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gc
 
 add_definitions(-target powerpc-generic-eabi)
 
-list(APPEND CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
 add_definitions( -DGNUSTEP -D__OBJC_RUNTIME_INTERNAL__=1)
-set(CMAKE_OBJC_FLAGS "${CMAKE_OBJC_FLAGS} -fobjc-runtime=gnustep-1.7")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS} -fobjc-runtime=gnustep-1.7")
 
 add_definitions( 
   -D __PPC__=1

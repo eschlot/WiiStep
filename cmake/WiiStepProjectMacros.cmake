@@ -3,9 +3,12 @@ cmake_minimum_required(VERSION 2.8)
 
 # Compiler rules
 
-set(CMAKE_CXX_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm -target powerpc-generic-eabi -c <FLAGS> -include ${WS_PPC_PCH} -o <OBJECT> <SOURCE>")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
+set(CMAKE_CXX_FLAGS "${CMAKE_OBJC_FLAGS} ${CMAKE_C_FLAGS} -fobjc-runtime=gnustep-1.7 -fobjc-exceptions")
 
-set(CMAKE_C_COMPILE_OBJECT ${CMAKE_CXX_COMPILE_OBJECT})
+set(CMAKE_C_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm -target powerpc-generic-eabi -c <FLAGS> -include ${WS_PPC_PCH} -o <OBJECT> <SOURCE>")
+
+set(CMAKE_CXX_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm -target powerpc-generic-eabi -c <FLAGS> -include ${WS_PPC_PCH} -o <OBJECT> <SOURCE>")
 
 
 # Linker rules
@@ -17,10 +20,14 @@ set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${WS_DKPPC_BIN_DIR}/powerpc-eabi-ar rs <TAR
 
 
 # Optimiser Flags
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-  set(LLVM_OPT_FLAGS -std-compile-opts)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(OBJC_OPT_LIB ${WS_LLVM_BIN_DIR}/../lib/libGNUObjCRuntime.dylib)
 else()
-  set(LLVM_OPT_FLAGS "")
+  set(OBJC_OPT_LIB ${WS_LLVM_BIN_DIR}/../lib/libGNUObjCRuntime.so)
+endif()
+#set(LLVM_OPT_FLAGS "${LLVM_OPT_FLAGS} -load=${OBJC_OPT_LIB} -gnu-nonfragile-ivar -gnu-class-lookup-cache")
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  set(LLVM_OPT_FLAGS "${LLVM_OPT_FLAGS} -std-compile-opts")
 endif()
 
 
@@ -36,7 +43,7 @@ macro(ws_set_link_rule)
   set(CMAKE_CXX_LINK_EXECUTABLE 
     "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET_BASE>-llvm.bc <OBJECTS> ${TARGET_LLVM_OBJECTS}" 
     "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc ${LLVM_OPT_FLAGS} <TARGET_BASE>-llvm.bc" 
-    "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
+    "${WS_LLVM_BIN_DIR}/llc -enable-correct-eh-support -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
     "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <TARGET_BASE>.S <LINK_LIBRARIES> ${WS_PPC_SUPPORT_C}" 
     "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol")
   
@@ -44,18 +51,11 @@ macro(ws_set_link_rule)
 
 endmacro(ws_set_link_rule)
 
-#set(CMAKE_CXX_LINK_EXECUTABLE "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET_BASE>-llvm.bc <OBJECTS> ${TARGET_LLVM_OBJECTS}" "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc <TARGET_BASE>-llvm.bc" "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <TARGET_BASE>.S <LINK_LIBRARIES> ${WS_PPC_SUPPORT_C}" "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol")
-
-#set(CMAKE_C_LINK_EXECUTABLE ${CMAKE_CXX_LINK_EXECUTABLE})
-
 
 # Compiler/Linker flags
 
 include_directories(${WS_PPC_INCLUDE_DIRS})
 link_directories(${WS_PPC_LIB_DIRS})
-
-list(APPEND CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
-set(CMAKE_OBJC_FLAGS "${CMAKE_OBJC_FLAGS} -fobjc-runtime=gnustep-1.7")
 
 add_definitions( 
   -D __PPC__=1

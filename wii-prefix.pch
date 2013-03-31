@@ -11,8 +11,111 @@
 #define _SIZE_T
 typedef uint32_t size_t;
 
+#define __VALIST __builtin_va_list
+
 #include <ogcsys.h>
+
+#define _SYS__DEFAULT_FCNTL_H_
+
+/* Simple platform init routine for testing */
+#include <stdio.h>
+#include <network.h>
+#include <debug.h>
+#include <errno.h>
+#include <stdlib.h>
+
+static inline s32 initialise_network() {
+    s32 result;
+    while ((result = net_init()) == -EAGAIN);
+    return result;
+}
+
+static inline void wait_for_network_initialisation() {
+    printf("Waiting for network to initialise...\n");
+    if (initialise_network() >= 0) {
+        char myIP[16];
+        if (if_config(myIP, NULL, NULL, true) < 0) {
+            printf("Error reading IP address, exiting");
+            exit(1);
+        }
+        printf("Network initialised.  Wii IP address: %s\n", myIP);
+    } else {
+        printf("Unable to initialise network, exiting");
+        exit(1);
+    }
+}
+
+static inline void
+wii_init ()
+{
+    
+    void *xfb = NULL;
+    GXRModeObj *rmode = NULL;
+    
+    // Initialise the video system
+    VIDEO_Init();
+    
+    // This function initialises the attached controllers
+    //WPAD_Init();
+    
+    // Obtain the preferred video mode from the system
+    // This will correspond to the settings in the Wii menu
+    rmode = VIDEO_GetPreferredMode(NULL);
+    
+    // Allocate memory for the display in the uncached region
+    xfb = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
+    
+    // Initialise the console, required for printf
+    console_init(xfb,20,20,rmode->fbWidth,rmode->xfbHeight,rmode->fbWidth*VI_DISPLAY_PIX_SZ);
+    
+    // Set up the video registers with the chosen mode
+    VIDEO_Configure(rmode);
+    
+    // Tell the video hardware where our display memory is
+    VIDEO_SetNextFramebuffer(xfb);
+    
+    // Make the display visible
+    VIDEO_SetBlack(FALSE);
+    
+    // Flush the video register changes to the hardware
+    VIDEO_Flush();
+    
+    // Wait for Video setup to complete
+    VIDEO_WaitVSync();
+    if(rmode->viTVMode&VI_NON_INTERLACE) VIDEO_WaitVSync();
+    
+    
+    // The console understands VT terminal escape codes
+    // This positions the cursor on row 2, column 0
+    // we can use variables for this with format codes too
+    // e.g. printf ("\x1b[%d;%dH", row, column );
+    printf("\x1b[2;0H");
+    
+    // Network debugging
+    wait_for_network_initialisation();
+    
+    DEBUG_Init(GDBSTUB_DEVICE_TCP, 5656);
+    _break();
+}
+
+/* devkitPPC's toolchain doesn't properly emit code 
+ * running all CTORS from low-mem to high-mem (as clang's
+ * emitted objc runtime load routines are laid out).
+ * Therefore, this behaves as an alternate entry method. */
+extern void(*__CTOR_END__)(void);
+static inline void ctors_init() {
+    const void* CTOR = (&__CTOR_END__)-1;
+    while (*(const uint32_t*)CTOR != 0xffffffff)
+	CTOR -= 4;
+    CTOR += 4;
+    while (CTOR != (&__CTOR_END__)) {
+	void(*CTOR_FPTR)(void) = ((void(*)(void))(*(const uint32_t*)CTOR));
+	CTOR_FPTR();
+	CTOR += 4;
+    }
+}
 
 
 
 #endif
+

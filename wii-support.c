@@ -9,7 +9,7 @@ void __stack_chk_guard_setup()
  
     /* If you have the ability to generate random numbers in your kernel then use them,
        otherwise for 32-bit code: */
-    *p =  0x00000aff;
+    *p =  (unsigned char)0x00000aff;
 }
  
 void __attribute__((noreturn)) __stack_chk_fail()
