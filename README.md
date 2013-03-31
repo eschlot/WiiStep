@@ -165,7 +165,8 @@ Essentially, `powerpc-eabi-gcc` needs to link:
 * Any other what-have-you ELF archives
 
 The result will be an *.ELF* executable file ready for conversion into a 
-*.DOL* executable. `elf2dol` in devkitPPC may be used to do the 
+*.DOL* executable. CMake utilises `elf2dol` in devkitPPC to produce a paired 
+.DOL anytime an .ELF is (re)generated. 
 
 Once done, the DOL should launch on a production Wii and return to the 
 launching app correctly according to Nintendo's apploader design.
