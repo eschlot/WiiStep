@@ -101,7 +101,7 @@ macro(add_wii_executable name)
 
   add_executable(${name} ${ARGN})
   target_link_wii_llvm_libraries(${name} objc-wii)  
-  target_link_wii_dkppc_libraries(${name} ogc ${WS_PPC_OBJC_ELF})
+  target_link_wii_dkppc_libraries(${name} ogc objc-wii-asm)
   set_target_properties(${name} PROPERTIES SUFFIX .elf)
   
 endmacro(add_wii_executable)
