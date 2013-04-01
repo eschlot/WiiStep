@@ -28,7 +28,7 @@ Any other PowerPC-ABI compatible Clang extensions should work as well.
 
 ### Platform Integration
 
-Code-linking tools and the fundamental C/C++ runtimes are provided 
+ELF Code-linking tools and the fundamental C/C++ runtimes are provided 
 by [devkitPPC](http://devkitpro.org). Platform abstraction is 
 accomplished using externally-linked [libogc](http://libogc.devkitpro.org). 
 
