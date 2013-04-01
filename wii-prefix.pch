@@ -92,10 +92,10 @@ wii_init ()
     printf("\x1b[2;0H");
     
     // Network debugging
-    wait_for_network_initialisation();
+    //wait_for_network_initialisation();
     
-    DEBUG_Init(GDBSTUB_DEVICE_TCP, 5656);
-    _break();
+    //DEBUG_Init(GDBSTUB_DEVICE_TCP, 5656);
+    //_break();
 }
 
 /* devkitPPC's toolchain doesn't properly emit code 

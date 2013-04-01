@@ -43,7 +43,7 @@ macro(ws_set_link_rule)
   set(CMAKE_CXX_LINK_EXECUTABLE 
     "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET_BASE>-llvm.bc <OBJECTS> ${TARGET_LLVM_OBJECTS}" 
     "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc ${LLVM_OPT_FLAGS} <TARGET_BASE>-llvm.bc" 
-    "${WS_LLVM_BIN_DIR}/llc -enable-correct-eh-support -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
+    "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
     "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <TARGET_BASE>.S <LINK_LIBRARIES> ${WS_PPC_SUPPORT_C}" 
     "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol")
   
