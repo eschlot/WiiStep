@@ -149,11 +149,11 @@ set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc
 
 # Linker Rules
 
-set(CMAKE_CXX_CREATE_STATIC_LIBRARY "${LLVM_DIR}/llvm-link -o <TARGET> <OBJECTS>")
+set(CMAKE_CXX_CREATE_STATIC_LIBRARY 
+  "${LLVM_DIR}/llvm-link -o <TARGET> <OBJECTS>"
+  "${LLVM_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET>.S <TARGET>")
 
 set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-ar rs <TARGET> <OBJECTS>")
-
-set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <OBJECTS> <LINK_LIBRARIES>")
 
 
 # Compiler flags

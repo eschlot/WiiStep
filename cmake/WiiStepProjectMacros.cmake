@@ -13,7 +13,9 @@ set(CMAKE_CXX_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm -target powerp
 
 # Linker rules
 
-set(CMAKE_CXX_CREATE_STATIC_LIBRARY "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET> <OBJECTS>")
+set(CMAKE_CXX_CREATE_STATIC_LIBRARY 
+  "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET> <OBJECTS>"
+  "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET>.S <TARGET>")
 set(CMAKE_C_CREATE_STATIC_LIBRARY ${CMAKE_CXX_CREATE_STATIC_LIBRARY})
 
 set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${WS_DKPPC_BIN_DIR}/powerpc-eabi-ar rs <TARGET> <OBJECTS>")
@@ -35,18 +37,36 @@ endif()
 
 macro(ws_set_link_rule)
 
-  set(TARGET_LLVM_OBJECTS "")
-  foreach(obj ${ARGN})
-    set(TARGET_LLVM_OBJECTS "${TARGET_LLVM_OBJECTS} ${obj}")
-  endforeach(obj)
+  if(CMAKE_BUILD_TYPE STREQUAL "Release")
 
-  set(CMAKE_CXX_LINK_EXECUTABLE 
-    "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET_BASE>-llvm.bc <OBJECTS> ${TARGET_LLVM_OBJECTS}" 
-    "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc ${LLVM_OPT_FLAGS} <TARGET_BASE>-llvm.bc" 
-    "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
-    "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <TARGET_BASE>.S <LINK_LIBRARIES> ${WS_PPC_SUPPORT_C}" 
-    "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol")
-  
+    set(TARGET_LLVM_OBJECTS "")
+    foreach(obj ${ARGN})
+      set(TARGET_LLVM_OBJECTS "${TARGET_LLVM_OBJECTS} ${obj}")
+    endforeach(obj)
+
+    set(CMAKE_CXX_LINK_EXECUTABLE 
+      "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET_BASE>-llvm.bc <OBJECTS> ${TARGET_LLVM_OBJECTS}" 
+      "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc ${LLVM_OPT_FLAGS} <TARGET_BASE>-llvm.bc" 
+      "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
+      "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <TARGET_BASE>.S <LINK_LIBRARIES> ${WS_PPC_SUPPORT_C}" 
+      "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol") 
+
+  else()
+
+    set(TARGET_LLVM_OBJECTS "")
+    foreach(obj ${ARGN})
+      set(TARGET_LLVM_OBJECTS "${TARGET_LLVM_OBJECTS} ${obj}.S")
+    endforeach(obj)
+
+    set(CMAKE_CXX_LINK_EXECUTABLE 
+      "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET_BASE>-llvm.bc <OBJECTS>" 
+      "${WS_LLVM_BIN_DIR}/opt -o <TARGET_BASE>-llvm-opt.bc ${LLVM_OPT_FLAGS} <TARGET_BASE>-llvm.bc" 
+      "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET_BASE>.S <TARGET_BASE>-llvm-opt.bc" 
+      "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 <TARGET_BASE>.S ${TARGET_LLVM_OBJECTS} <LINK_LIBRARIES> ${WS_PPC_SUPPORT_C}" 
+      "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol")
+
+  endif()  
+
   set(CMAKE_C_LINK_EXECUTABLE ${CMAKE_CXX_LINK_EXECUTABLE})
 
 endmacro(ws_set_link_rule)
