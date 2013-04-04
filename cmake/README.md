@@ -122,6 +122,9 @@ find_package(WiiStep REQUIRED)
 # This will actually stage the creation of a .ELF/.DOL file pair in the app's CMake build directory
 add_wii_executable(my-awesome-app app_code.m)
 
+# We want the foundation framework too
+target_link_wii_llvm_libraries(my-awesome-app foundation-wii)
+
 # This will link the bluetooth-stack and wiimote-API into the app
 # Please note that libogc (including kernel and GX API) is implicitly linked by WiiStep
 target_link_wii_dkppc_libraries(my-awesome-app wiiuse bte)
