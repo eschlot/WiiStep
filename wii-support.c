@@ -1,3 +1,26 @@
+
+
+/* devkitPPC's toolchain doesn't properly emit code
+ * running all CTORS from low-mem to high-mem (as clang's
+ * emitted objc runtime load routines are laid out).
+ * Therefore, this behaves as an alternate entry method. */
+#include <stdint.h>
+extern int wiistep_main(int argc, char *argv[]);
+extern void(*__CTOR_END__)(void);
+int main(int argc, char** argv) {
+  const void* CTOR = (&__CTOR_END__)-1;
+  while (*(const uint32_t*)CTOR != 0xffffffff)
+    CTOR -= 4;
+  CTOR += 4;
+  while (CTOR != (&__CTOR_END__)) {
+    void(*CTOR_FPTR)(void) = ((void(*)(void))(*(const uint32_t*)CTOR));
+    CTOR_FPTR();
+    CTOR += 4;
+  }
+  return wiistep_main(argc, argv);
+}
+
+
 #include <stdio.h>
 
 void * __stack_chk_guard = NULL;

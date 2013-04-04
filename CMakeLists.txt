@@ -219,7 +219,8 @@ set(CONF_WS_DKPPC_BIN_DIR "${PROJECT_BINARY_DIR}/devkitPPC/bin")
 list(APPEND CONF_WS_PPC_INCLUDE_DIRS
   ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/include
   ${PROJECT_BINARY_DIR}/libogc/include
-  ${PROJECT_SOURCE_DIR}/gnustep-libobjc2)
+  ${PROJECT_SOURCE_DIR}/gnustep-libobjc2
+  ${PROJECT_SOURCE_DIR}/gnustep-base/Headers)
 list(APPEND CONF_WS_PPC_LIB_DIRS
   ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/lib
   ${PROJECT_BINARY_DIR}/libogc/lib/wii)

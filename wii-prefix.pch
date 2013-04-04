@@ -98,22 +98,8 @@ wii_init ()
     //_break();
 }
 
-/* devkitPPC's toolchain doesn't properly emit code 
- * running all CTORS from low-mem to high-mem (as clang's
- * emitted objc runtime load routines are laid out).
- * Therefore, this behaves as an alternate entry method. */
-extern void(*__CTOR_END__)(void);
-static inline void ctors_init() {
-    const void* CTOR = (&__CTOR_END__)-1;
-    while (*(const uint32_t*)CTOR != 0xffffffff)
-	CTOR -= 4;
-    CTOR += 4;
-    while (CTOR != (&__CTOR_END__)) {
-	void(*CTOR_FPTR)(void) = ((void(*)(void))(*(const uint32_t*)CTOR));
-	CTOR_FPTR();
-	CTOR += 4;
-    }
-}
+// Replace our main
+#define main wiistep_main
 
 
 
