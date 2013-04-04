@@ -119,11 +119,17 @@ find_package(WiiStep REQUIRED)
 
 # Create targets and what-not down here. For example:
 
+# A subdirectory containing the app's UI code (for instance)
+# The `CMakeLists.txt` in the directory defines the `awesome-ui` target using `add_wii_library`
+add_subdirectory(AwesomeUI)
+
 # This will actually stage the creation of a .ELF/.DOL file pair in the app's CMake build directory
-add_wii_executable(my-awesome-app app_code.m)
+add_wii_executable(my-awesome-app 
+  app_code.m
+  more_app_code.m)
 
 # We want the foundation framework too
-target_link_wii_llvm_libraries(my-awesome-app foundation-wii)
+target_link_wii_llvm_libraries(my-awesome-app awesome-ui foundation-wii)
 
 # This will link the bluetooth-stack and wiimote-API into the app
 # Please note that libogc (including kernel and GX API) is implicitly linked by WiiStep
