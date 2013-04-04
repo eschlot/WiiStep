@@ -82,6 +82,22 @@ Since `wsinstall` currently only builds and runs correctly on
 `wsinstall` entirely. When set, CMake will still insert the `wsinstall-ran`
 stub into the build directory for correct dependency resolution.
 
+### CMAKE_BUILD_TYPE
+
+This is actually a standard CMake built-in variable, but plays a key
+role in determining the LLVM-to-ELF executable link behaviour.
+
+When `-DCMAKE_BUILD_TYPE=Release` is specified, all LLVM-based targets
+are linked together first, ran through a `-std-compile-opts` pass with 
+LLVM's `opt`, then compiled to PPC assembly. The final ELF link uses
+a single, monolithic assembly file to include LLVM-originated code.
+This process is generally *very slow*.
+
+If any other build type is specified (like the default `None`),
+all target-linking occurs in the ELF stage. Individual LLVM targets are
+linked as separate PPC assembly files. This process takes a fraction of the
+time that the `Release` mode takes and is generally good for development.
+
 
 Making A CMake Project Against WiiStep
 --------------------------------------
