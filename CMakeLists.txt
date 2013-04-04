@@ -186,7 +186,7 @@ endif()
 
 
 # Install targets
-install(TARGETS objc-wii objc-wii-asm 
+install(TARGETS objc-wii objc-wii-asm
   EXPORT WiiStepTargets
   ARCHIVE DESTINATION "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib"
   COMPONENT dev)
@@ -198,11 +198,17 @@ install(FILES ${LIBOBJC2_PUB_HEADERS}
 install(FILES ${PROJECT_SOURCE_DIR}/wii-prefix.pch ${PROJECT_SOURCE_DIR}/wii-support.c 
   DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR} COMPONENT dev)
 
-# Export target list (for benefit of both build-set and external projects)
-export(TARGETS objc-wii objc-wii-asm FILE ${PROJECT_BINARY_DIR}/WiiStepTargets.cmake)
-
 # Register WiiStep with user's CMake
 export(PACKAGE WiiStep)
+
+
+# Now GNUstep-base
+add_subdirectory(gnustep-base)
+
+
+# Export target list (for benefit of both build-set and external projects)
+export(TARGETS objc-wii objc-wii-asm foundation-wii FILE ${PROJECT_BINARY_DIR}/WiiStepTargets.cmake)
+
 
 
 # Create the WiiStepConfig.cmake file
@@ -250,4 +256,6 @@ install(FILES
 # Install the export set for use with the install-tree
 install(EXPORT WiiStepTargets DESTINATION
   "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+
+
 
