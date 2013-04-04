@@ -21,3 +21,30 @@ void __attribute__((noreturn)) __stack_chk_fail()
     for(;;)
     vid[0]++;
 }
+
+#include <unistd.h>
+#include <ogc/system.h>
+#define PAGE_SZ 32
+
+int getpagesize() {return PAGE_SZ;}
+
+long sysconf(int name) {
+  switch(name) {
+    case _SC_PHYS_PAGES:
+      return SYS_GetArenaSize()/PAGE_SZ;
+    case _SC_NPROCESSORS_CONF:
+      return 1;
+    case _SC_NPROCESSORS_ONLN:
+      return 1;
+    default:
+      return -1;
+  }
+}
+
+int access(const char *path, int amode) {return 0;}
+
+int chown(const char *path, uid_t owner, gid_t group) {return 0;}
+
+uid_t geteuid() {return 0;}
+
+int pipe(int fildes[2]) {return -1;}

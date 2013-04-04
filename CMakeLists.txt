@@ -220,7 +220,7 @@ list(APPEND CONF_WS_PPC_LIB_DIRS
 set(CONF_WS_PPC_OBJC_LLVM ${PROJECT_BINARY_DIR}/libobjc-wii.bc)
 set(CONF_WS_PPC_OBJC_ELF ${PROJECT_BINARY_DIR}/libobjc-wii-asm.a)
 set(CONF_WS_PPC_PCH ${PROJECT_SOURCE_DIR}/wii-prefix.pch)
-set(CONF_WS_PPC_SUPPORT_C ${PROJECT_SOURCE_DIR}/wii-support.c)
+set(CONF_WS_PPC_SUPPORT_C "-I${PROJECT_BINARY_DIR}/libogc/include ${PROJECT_SOURCE_DIR}/wii-support.c")
 set(CONF_WS_MACROS_FILE "${PROJECT_SOURCE_DIR}/cmake/WiiStepProjectMacros.cmake")
 
 configure_file(${CMAKE_MODULE_PATH}/WiiStepConfig.cmake.in
@@ -234,7 +234,7 @@ set(CONF_WS_PPC_LIB_DIRS "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib")
 set(CONF_WS_PPC_OBJC_LLVM "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib/libobjc-wii.bc")
 set(CONF_WS_PPC_OBJC_ELF "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib/libobjc-wii-asm.a")
 set(CONF_WS_PPC_PCH "${INSTALL_WS_DIR}/${PPC_WII_DIR}/wii-prefix.pch")
-set(CONF_WS_PPC_SUPPORT_C "${INSTALL_WS_DIR}/${PPC_WII_DIR}/wii-support.c")
+set(CONF_WS_PPC_SUPPORT_C "-I${CONF_WS_PPC_INCLUDE_DIRS} ${INSTALL_WS_DIR}/${PPC_WII_DIR}/wii-support.c")
 set(CONF_WS_MACROS_FILE "${INSTALL_CMAKE_DIR}/WiiStepProjectMacros.cmake")
 
 configure_file(${CMAKE_MODULE_PATH}/WiiStepConfig.cmake.in

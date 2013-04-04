@@ -15,10 +15,10 @@ typedef uint32_t size_t;
 
 #include <ogcsys.h>
 
-#define _SYS__DEFAULT_FCNTL_H_
 
 /* Simple platform init routine for testing */
 #include <stdio.h>
+#include <fcntl.h>
 #include <network.h>
 #include <debug.h>
 #include <errno.h>
