@@ -59,9 +59,7 @@ Aaand...That's it. All other dependencies are automatically fetched within
     * [`clang`](http://clang.llvm.org) for providing modern [C](http://clang.llvm.org/docs/BlockLanguageSpec.html) and [Objective-C](http://clang.llvm.org/docs/AutomaticReferenceCounting.html) magic
     * [`gnustep-libobjc2`](http://GNUstep.org) continuing the magic [at runtime](https://github.com/jackoalan/gnustep-libobjc2#readme)
     * [`gnustep-base`](http://GNUstep.org) providing a default *Foundation.framework* implementation
-    * `libffi`
     * `compiler-rt`
-    * `gnustep-make`
 * Via **wsinstall**:
     * [`devkitPPC`](http://devkitpro.org) GCC-forked toolchain for performing final .ELF link
     * [`libogc`](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers ([also in app](http://libogc.devkitpro.org/api_doc.html))
