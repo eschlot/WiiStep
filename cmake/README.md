@@ -109,7 +109,7 @@ into an external CMake project. CMake maintains a user package registry at `~/.c
 Simply by building WiiStep (no install necessary), `find_package` may be invoked
 and the external project will use the built WiiStep files in-place.
 
-An example project's `CMakeLists.txt` may look like the following:
+An example project's root `CMakeLists.txt` may look like the following:
 
 ```cmake
 cmake_minimum_required(VERSION 2.8)
@@ -119,7 +119,7 @@ find_package(WiiStep REQUIRED)
 
 # Create targets and what-not down here. For example:
 
-# A subdirectory containing the app's UI code (for instance)
+# A subdirectory named `AwesomeUI` containing the app's UI code (for instance)
 # The `CMakeLists.txt` in the directory defines the `awesome-ui` target using `add_wii_library`
 add_subdirectory(AwesomeUI)
 
