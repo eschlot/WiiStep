@@ -224,9 +224,9 @@ include_directories([AFTER|BEFORE] dir1 dir2 ...)
 Xcode users
 may be familiar with the *project headers* section of the *Copy Headers*
 build phase. `include_directories` is CMake's equivalent of it, and behaves
-roughly the same way. It ultimately allows `#include "someheader.h"` directives 
-to reference header files in a project-wide manner, without concern of directory 
-traversal.
+roughly the same way (although selected by directory and not individual headers). 
+It ultimately allows `#include "someheader.h"` directives to reference header 
+files in a project-wide manner, without concern of directory traversal.
 
 ### [link_directories](http://www.cmake.org/cmake/help/v2.8.10/cmake.html#command:link_directories)
 
