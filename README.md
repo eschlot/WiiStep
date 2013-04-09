@@ -11,7 +11,7 @@ Development Environment**.
 The environment is suitable for authoring Objective-C sources against
 familiar Framework-APIs for intended execution on the Wii. Produces 
 fully-linked ELF/DOL executables, loadable by nearly all 
-[homebrew methods](wiibrew.org).
+[homebrew methods](http://wiibrew.org).
 
 
 ### Modern Objective-C Awesomeness
