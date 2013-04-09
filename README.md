@@ -9,7 +9,7 @@ form a *Foundation Framework based* (non-GUI), modern **Objective-C
 Development Environment**. 
 
 The environment is suitable for authoring Objective-C sources against
-familiar Framework-APIs for intended execution on the Wii. Produces 
+familiar Framework-APIs for intended execution on the Wii. It produces 
 fully-linked ELF/DOL executables, loadable by nearly all 
 [homebrew methods](http://wiibrew.org).
 
