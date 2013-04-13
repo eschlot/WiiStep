@@ -138,9 +138,18 @@ add_library(objc-wii-asm STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran d
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
 
 
+# Debug symbols inclusion flag
+
+if(CMAKE_BUILD_TYPE STREQUAL Release)
+  set(CLANG_DBG_FLAG "")
+else()
+  set(CLANG_DBG_FLAG -g)
+endif()
+
+
 # Compiler rules
 
-set(CMAKE_CXX_COMPILE_OBJECT "${CLANG_DIR}/clang -E -emit-llvm -c <FLAGS> -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch -o <OBJECT>.c <SOURCE> && ${CLANG_DIR}/clang -emit-llvm -c <FLAGS> -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch -o <OBJECT> <SOURCE>")
+set(CMAKE_CXX_COMPILE_OBJECT "${CLANG_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -c <FLAGS> -include ${CMAKE_SOURCE_DIR}/wii-prefix.pch -o <OBJECT> <SOURCE>")
 
 set(CMAKE_C_COMPILE_OBJECT ${CMAKE_CXX_COMPILE_OBJECT})
 
@@ -151,7 +160,9 @@ set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc
 
 set(CMAKE_CXX_CREATE_STATIC_LIBRARY 
   "${LLVM_DIR}/llvm-link -o <TARGET> <OBJECTS>"
-  "${LLVM_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET>.S <TARGET>")
+  "${LLVM_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET>.S <TARGET>"
+  "${DEVKITPPC_DIR}/bin/powerpc-eabi-as -o <TARGET>-asm.o -m750cl <TARGET>.S"
+  "${DEVKITPPC_DIR}/bin/powerpc-eabi-objcopy --remove-section=.debug_info <TARGET>-asm.o <TARGET>-asm-dbstrip.o")
 
 set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-ar rs <TARGET> <OBJECTS>")
 
