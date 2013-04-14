@@ -218,8 +218,12 @@ export(PACKAGE WiiStep)
 add_subdirectory(gnustep-base)
 
 
+# WSClasses library
+add_subdirectory(WSClasses)
+
+
 # Export target list (for benefit of both build-set and external projects)
-export(TARGETS objc-wii objc-wii-asm foundation-wii FILE ${PROJECT_BINARY_DIR}/WiiStepTargets.cmake)
+export(TARGETS objc-wii objc-wii-asm foundation-wii wsclasses-wii FILE ${PROJECT_BINARY_DIR}/WiiStepTargets.cmake)
 
 
 
@@ -232,7 +236,8 @@ list(APPEND CONF_WS_PPC_INCLUDE_DIRS
   ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/include
   ${PROJECT_BINARY_DIR}/libogc/include
   ${PROJECT_SOURCE_DIR}/gnustep-libobjc2
-  ${PROJECT_SOURCE_DIR}/gnustep-base/Headers)
+  ${PROJECT_SOURCE_DIR}/gnustep-base/Headers
+  ${PROJECT_SOURCE_DIR}/WSClasses)
 list(APPEND CONF_WS_PPC_LIB_DIRS
   ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/lib
   ${PROJECT_BINARY_DIR}/libogc/lib/wii)

@@ -11,6 +11,8 @@
 		E44E9A2216E53CEF00C08E1F /* MultiLineMessageWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2116E53CEF00C08E1F /* MultiLineMessageWindow.m */; };
 		E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2416E54CF600C08E1F /* WSInstall.m */; };
 		E44E9A2916E5A00F00C08E1F /* DirPromptWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */; };
+		E45BA1A9171B572000D2C34F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
+		E45BA1B4171B576800D2C34F /* WSPlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = E45BA1A2171B56D200D2C34F /* WSPlatform.m */; };
 		E490467A16ED3BB4000D49C8 /* NeededDependenciesReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E490467916ED3BB3000D49C8 /* NeededDependenciesReportWindow.m */; };
 		E4AD2A3C16E30C4300419AFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
 		E4AD2A4B16E316B800419AFC /* SFDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4916E30C9600419AFC /* SFDownloader.m */; };
@@ -22,33 +24,18 @@
 		E4AD2B6A16E4368F00419AFC /* ProgressWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6916E4368F00419AFC /* ProgressWindow.m */; };
 		E4AD2B6B16E4386300419AFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A3E16E30C4400419AFC /* main.m */; };
 		E4B9708116E6D05000A8F1DF /* libedit.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B9707F16E6CD4700A8F1DF /* libedit.dylib */; };
-		E4C1868116DE7EC200B78A3B /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C1868016DE7EC200B78A3B /* test.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildRule section */
-		E4C1867A16DE73C500B78A3B /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			fileType = sourcecode.c;
-			isEditable = 1;
-			outputFiles = (
-				"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.o",
-			);
-			script = "$WS_MACPORTS_DIR/bin/clang-mp-$WS_LLVM_VER -c $WS_CLANG_FLAGS -emit-llvm -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.bc\" \"$INPUT_FILE_PATH\"\necho \"$WS_MACPORTS_DIR/bin/clang-mp-$WS_LLVM_VER -c $WS_CLANG_FLAGS -emit-llvm -o \\\"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.bc\\\" \\\"$INPUT_FILE_PATH\\\"\"\n$WS_MACPORTS_DIR/bin/llc-mp-$WS_LLVM_VER -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -filetype=asm -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.s\" \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.bc\"\n$WS_DEVKITPPC_DIR/bin/powerpc-eabi-as -m750cl -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.o\" \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.s\"";
-		};
-		E4C1867C16DE743300B78A3B /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			fileType = "compiled.mach-o.objfile";
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILE_DIR)/CompiledObjectList",
-			);
-			script = "echo \"$INPUT_FILE_PATH \" >> \"$DERIVED_FILE_DIR/CompiledObjectList\"";
-		};
-/* End PBXBuildRule section */
-
 /* Begin PBXCopyFilesBuildPhase section */
+		E45BA1A6171B572000D2C34F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		E4AD2A3716E30C4300419AFC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,9 +59,15 @@
 		E44E9A2616E54D1F00C08E1F /* EventCapturer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventCapturer.h; sourceTree = "<group>"; };
 		E44E9A2716E5A00E00C08E1F /* DirPromptWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirPromptWindow.h; sourceTree = "<group>"; };
 		E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirPromptWindow.m; sourceTree = "<group>"; };
+		E45BA1A1171B56D200D2C34F /* WSPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSPlatform.h; sourceTree = "<group>"; };
+		E45BA1A2171B56D200D2C34F /* WSPlatform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSPlatform.m; sourceTree = "<group>"; };
+		E45BA1A8171B572000D2C34F /* FAKE-TARGET */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "FAKE-TARGET"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E45BA1B5171B5BEA00D2C34F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		E45BA1B6171B5BF100D2C34F /* wiilight.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wiilight.c; sourceTree = "<group>"; };
+		E45BA1B7171B5BF100D2C34F /* wiilight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wiilight.h; sourceTree = "<group>"; };
+		E45BA1B9171B620500D2C34F /* WiiStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WiiStep.h; sourceTree = "<group>"; };
 		E490467816ED3BB3000D49C8 /* NeededDependenciesReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeededDependenciesReportWindow.h; sourceTree = "<group>"; };
 		E490467916ED3BB3000D49C8 /* NeededDependenciesReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeededDependenciesReportWindow.m; sourceTree = "<group>"; };
-		E4AD2A3116E15CA300419AFC /* test.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = test.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3916E30C4300419AFC /* wsinstall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wsinstall; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4AD2A3B16E30C4300419AFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E4AD2A3E16E30C4400419AFC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -96,18 +89,14 @@
 		E4AD2B6C16E4457800419AFC /* ScreenDrawable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScreenDrawable.h; sourceTree = "<group>"; };
 		E4AD2B7316E4707500419AFC /* libform.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libform.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libform.dylib; sourceTree = DEVELOPER_DIR; };
 		E4B9707F16E6CD4700A8F1DF /* libedit.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libedit.dylib; sourceTree = DEVELOPER_DIR; };
-		E4C1864416DE726E00B78A3B /* WiiStepSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WiiStepSDK.h; sourceTree = "<group>"; };
-		E4C1867E16DE759C00B78A3B /* WiiStepOGC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WiiStepOGC.h; sourceTree = "<group>"; };
-		E4C1868016DE7EC200B78A3B /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
-		E4DB866F16DEA84C0084FB71 /* WiiStepSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = WiiStepSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E4DB867016DEA84C0084FB71 /* WiiStepOGC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = WiiStepOGC.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E4AD2A2E16E15CA300419AFC /* Frameworks */ = {
+		E45BA1A5171B572000D2C34F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E45BA1A9171B572000D2C34F /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,13 +111,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E4C1867316DE737400B78A3B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -139,6 +121,19 @@
 				E44E9A1E16E51D5F00C08E1F /* MultiLineWrapper.m */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E45BA1A0171B56B000D2C34F /* WSClasses */ = {
+			isa = PBXGroup;
+			children = (
+				E45BA1B5171B5BEA00D2C34F /* CMakeLists.txt */,
+				E45BA1B9171B620500D2C34F /* WiiStep.h */,
+				E45BA1B7171B5BF100D2C34F /* wiilight.h */,
+				E45BA1B6171B5BF100D2C34F /* wiilight.c */,
+				E45BA1A1171B56D200D2C34F /* WSPlatform.h */,
+				E45BA1A2171B56D200D2C34F /* WSPlatform.m */,
+			);
+			path = WSClasses;
 			sourceTree = "<group>";
 		};
 		E4AD2A3A16E30C4300419AFC /* Frameworks */ = {
@@ -214,62 +209,33 @@
 		E4B76F9F16C809B200D38CB1 = {
 			isa = PBXGroup;
 			children = (
-				E4C1868016DE7EC200B78A3B /* test.m */,
-				E4C1864416DE726E00B78A3B /* WiiStepSDK.h */,
-				E4C1867E16DE759C00B78A3B /* WiiStepOGC.h */,
-				E4DB866F16DEA84C0084FB71 /* WiiStepSDK.a */,
-				E4DB867016DEA84C0084FB71 /* WiiStepOGC.a */,
-				E4AD2A3116E15CA300419AFC /* test.dylib */,
-				E4AD2A3916E30C4300419AFC /* wsinstall */,
+				E45BA1A0171B56B000D2C34F /* WSClasses */,
 				E4AD2A3D16E30C4300419AFC /* wsinstall */,
 				E4AD2A3A16E30C4300419AFC /* Frameworks */,
+				E4AD2A3916E30C4300419AFC /* wsinstall */,
+				E45BA1A8171B572000D2C34F /* FAKE-TARGET */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		E4AD2A2F16E15CA300419AFC /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E4C1866C16DE736800B78A3B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E4C1867416DE737400B78A3B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		E4AD2A3016E15CA300419AFC /* test */ = {
+		E45BA1A7171B572000D2C34F /* FAKE-TARGET */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4AD2A3216E15CA300419AFC /* Build configuration list for PBXNativeTarget "test" */;
+			buildConfigurationList = E45BA1B1171B572000D2C34F /* Build configuration list for PBXNativeTarget "FAKE-TARGET" */;
 			buildPhases = (
-				E4AD2A2C16E15CA300419AFC /* ShellScript */,
-				E4AD2A2D16E15CA300419AFC /* Sources */,
-				E4AD2A2E16E15CA300419AFC /* Frameworks */,
-				E4AD2A2F16E15CA300419AFC /* Headers */,
+				E45BA1A4171B572000D2C34F /* Sources */,
+				E45BA1A5171B572000D2C34F /* Frameworks */,
+				E45BA1A6171B572000D2C34F /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = test;
-			productName = test;
-			productReference = E4AD2A3116E15CA300419AFC /* test.dylib */;
-			productType = "com.apple.product-type.library.dynamic";
+			name = "FAKE-TARGET";
+			productName = "FAKE-TARGET";
+			productReference = E45BA1A8171B572000D2C34F /* FAKE-TARGET */;
+			productType = "com.apple.product-type.tool";
 		};
 		E4AD2A3816E30C4300419AFC /* wsinstall */ = {
 			isa = PBXNativeTarget;
@@ -287,43 +253,6 @@
 			productName = wsinstall;
 			productReference = E4AD2A3916E30C4300419AFC /* wsinstall */;
 			productType = "com.apple.product-type.tool";
-		};
-		E4C1866D16DE736800B78A3B /* WiiStepSDK */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E4C1866F16DE736800B78A3B /* Build configuration list for PBXNativeTarget "WiiStepSDK" */;
-			buildPhases = (
-				E4C1867D16DE747400B78A3B /* Prepare Build */,
-				E4C1866A16DE736800B78A3B /* Sources */,
-				E4C1866C16DE736800B78A3B /* Headers */,
-				E4C1867F16DE77F300B78A3B /* Make Archive */,
-			);
-			buildRules = (
-				E4C1867C16DE743300B78A3B /* PBXBuildRule */,
-				E4C1867A16DE73C500B78A3B /* PBXBuildRule */,
-			);
-			dependencies = (
-			);
-			name = WiiStepSDK;
-			productName = WiiStepSDK;
-			productReference = E4DB866F16DEA84C0084FB71 /* WiiStepSDK.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		E4C1867516DE737400B78A3B /* WiiStepOGC */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E4C1867716DE737400B78A3B /* Build configuration list for PBXNativeTarget "WiiStepOGC" */;
-			buildPhases = (
-				E4C1867216DE737400B78A3B /* Sources */,
-				E4C1867316DE737400B78A3B /* Frameworks */,
-				E4C1867416DE737400B78A3B /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = WiiStepOGC;
-			productName = WiiStepOGC;
-			productReference = E4DB867016DEA84C0084FB71 /* WiiStepOGC.a */;
-			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -345,66 +274,18 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E4C1866D16DE736800B78A3B /* WiiStepSDK */,
-				E4C1867516DE737400B78A3B /* WiiStepOGC */,
-				E4AD2A3016E15CA300419AFC /* test */,
 				E4AD2A3816E30C4300419AFC /* wsinstall */,
+				E45BA1A7171B572000D2C34F /* FAKE-TARGET */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		E4AD2A2C16E15CA300419AFC /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# WiiStep Build Environment Bootstrap\n\n# This is an Xcode project-template script to facilitate bootstrapping of an alternate build script set using Xcode's provided environment variables.\n# By performing an initial build in Xcode, this script will be executed and automatically replaced with the appropriate rules and phases for compiling and linking source files into a Wii-compatible executable.\n# This script will additionally initialise default environment variables to resolve a WiiStep installation (which composes a Wii-optomised Clang, LLVM, GNUStep-base (and libobjc2), devkitPPC and libogc (or RVL_SDK)).\n# The script will fail and advise user if any necessary software components cannot be resolved.\n\n";
-		};
-		E4C1867D16DE747400B78A3B /* Prepare Build */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Prepare Build";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/CompiledObjectList",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$DERIVED_FILE_DIR\"\necho \"\" > \"$DERIVED_FILE_DIR/CompiledObjectList\"";
-		};
-		E4C1867F16DE77F300B78A3B /* Make Archive */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(DERIVED_FILE_DIR)/CompiledObjectList",
-			);
-			name = "Make Archive";
-			outputPaths = (
-				"$(CODESIGNING_FOLDER_PATH)",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "$WS_DEVKITPPC_DIR/bin/powerpc-eabi-ar rs \"$CODESIGNING_FOLDER_PATH\" `cat \"$DERIVED_FILE_DIR/CompiledObjectList\"`";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		E4AD2A2D16E15CA300419AFC /* Sources */ = {
+		E45BA1A4171B572000D2C34F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E45BA1B4171B576800D2C34F /* WSPlatform.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,25 +307,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E4C1866A16DE736800B78A3B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E4C1868116DE7EC200B78A3B /* test.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E4C1867216DE737400B78A3B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		E4AD2A3316E15CA300419AFC /* Debug */ = {
+		E45BA1B2171B572000D2C34F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -462,6 +328,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -475,14 +342,10 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				WS_CLANG_FLAGS = "-I$WS_DEVKITPPC_DIR/powerpc-eabi/include -fobjc-arc";
-				WS_DEVKITPPC_DIR = devkitPPC;
-				WS_LLVM_VER = 3.3;
-				WS_MACPORTS_DIR = /opt/local;
 			};
 			name = Debug;
 		};
-		E4AD2A3416E15CA300419AFC /* Release */ = {
+		E45BA1B3171B572000D2C34F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -499,6 +362,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -506,10 +370,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				WS_CLANG_FLAGS = "-I$WS_DEVKITPPC_DIR/powerpc-eabi/include -fobjc-arc";
-				WS_DEVKITPPC_DIR = devkitPPC;
-				WS_LLVM_VER = 3.3;
-				WS_MACPORTS_DIR = /opt/local;
 			};
 			name = Release;
 		};
@@ -608,139 +468,16 @@
 			};
 			name = Release;
 		};
-		E4C1867016DE736800B78A3B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		E4C1867116DE736800B78A3B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		E4C1867816DE737400B78A3B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		E4C1867916DE737400B78A3B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4AD2A3216E15CA300419AFC /* Build configuration list for PBXNativeTarget "test" */ = {
+		E45BA1B1171B572000D2C34F /* Build configuration list for PBXNativeTarget "FAKE-TARGET" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E4AD2A3316E15CA300419AFC /* Debug */,
-				E4AD2A3416E15CA300419AFC /* Release */,
+				E45BA1B2171B572000D2C34F /* Debug */,
+				E45BA1B3171B572000D2C34F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		E4AD2A4416E30C4400419AFC /* Build configuration list for PBXNativeTarget "wsinstall" */ = {
 			isa = XCConfigurationList;
@@ -756,24 +493,6 @@
 			buildConfigurations = (
 				E4B76FA416C809B200D38CB1 /* Debug */,
 				E4B76FA516C809B200D38CB1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E4C1866F16DE736800B78A3B /* Build configuration list for PBXNativeTarget "WiiStepSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E4C1867016DE736800B78A3B /* Debug */,
-				E4C1867116DE736800B78A3B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E4C1867716DE737400B78A3B /* Build configuration list for PBXNativeTarget "WiiStepOGC" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E4C1867816DE737400B78A3B /* Debug */,
-				E4C1867916DE737400B78A3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
