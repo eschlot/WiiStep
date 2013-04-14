@@ -182,6 +182,7 @@ add_definitions(
   -D NO_PTHREADS
   -D __TOY_DISPATCH__
   -D NO_LEGACY
+  -D WS_LIBOBJC_INTERNAL=1
   -fno-builtin
   -Wno-deprecated-objc-isa-usage
   -Wno-objc-root-class

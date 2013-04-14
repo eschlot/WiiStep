@@ -1,4 +1,8 @@
 
+/* This file contains Wii-specific implementations of various
+ * POSIX, GCC, and platform-init routines. It also contains the 
+ * main entry point branching to GNUstep's entry point */
+
 #include <ogcsys.h>
 #include <network.h>
 #include <errno.h>
@@ -81,32 +85,6 @@ wii_init ()
   
 }
 
-/* devkitPPC's toolchain doesn't properly emit code
- * running all CTORS from low-mem to high-mem (as clang's
- * emitted objc runtime load routines are laid out).
- * Therefore, this behaves as an alternate entry method. */
-//#include <stdint.h>
-//extern int wiistep_main(int argc, char *argv[]);
-//extern void(*__CTOR_END__)(void);
-int main(int argc, char** argv) {
-  //wii_init();
-  /*
-  const void* CTOR = (&__CTOR_END__)-1;
-  while (*(const uint32_t*)CTOR != 0xffffffff)
-    CTOR -= 4;
-  CTOR += 4;
-  while (CTOR != (&__CTOR_END__)) {
-    void(*CTOR_FPTR)(void) = ((void(*)(void))(*(const uint32_t*)CTOR));
-    printf("Branching to %p\n", CTOR_FPTR);sleep(1);
-    CTOR_FPTR();
-    CTOR += 4;
-  }
-   */
-  printf("Now doing main\n");sleep(1);
-  setenv("GNUSTEP_STACK_TRACE", "1", 1);
-  return wiistep_main(argc, argv);
-}
-
 
 #include <stdio.h>
 
@@ -182,3 +160,39 @@ int backtrace(void** array, int size) {
   
   return i;
 }
+
+#pragma mark Post-Constructor main
+
+/* This is our post-constructor `main` function.
+ * By this point, all Objective-C classes are loaded
+ * and their `+load` method implementations have been executed
+ * via constructor functions (like `wii_init` above).
+ * 
+ * This is a good place to set environment variables with `setenv`
+ * before GNUstep initialises. 
+ *
+ * The `wiistep_main` function is the actual GNUstep entry
+ * point. It will set up an initial autorelease pool and 
+ * `NSProcessInfo` state. It will then branch to the user-code's
+ * `main` function (which the preprocessor renamed to 
+ * `gnustep_base_user_main` by `#include <Foundation/Foundation.h>`)
+ */
+
+int wiistep_main() __attribute__((weak));
+int wiistep_main(int argc, char** argv, char** env) {
+  printf("--- WIISTEP WARNING ---\n"
+	 "This app didn't declare a `main` function or included\n"
+	 "<Foundation/Foundation.h> without linking `foundation-wii`.\n"
+	 "\n"
+	 "Will exit in 10 seconds\n");
+  sleep(10);
+  return -1;
+}
+int main() __attribute__((weak));
+int main(int argc, char** argv) {
+  if (0 != wiistep_main) {
+    setenv("GNUSTEP_STACK_TRACE", "1", 1);
+    return wiistep_main(argc, argv, NULL);
+  }
+}
+

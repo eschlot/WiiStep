@@ -26,9 +26,6 @@ typedef int32_t wint_t;
 #define HAVE_BACKTRACE 1
 extern int backtrace(void** array, int size);
 
-// Override main
-#define main wiistep_main
-
 
 #endif
 
