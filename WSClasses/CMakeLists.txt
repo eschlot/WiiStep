@@ -22,7 +22,7 @@ set(WS_PPC_SUPPORT_C "-I${WiiStep_BINARY_DIR}/libogc/include ${WiiStep_SOURCE_DI
 include(${WiiStep_SOURCE_DIR}/cmake/WiiStepProjectMacros.cmake)
 
 # Include Headers
-include_directories(WiiStep)
+include_directories(.)
 
 # WSClasses Target
 add_wii_library(wsclasses-wii WSPlatform.m wiilight.c)

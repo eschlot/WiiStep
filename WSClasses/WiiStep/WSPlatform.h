@@ -14,6 +14,9 @@
  * NOT THREAD SAFE!! */
 
 @interface WSPlatform : NSObject
++ (void)initialize; // Called automatically
+
+#pragma mark Disc Slot LED
 
 /* Disc slot blue LED control */
 + (void)setDiscLEDEnabled:(BOOL)enabled;

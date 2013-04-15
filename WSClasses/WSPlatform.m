@@ -7,7 +7,7 @@
 //
 
 #import <WiiStep/WSPlatform.h>
-#import "wiilight.h"
+#import <WiiStep/wiilight.h>
 
 @implementation WSPlatform
 
