@@ -9,6 +9,6 @@
 #ifndef WiiStep_WiiStep_h
 #define WiiStep_WiiStep_h
 
-#import "WSPlatform.h"
+#import <WiiStep/WSPlatform.h>
 
 #endif

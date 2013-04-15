@@ -1,6 +1,11 @@
+/* Source file for wiilight library.
+ * Derived from `wiilight` demo created by `bool` <http://bool.rawrstudios.com>
+ * Repackaged for WiiStep */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ogcsys.h>
+#include <WiiStep/wiilight.h>
 
 struct timespec _wiilight_timeOn;
 struct timespec _wiilight_timeOff;

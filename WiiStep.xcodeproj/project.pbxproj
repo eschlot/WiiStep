@@ -12,7 +12,6 @@
 		E44E9A2516E54CF600C08E1F /* WSInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2416E54CF600C08E1F /* WSInstall.m */; };
 		E44E9A2916E5A00F00C08E1F /* DirPromptWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */; };
 		E45BA1A9171B572000D2C34F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
-		E45BA1B4171B576800D2C34F /* WSPlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = E45BA1A2171B56D200D2C34F /* WSPlatform.m */; };
 		E490467A16ED3BB4000D49C8 /* NeededDependenciesReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E490467916ED3BB3000D49C8 /* NeededDependenciesReportWindow.m */; };
 		E4AD2A3C16E30C4300419AFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AD2A3B16E30C4300419AFC /* Foundation.framework */; };
 		E4AD2A4B16E316B800419AFC /* SFDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A4916E30C9600419AFC /* SFDownloader.m */; };
@@ -23,6 +22,8 @@
 		E4AD2B6716E4363800419AFC /* FooterWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6616E4363800419AFC /* FooterWindow.m */; };
 		E4AD2B6A16E4368F00419AFC /* ProgressWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2B6916E4368F00419AFC /* ProgressWindow.m */; };
 		E4AD2B6B16E4386300419AFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E4AD2A3E16E30C4400419AFC /* main.m */; };
+		E4AFAE1A171C5D1400F7A0BF /* WSPlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = E45BA1A2171B56D200D2C34F /* WSPlatform.m */; };
+		E4AFAE1B171C5DAD00F7A0BF /* wiilight.c in Sources */ = {isa = PBXBuildFile; fileRef = E45BA1B6171B5BF100D2C34F /* wiilight.c */; };
 		E4B9708116E6D05000A8F1DF /* libedit.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B9707F16E6CD4700A8F1DF /* libedit.dylib */; };
 /* End PBXBuildFile section */
 
@@ -59,13 +60,10 @@
 		E44E9A2616E54D1F00C08E1F /* EventCapturer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventCapturer.h; sourceTree = "<group>"; };
 		E44E9A2716E5A00E00C08E1F /* DirPromptWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirPromptWindow.h; sourceTree = "<group>"; };
 		E44E9A2816E5A00F00C08E1F /* DirPromptWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirPromptWindow.m; sourceTree = "<group>"; };
-		E45BA1A1171B56D200D2C34F /* WSPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSPlatform.h; sourceTree = "<group>"; };
-		E45BA1A2171B56D200D2C34F /* WSPlatform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSPlatform.m; sourceTree = "<group>"; };
+		E45BA1A2171B56D200D2C34F /* WSPlatform.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = WSPlatform.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		E45BA1A8171B572000D2C34F /* FAKE-TARGET */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "FAKE-TARGET"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45BA1B5171B5BEA00D2C34F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		E45BA1B6171B5BF100D2C34F /* wiilight.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wiilight.c; sourceTree = "<group>"; };
-		E45BA1B7171B5BF100D2C34F /* wiilight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wiilight.h; sourceTree = "<group>"; };
-		E45BA1B9171B620500D2C34F /* WiiStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WiiStep.h; sourceTree = "<group>"; };
 		E490467816ED3BB3000D49C8 /* NeededDependenciesReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeededDependenciesReportWindow.h; sourceTree = "<group>"; };
 		E490467916ED3BB3000D49C8 /* NeededDependenciesReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NeededDependenciesReportWindow.m; sourceTree = "<group>"; };
 		E4AD2A3916E30C4300419AFC /* wsinstall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wsinstall; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +86,9 @@
 		E4AD2B6916E4368F00419AFC /* ProgressWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressWindow.m; sourceTree = "<group>"; };
 		E4AD2B6C16E4457800419AFC /* ScreenDrawable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScreenDrawable.h; sourceTree = "<group>"; };
 		E4AD2B7316E4707500419AFC /* libform.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libform.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libform.dylib; sourceTree = DEVELOPER_DIR; };
+		E4AFAE17171C5B5800F7A0BF /* wiilight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wiilight.h; path = WiiStep/wiilight.h; sourceTree = "<group>"; };
+		E4AFAE18171C5B5800F7A0BF /* WiiStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WiiStep.h; path = WiiStep/WiiStep.h; sourceTree = "<group>"; };
+		E4AFAE19171C5B5800F7A0BF /* WSPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WSPlatform.h; path = WiiStep/WSPlatform.h; sourceTree = "<group>"; };
 		E4B9707F16E6CD4700A8F1DF /* libedit.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libedit.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libedit.dylib; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -127,11 +128,11 @@
 			isa = PBXGroup;
 			children = (
 				E45BA1B5171B5BEA00D2C34F /* CMakeLists.txt */,
-				E45BA1B9171B620500D2C34F /* WiiStep.h */,
-				E45BA1B7171B5BF100D2C34F /* wiilight.h */,
-				E45BA1B6171B5BF100D2C34F /* wiilight.c */,
-				E45BA1A1171B56D200D2C34F /* WSPlatform.h */,
+				E4AFAE18171C5B5800F7A0BF /* WiiStep.h */,
+				E4AFAE19171C5B5800F7A0BF /* WSPlatform.h */,
 				E45BA1A2171B56D200D2C34F /* WSPlatform.m */,
+				E4AFAE17171C5B5800F7A0BF /* wiilight.h */,
+				E45BA1B6171B5BF100D2C34F /* wiilight.c */,
 			);
 			path = WSClasses;
 			sourceTree = "<group>";
@@ -285,7 +286,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E45BA1B4171B576800D2C34F /* WSPlatform.m in Sources */,
+				E4AFAE1A171C5D1400F7A0BF /* WSPlatform.m in Sources */,
+				E4AFAE1B171C5DAD00F7A0BF /* wiilight.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,10 +340,16 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					WSClasses,
+					"${WS_CMAKE_BUILD_DIR}/libogc/include",
+					"${WS_CMAKE_BUILD_DIR}/devkitPPC/powerpc-eabi/include",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				WS_CMAKE_BUILD_DIR = build;
 			};
 			name = Debug;
 		};
@@ -367,9 +375,15 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					WSClasses,
+					"${WS_CMAKE_BUILD_DIR}/libogc/include",
+					"${WS_CMAKE_BUILD_DIR}/devkitPPC/powerpc-eabi/include",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				WS_CMAKE_BUILD_DIR = build;
 			};
 			name = Release;
 		};
@@ -478,6 +492,7 @@
 				E45BA1B3171B572000D2C34F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4AD2A4416E30C4400419AFC /* Build configuration list for PBXNativeTarget "wsinstall" */ = {
 			isa = XCConfigurationList;
