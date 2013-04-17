@@ -20,5 +20,9 @@ set(WS_PPC_OBJC_ELF "@CONF_WS_PPC_OBJC_ELF@")
 set(WS_PPC_PCH "@CONF_WS_PPC_PCH@")
 set(WS_PPC_SUPPORT_C "@CONF_WS_PPC_SUPPORT_C@")
 
+# Defs of type of platform we've compiled WiiStep for (SDK or OGC)
+set(WS_PLATFORM_DEFS "@CONF_WS_PLATFORM_DEFS@")
+
 # Include WiiStep CMake macros
 include("@CONF_WS_MACROS_FILE@")
+

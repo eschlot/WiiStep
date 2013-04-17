@@ -10,6 +10,10 @@ else()
 endif()
 
 
+# Which HW-abstraction platforms are available
+add_definitions(${WS_PLATFORM_DEFS})
+
+
 # Compiler rules
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")

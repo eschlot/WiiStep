@@ -189,12 +189,12 @@ add_definitions(
   -Wno-deprecated-declarations)
 
 if(WIISTEP_PLATFORM STREQUAL "RVL_SDK")
-  add_definitions( -D WIISTEP_RVL_SDK=1 -D WIISTEP_LIBOGC=0)
+  set(CONF_WS_PLATFORM_DEFS " -D WIISTEP_RVL_SDK=1 -D WIISTEP_LIBOGC=0")
 elseif (WIISTEP_PLATFORM STREQUAL "libogc")
-  add_definitions( -D WIISTEP_RVL_SDK=0 -D WIISTEP_LIBOGC=1)
+  set(CONF_WS_PLATFORM_DEFS " -D WIISTEP_RVL_SDK=0 -D WIISTEP_LIBOGC=1")
 endif()
 
-
+add_definitions(${CONF_WS_PLATFORM_DEFS})
 
 
 # Install targets
