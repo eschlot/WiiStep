@@ -57,7 +57,6 @@ endforeach(obj)
 # Executable link rule
 
 macro(ws_set_link_rule name)
-  message("Link rule ${name} - ${ARGN}")
 
   if(CMAKE_BUILD_TYPE STREQUAL "Release")
 
