@@ -19,14 +19,14 @@ add_definitions(${WS_PLATFORM_DEFS})
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
 set(CMAKE_CXX_FLAGS "${CMAKE_OBJC_FLAGS} ${CMAKE_C_FLAGS} -fobjc-runtime=gnustep-1.7 -fobjc-exceptions")
 
-set(CMAKE_C_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -target powerpc-generic-eabi -c <FLAGS> -include ${WS_PPC_PCH} -o <OBJECT> <SOURCE>")
+set(CMAKE_C_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -target powerpc-generic-eabi -c -include ${WS_PPC_PCH} <FLAGS> <DEFINES>  -o <OBJECT> <SOURCE>")
 
-set(CMAKE_CXX_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -target powerpc-generic-eabi -c <FLAGS> -include ${WS_PPC_PCH} -o <OBJECT> <SOURCE>")
+set(CMAKE_CXX_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -target powerpc-generic-eabi -c -include ${WS_PPC_PCH} <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
 
 
 # Linker rules
 
-set(CMAKE_CXX_CREATE_STATIC_LIBRARY 
+set(CMAKE_CXX_CREATE_STATIC_LIBRARY
   "${WS_LLVM_BIN_DIR}/llvm-link -o <TARGET> <OBJECTS>"
   "${WS_LLVM_BIN_DIR}/llc -filetype=asm -asm-verbose -mtriple=powerpc-generic-eabi -mcpu=750 -float-abi=hard -relocation-model=static -o <TARGET>.S <TARGET>"
   "${WS_DKPPC_BIN_DIR}/powerpc-eabi-as -o <TARGET>-asm.o -m750cl <TARGET>.S"
@@ -56,7 +56,8 @@ endforeach(obj)
 
 # Executable link rule
 
-macro(ws_set_link_rule)
+macro(ws_set_link_rule name)
+  message("Link rule ${name} - ${ARGN}")
 
   if(CMAKE_BUILD_TYPE STREQUAL "Release")
 
@@ -87,10 +88,12 @@ macro(ws_set_link_rule)
       "${WS_DKPPC_BIN_DIR}/powerpc-eabi-objcopy --remove-section=.debug_info <TARGET_BASE>-asm.o <TARGET_BASE>-asm-dbstrip.o"
       "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -o <TARGET> -mrvl -mhard-float -meabi -DGEKKO=1 -Wa,-m750cl <TARGET_BASE>-asm-dbstrip.o ${TARGET_LLVM_OBJECTS} <LINK_LIBRARIES> ${WS_PPC_INCLUDE_STR} ${WS_PPC_SUPPORT_C}"
       "${WS_DKPPC_BIN_DIR}/elf2dol <TARGET> <TARGET_BASE>.dol")
-
+      
   endif()  
 
   set(CMAKE_C_LINK_EXECUTABLE ${CMAKE_CXX_LINK_EXECUTABLE})
+  
+
 
 endmacro(ws_set_link_rule)
 
@@ -117,8 +120,11 @@ macro(target_link_wii_llvm_libraries name)
   foreach(link ${ARGN})
     get_target_property(link_loc ${link} LOCATION)
     list(APPEND ${name}_LLVM_OBJECTS ${link_loc})
+    list(APPEND ${name}_LLVM_OBJECTS ${${link}_LLVM_OBJECTS})
   endforeach(link)
-  ws_set_link_rule(${${name}_LLVM_OBJECTS})
+  list(REMOVE_DUPLICATES ${name}_LLVM_OBJECTS)
+  set(${name}_LLVM_OBJECTS ${${name}_LLVM_OBJECTS} CACHE INTERNAL "" FORCE)
+  ws_set_link_rule(${name} ${${name}_LLVM_OBJECTS})
   add_dependencies(${name} ${ARGN})
 endmacro(target_link_wii_llvm_libraries)
 
@@ -140,7 +146,7 @@ endmacro(add_wii_library)
 macro(add_wii_executable name)
   add_executable(${name} ${ARGN})
   target_link_wii_llvm_libraries(${name} objc-wii)  
-  target_link_wii_dkppc_libraries(${name} ogc objc-wii-asm m)
+  target_link_wii_dkppc_libraries(${name} fat ogc objc-wii-asm m)
   set_target_properties(${name} PROPERTIES SUFFIX .elf)
 endmacro(add_wii_executable)
 

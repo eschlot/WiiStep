@@ -23,10 +23,12 @@
     // `nil` if not found or not needed
     SFHash* dkPPCHash;
     SFHash* libogcHash;
+    SFHash* libfatHash;
     
     // Downloaders
     SFDownloader* dkPPCDownloader;
     SFDownloader* libogcDownloader;
+    SFDownloader* libfatDownloader;
     
     // RVL_SDK support (`nil` if not using)
     NSString* rvlSDKLocation;
@@ -79,6 +81,11 @@
     NSString* libogcPath = [dir stringByAppendingPathComponent:@"libogc"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:libogcPath isDirectory:&isDir] && isDir)
         libogcHash = [SFHash hashFromPath:[libogcPath stringByAppendingString:@"-info.plist"]];
+    
+    // libfat hash?
+    NSString* libfatPath = [dir stringByAppendingPathComponent:@"libfat"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:libfatPath isDirectory:&isDir] && isDir)
+        libfatHash = [SFHash hashFromPath:[libfatPath stringByAppendingString:@"-info.plist"]];
 
     
     [self phaseTwo];
@@ -128,8 +135,27 @@
     else
         libogcHash = dl_libogc_hash;
     
+    // Download libfat index
+    libfatDownloader = [SFDownloader sfDownloaderWithProjectID:@"114505" subPath:@"libfat" progressDelegate:self];
+    if (!libfatDownloader) {
+        neg1message = @"There are no internets to download libfat index from SourceForge.net";
+        [self phaseNegOne];
+        return;
+    }
+    SFHash* dl_libfat_hash = nil;
+    for (SFHash* entry in libfatDownloader.files) {
+        if ([[entry->name lowercaseString] rangeOfString:@"ogc"].location != NSNotFound) {
+            dl_libfat_hash = entry;
+            break;
+        }
+    }
+    if ([dl_libfat_hash isEqualTo:libfatHash])
+        libfatDownloader = nil;
+    else
+        libfatHash = dl_libfat_hash;
+    
     // Skip confirmation if no downloads
-    if (dkPPCDownloader || libogcDownloader)
+    if (dkPPCDownloader || libogcDownloader || libfatDownloader)
         [self phaseThree];
     else
         [self phaseFour];
@@ -147,6 +173,8 @@
         [dep_arr addObject:@"devkitPPC (Wii-toolchain and CXX-library) [SourceForge.net]"];
     if (libogcDownloader)
         [dep_arr addObject:@"libogc (open-source Wii OS and HW drivers) [SourceForge.net]"];
+    if (libfatDownloader)
+        [dep_arr addObject:@"libfat (simple FAT32 filesystem mounter) [SourceForge.net]"];
     
     mainScreen.inputWindow = [NeededDependenciesReportWindow ndrWindowInMainScreen:mainScreen windowTitle:@"Needed Dependencies" windowTitleAttr:COLOR_PAIR(COLOR_POPPING_TEXT) message:@"The following (binary) items will be downloaded from their primary hosting sources:" messageAttr:COLOR_PAIR(COLOR_NORMAL_TEXT) dependencies:dep_arr itemAttr:COLOR_PAIR(COLOR_POPPING_TEXT) inputDelegate:self];
     [mainScreen redraw];
@@ -183,6 +211,17 @@
             [[NSFileManager defaultManager] createDirectoryAtPath:libogcSubDir withIntermediateDirectories:YES attributes:nil error:nil];
             [libogcDownloader downloadFileEntry:libogcHash toDirectory:libogcSubDir unarchive:YES progressDelegate:self];
             [libogcHash hashToPath:plPath];
+        });
+    }
+    
+    if (libfatDownloader) {
+        dispatch_group_async(downloader_group, downloader_queue, ^{
+            NSString* plPath = [dir stringByAppendingPathComponent:@"libfat-info.plist"];
+            [[NSFileManager defaultManager] removeItemAtPath:plPath error:nil];
+            NSString* libfatSubDir = [dir stringByAppendingPathComponent:@"libfat"];
+            [[NSFileManager defaultManager] createDirectoryAtPath:libfatSubDir withIntermediateDirectories:YES attributes:nil error:nil];
+            [libfatDownloader downloadFileEntry:libfatHash toDirectory:libfatSubDir unarchive:YES progressDelegate:self];
+            [libfatHash hashToPath:plPath];
         });
     }
     

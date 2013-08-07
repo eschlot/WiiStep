@@ -67,24 +67,24 @@ if(NOT ${NO_WSINSTALL})
   # Add command to run wsinstall to download needed binaries
 
   if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc
+    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc libfat
       COMMAND ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh ARGS $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
       MAIN_DEPENDENCY wsinstall
       COMMENT "Now running wsinstall...")
   else()
-    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc
+    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc libfat
       COMMAND $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ARGS ${PROJECT_BINARY_DIR}
       MAIN_DEPENDENCY wsinstall
       COMMENT "Now running wsinstall...")
   endif()
 else()
-  add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc
+  add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc libfat
     COMMAND touch wsinstall-ran
     COMMENT "Skipping wsinstall")
 endif()
 
 
-# Install devkitPPC and libogc
+# Install devkitPPC, libogc and libfat
 
 set(DEVKITPPC_DIR ${PROJECT_BINARY_DIR}/devkitPPC)
 file(GLOB DEVKITPPC_BIN_LIST ${DEVKITPPC_DIR}/bin/*)
@@ -97,6 +97,11 @@ set(LIBOGC_DIR ${PROJECT_BINARY_DIR}/libogc)
 install(DIRECTORY ${LIBOGC_DIR}/include DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR})
 file(GLOB LIBOGC_LIB_LIST ${LIBOGC_DIR}/lib/wii/*.a)
 install(FILES ${LIBOGC_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib)
+
+set(LIBFAT_DIR ${PROJECT_BINARY_DIR}/libfat)
+install(DIRECTORY ${LIBFAT_DIR}/include DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR})
+file(GLOB LIBFAT_LIB_LIST ${LIBFAT_DIR}/lib/wii/*.a)
+install(FILES ${LIBFAT_LIB_LIST} DESTINATION ${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib)
 
 
 # Add libobjc2 properties
@@ -131,11 +136,11 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 # Now our objc target
 
-add_library(objc-wii STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-wii STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc libfat ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
 set_target_properties(objc-wii PROPERTIES SUFFIX .bc)
-add_library(objc-wii-asm STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc ${libobjc_ASM_SRCS_LIST})
+add_library(objc-wii-asm STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc libfat ${libobjc_ASM_SRCS_LIST})
 
-include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "." "..")
+include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "${CMAKE_BINARY_DIR}/libfat/include" "." "..")
 
 
 # Debug symbols inclusion flag
@@ -153,7 +158,7 @@ set(CMAKE_CXX_COMPILE_OBJECT "${CLANG_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -c
 
 set(CMAKE_C_COMPILE_OBJECT ${CMAKE_CXX_COMPILE_OBJECT})
 
-set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc -c -I\"${CMAKE_BINARY_DIR}/libogc/include\" -x assembler-with-cpp -D __ppc__=1 -Wa,-m750cl -o <OBJECT> <SOURCE>")
+set(CMAKE_ASM_COMPILE_OBJECT "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-eabi-gcc -c -I\"${CMAKE_BINARY_DIR}/libogc/include\" -I\"${CMAKE_BINARY_DIR}/libfat/include\" -x assembler-with-cpp -D __ppc__=1 -Wa,-m750cl -o <OBJECT> <SOURCE>")
 
 
 # Linker Rules
@@ -235,12 +240,14 @@ set(CONF_WS_DKPPC_BIN_DIR "${PROJECT_BINARY_DIR}/devkitPPC/bin")
 list(APPEND CONF_WS_PPC_INCLUDE_DIRS
   ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/include
   ${PROJECT_BINARY_DIR}/libogc/include
+  ${PROJECT_BINARY_DIR}/libfat/include
   ${PROJECT_SOURCE_DIR}/gnustep-libobjc2
   ${PROJECT_SOURCE_DIR}/gnustep-base/Headers
   ${PROJECT_SOURCE_DIR}/WSClasses)
 list(APPEND CONF_WS_PPC_LIB_DIRS
   ${PROJECT_BINARY_DIR}/devkitPPC/powerpc-eabi/lib
-  ${PROJECT_BINARY_DIR}/libogc/lib/wii)
+  ${PROJECT_BINARY_DIR}/libogc/lib/wii
+  ${PROJECT_BINARY_DIR}/libfat/lib/wii)
 set(CONF_WS_PPC_OBJC_LLVM ${PROJECT_BINARY_DIR}/libobjc-wii.bc)
 set(CONF_WS_PPC_OBJC_ELF ${PROJECT_BINARY_DIR}/libobjc-wii-asm.a)
 set(CONF_WS_PPC_PCH ${PROJECT_SOURCE_DIR}/wii-prefix.pch)

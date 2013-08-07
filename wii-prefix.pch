@@ -26,6 +26,11 @@ typedef int32_t wint_t;
 #define HAVE_BACKTRACE 1
 extern int backtrace(void** array, int size);
 
+#define __printflike(fmtarg, firstvararg) \
+__attribute__((__format__ (__printf__, fmtarg, firstvararg)))
+
+#define MAXPATHLEN 1024
+
 
 #endif
 
