@@ -107,6 +107,7 @@ add_definitions(
   -D _BIG_ENDIAN=1
   -D WIISTEP=1
   -D GEKKO=1
+  -D HW_RVL=1
   -D NO_PTHREADS
   -D __TOY_DISPATCH__
   -D NO_LEGACY
