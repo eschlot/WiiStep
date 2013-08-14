@@ -126,6 +126,7 @@ macro(target_link_wii_llvm_libraries name)
   set(${name}_LLVM_OBJECTS ${${name}_LLVM_OBJECTS} CACHE INTERNAL "" FORCE)
   ws_set_link_rule(${name} ${${name}_LLVM_OBJECTS})
   add_dependencies(${name} ${ARGN})
+  set_target_properties(${name} PROPERTIES LINK_DEPENDS "${${name}_LLVM_OBJECTS}")
 endmacro(target_link_wii_llvm_libraries)
 
 
