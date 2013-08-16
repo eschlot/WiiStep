@@ -49,7 +49,7 @@ What I Need
 
 * [LLVM/Clang toolchain](http://llvm.org) (for PowerPC toolchain bootstrap)
     * `clang` C/C++/Objective-C compiler frontend and supporting LLVM backend required
-    * Mac users may install [*Xcode command-line tools](https://developer.apple.com/downloads)
+    * Mac users may install [*Xcode command-line tools*](https://developer.apple.com/downloads)
 * [CMake 2.8](http://www.cmake.org) (or greater)
 * [Git](http://git-scm.com) (naturally)
 * **~3GB** of disk space; LLVM's build process is rather file-intensive
