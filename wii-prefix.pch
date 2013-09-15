@@ -31,6 +31,8 @@ __attribute__((__format__ (__printf__, fmtarg, firstvararg)))
 
 #define MAXPATHLEN 1024
 
+/* Force Clang's built-in alloca */
+#define __GNUC__ 4
 
 #endif
 

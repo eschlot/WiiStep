@@ -14,6 +14,12 @@ endif()
 add_definitions(${WS_PLATFORM_DEFS})
 
 
+# Assemble include string
+foreach(obj ${WS_PPC_INCLUDE_DIRS})
+  set(WS_PPC_INCLUDE_STR "${WS_PPC_INCLUDE_STR} -I ${obj}")
+endforeach(obj)
+
+
 # Compiler rules
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
@@ -23,6 +29,7 @@ set(CMAKE_C_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG
 
 set(CMAKE_CXX_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -target powerpc-generic-eabi -c -include ${WS_PPC_PCH} <FLAGS> <DEFINES> -o <OBJECT> <SOURCE>")
 
+set(CMAKE_ASM_COMPILE_OBJECT "${WS_DKPPC_BIN_DIR}/powerpc-eabi-gcc -c ${WS_PPC_INCLUDE_STR} -x assembler-with-cpp -D __ppc__=1 -Wa,-m750cl -o <OBJECT> <SOURCE>")
 
 # Linker rules
 
@@ -46,12 +53,6 @@ endif()
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   set(LLVM_OPT_FLAGS "${LLVM_OPT_FLAGS} -std-compile-opts")
 endif()
-
-
-# Assemble include string
-foreach(obj ${WS_PPC_INCLUDE_DIRS})
-  set(WS_PPC_INCLUDE_STR "${WS_PPC_INCLUDE_STR} -I ${obj}")
-endforeach(obj)
 
 
 # Executable link rule
@@ -112,7 +113,8 @@ add_definitions(
   -D __TOY_DISPATCH__
   -D NO_LEGACY
   -fno-builtin)
-  
+
+enable_language(ASM)
 
 
 # Link LLVM bitcode libraries into target
@@ -126,7 +128,14 @@ macro(target_link_wii_llvm_libraries name)
   set(${name}_LLVM_OBJECTS ${${name}_LLVM_OBJECTS} CACHE INTERNAL "" FORCE)
   ws_set_link_rule(${name} ${${name}_LLVM_OBJECTS})
   add_dependencies(${name} ${ARGN})
-  set_target_properties(${name} PROPERTIES LINK_DEPENDS "${${name}_LLVM_OBJECTS}")
+  get_target_property(link_depends ${name} LINK_DEPENDS)
+  if(link_depends STREQUAL link_depends-NOTFOUND)
+    unset(link_depends)
+  endif()
+  list(APPEND link_depends ${${name}_LLVM_OBJECTS})
+  list(REMOVE_DUPLICATES link_depends)
+  #message("${link_depends}")
+  set_target_properties(${name} PROPERTIES LINK_DEPENDS "${link_depends}")
 endmacro(target_link_wii_llvm_libraries)
 
 
@@ -134,6 +143,41 @@ endmacro(target_link_wii_llvm_libraries)
 macro(target_link_wii_dkppc_libraries name)
   target_link_libraries(${name} ${ARGN})
 endmacro(target_link_wii_dkppc_libraries)
+
+
+# Link Binary files into target
+macro(target_link_wii_binary_files name)
+  unset(bin_files)
+  #get_target_property(bin_depends ${name} LINK_DEPENDS)
+  #if(bin_depends STREQUAL bin_depends-NOTFOUND)
+  #  unset(bin_depends)
+  #endif()
+  foreach(file ${ARGN})
+    get_filename_component(full_file ${file} ABSOLUTE)
+    if(NOT EXISTS ${full_file})
+      file(WRITE ${full_file} "")
+    endif()
+    set(command_str "'${WS_DKPPC_BIN_DIR}/bin2s' '-a' '32' '${file}' > '${file}.s'")
+    add_custom_command(OUTPUT ${file}.s
+                       COMMAND sh ARGS -c "${command_str}"
+                       MAIN_DEPENDENCY ${full_file}
+                       VERBATIM)
+    string(REPLACE "/" "_" target ${file})
+    string(REPLACE "\\" "_" target ${target})
+    add_library(${target}-bin STATIC ${file}.s)
+    #get_target_property(link_loc ${target}-bin LOCATION)
+    list(APPEND bin_files ${target}-bin)
+    #list(APPEND bin_depends ${link_loc})
+    #list(APPEND bin_depends ${full_file})
+    #add_dependencies(${target}-bin ${full_file})
+    #set_target_properties(${target}-bin PROPERTIES LINK_DEPENDS "${file}")
+
+  endforeach(file)
+  target_link_libraries(${name} ${bin_files})
+  #message("${bin_depends}")
+  #add_dependencies(${name} ${bin_depends})
+  #set_target_properties(${name} PROPERTIES LINK_DEPENDS "${bin_depends}")
+endmacro(target_link_wii_binary_files)
 
 
 # Make LLVM bitcode library target
@@ -150,4 +194,14 @@ macro(add_wii_executable name)
   target_link_wii_dkppc_libraries(${name} fat ogc objc-wii-asm m)
   set_target_properties(${name} PROPERTIES SUFFIX .elf)
 endmacro(add_wii_executable)
+
+# Use wiiload to run test
+macro(add_wii_test testname Exename)
+  get_target_property(target_loc ${Exename} LOCATION)
+  get_filename_component(target_dir ${target_loc} PATH)
+  get_filename_component(target_loc ${target_loc} NAME_WE)
+  add_test(NAME ${testname}
+           WORKING_DIRECTORY ${target_dir}
+           COMMAND ${WS_DKPPC_BIN_DIR}/wiiload ${target_loc}.dol ${ARGN})
+endmacro(add_wii_test)
 
