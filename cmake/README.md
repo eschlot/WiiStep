@@ -213,7 +213,7 @@ int main(int argc, const char* argv[]) {
 Live-testing a WiiStep Application with CTest
 ----------------------------------------------
 
-A rapid means to **run development homebrew on a physical Wii** is to use a Homebrew Channel Wi-Fi loader like [`wiiload`](http://wiibrew.org/wiki/Wiiload). WiiStep includes a macro collect `add_wii_executable` targets to be *automatically uploaded to a Wii* when `make test` is called.
+A rapid means to **run development homebrew on a physical Wii** is to use a Homebrew Channel Wi-Fi loader like [`wiiload`](http://wiibrew.org/wiki/Wiiload). WiiStep includes a macro to collect `add_wii_executable` targets to be *automatically uploaded to a Wii* when `make test` is called.
 
 ### Initial Setup
 
