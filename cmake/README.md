@@ -180,6 +180,70 @@ in this macro. Note that libogc's wii library path is implicitly searched;
 so library names like `bte` or `wiiuse` may be specified without performing
 `link_directories`.
 
+### target_link_wii_binary_files
+
+```cmake
+target_link_wii_binary_files(<target> 
+                             file1 file2 ... fileN)
+```
+
+This macro provides a handy **binary data embedder**. The files provided will be converted into a *GCC assembly language* target that gets 32-byte-aligned and linked as a native devkitPPC library. Upon being linked, the raw binary data may be accessed from within C like so:
+
+```c
+// Sample C file of a wii executable linked using
+// `target_link_wii_binary_files(<exe_target_name> test_data.bin)`
+
+#include <stdlib.h>
+
+extern uint8_t test_data_bin;
+extern size_t test_data_bin_size;
+
+int main(int argc, const char* argv[]) {
+    void* test_data = (void*)&test_data_bin;
+    printf("Data is %u bytes in length\n", test_data_bin_size);
+    printf("First 4 bytes: %x %x %x %x\n", 
+           test_data[0], test_data[1], test_data[2], test_data[3]);
+    return 0;
+}
+```
+
+**Please Note** that periods (`.`) are replaced with underscores (`_`) in the C-symbol names, so watch file extensions!
+
+
+Live-testing a WiiStep Application with CTest
+----------------------------------------------
+
+A rapid means to **run development homebrew on a physical Wii** is to use a Homebrew Channel Wi-Fi loader like [`wiiload`](http://wiibrew.org/wiki/Wiiload). WiiStep includes a macro collect `add_wii_executable` targets to be *automatically uploaded to a Wii* when `make test` is called.
+
+### Initial Setup
+
+ Wiiload is packaged with *devkitPPC* and relies on the `WIILOAD` shell environment
+ variable to be set to the hostname/IP address of an actual Wii on the local network.
+ A lone Wii on a Wi-Fi network will assign itself the hostname "Wii". 
+ As long as the router's local DNS zone is functioning correctly, the following
+ command will acquaint `wiiload` with the Wii:
+
+```sh
+>$ export WIILOAD=tcp:Wii
+```
+
+### CTest Setup
+
+To activate CMake's `make test` target, `enable_testing()` must be called in the root `CMakeLists.txt` file.
+
+### Adding Test Targets
+
+```cmake
+add_wii_test(<test_name>
+             target1 target2 ... targetN)
+```
+
+Every target added via this macro will be enqueued for uploading. Note t
+hat the [Homebrew Channel](http://wiibrew.org/wiki/Homebrew_Ch
+annel) *must be running* when `make test` is called.
+For multiple tests, if any test executables do not return to the Homebrew Channel in a timely
+manner (or crash), later tests may cause Wiiload to *time-out*, preventing completion of the test-queue.
+
 
 Making A WiiStep Middleware Library With CMake
 ----------------------------------------------
