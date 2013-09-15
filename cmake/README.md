@@ -238,8 +238,8 @@ add_wii_test(<test_name>
              target1 target2 ... targetN)
 ```
 
-Every target added via this macro will be enqueued for uploading. Note t
-hat the [Homebrew Channel](http://wiibrew.org/wiki/Homebrew_Ch
+Every target added via this macro will be enqueued for uploading. Note that 
+the [Homebrew Channel](http://wiibrew.org/wiki/Homebrew_Ch
 annel) *must be running* when `make test` is called.
 For multiple tests, if any test executables do not return to the Homebrew Channel in a timely
 manner (or crash), later tests may cause Wiiload to *time-out*, preventing completion of the test-queue.
