@@ -213,7 +213,9 @@ int main(int argc, const char* argv[]) {
 Live-testing a WiiStep Application with CTest
 ----------------------------------------------
 
-A rapid means to **run development homebrew on a physical Wii** is to use a Homebrew Channel Wi-Fi loader like [`wiiload`](http://wiibrew.org/wiki/Wiiload). WiiStep includes a macro collect `add_wii_executable` targets to be *automatically uploaded to a Wii* when `make test` is called.
+A rapid means to **run development homebrew on a physical Wii** is to use a Homebrew Channel Wi-Fi loader like 
+[`wiiload`](http://wiibrew.org/wiki/Wiiload). WiiStep includes a macro collect 
+`add_wii_executable` targets to be *automatically uploaded to a Wii* when `make test` is called.
 
 ### Initial Setup
 
@@ -234,13 +236,11 @@ To activate CMake's `make test` target, `enable_testing()` must be called in the
 ### Adding Test Targets
 
 ```cmake
-add_wii_test(<test_name>
-             target1 target2 ... targetN)
+add_wii_test(<test_name> <executable_target_name>)
 ```
 
-Every target added via this macro will be enqueued for uploading. Note t
-hat the [Homebrew Channel](http://wiibrew.org/wiki/Homebrew_Ch
-annel) *must be running* when `make test` is called.
+Every target added via this macro will be enqueued for uploading. Note 
+that the [Homebrew Channel](http://wiibrew.org/wiki/Homebrew_Channel) *must be running* when `make test` is called.
 For multiple tests, if any test executables do not return to the Homebrew Channel in a timely
 manner (or crash), later tests may cause Wiiload to *time-out*, preventing completion of the test-queue.
 
