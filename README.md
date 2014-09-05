@@ -54,8 +54,7 @@ What I Need
 * [Git](http://git-scm.com) (naturally)
 * **~3GB** of disk space; LLVM's build process is rather file-intensive
 
-Aaand...That's it. All other dependencies are automatically fetched within 
-`git submodule` and the provided `wsinstall` target.
+You will also need the PowerPC toolchain and platform libraries (see [How To Do](#how-to-do) below).
 
 ### And Those Would Be?
 
@@ -94,14 +93,48 @@ build directory. devkitPPC's tar is OK to extract directly in the build director
 How To Do
 ---------
 
-### Basically:
+### Clone WiiStep and initialize
 
 ```sh
-cd <Where i should be>
+cd <preferred-dev-directory>
 git clone https://github.com/jackoalan/WiiStep.git
 cd WiiStep
 ./bootstrap.sh
 mkdir build && cd build
+```
+
+### Downloading PowerPC toolchain and libraries
+
+The PowerPC toolchain (`devkitPPC`) and platform libaries (`libogc`)
+must be downloaded separately from SourceForge.
+
+#### devkitPPC
+
+Download binary from here (for your platform):
+http://sourceforge.net/projects/devkitpro/files/devkitPPC/
+
+Then extract the archive, rename the directory to plain `devkitPPC` 
+(without version suffixes) and place it in `WiiStep/build`.
+
+#### libogc
+
+Download binary from here (not libogc-src):
+http://sourceforge.net/projects/devkitpro/files/libogc/
+
+Then extract the archive, rename the directory to plain `libogc` 
+(without version suffixes) and place it in `WiiStep/build`. 
+
+### libfat
+
+Download binary from here (libfat-ogc):
+http://sourceforge.net/projects/devkitpro/files/libfat/
+
+Then extract the archive, rename the directory to plain `libfat` 
+(without version suffixes) and place it in `WiiStep/build`. 
+
+### Now Run CMake
+
+```sh
 cmake ..
 make
 
