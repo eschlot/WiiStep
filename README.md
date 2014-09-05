@@ -54,40 +54,7 @@ What I Need
 * [Git](http://git-scm.com) (naturally)
 * **~3GB** of disk space; LLVM's build process is rather file-intensive
 
-You will also need the PowerPC toolchain and platform libraries (see [How To Do](#how-to-do) below).
-
-### And Those Would Be?
-
-* Via **Git-Submodule**:
-    * [`llvm`](http://llvm.org/) for [linking](http://llvm.org/docs/CommandGuide/llvm-link.html), [optimising](http://llvm.org/docs/CommandGuide/opt.html), and [PowerPC](http://llvm.org/docs/CodeGenerator.html#the-powerpc-backend) [Code Generation](http://llvm.org/docs/CommandGuide/llc.html)
-    * [`clang`](http://clang.llvm.org) for providing modern [C](http://clang.llvm.org/docs/BlockLanguageSpec.html) and [Objective-C](http://clang.llvm.org/docs/AutomaticReferenceCounting.html) magic
-    * [`gnustep-libobjc2`](http://GNUstep.org) continuing the magic [at runtime](https://github.com/jackoalan/gnustep-libobjc2#readme)
-    * [`gnustep-base`](http://GNUstep.org) providing a default *Foundation.framework* implementation
-    * `compiler-rt`
-* Via **wsinstall**:
-    * [`devkitPPC`](http://devkitpro.org) GCC-forked toolchain for performing final .ELF link
-    * [`libogc`](http://wiibrew.org/wiki/Libogc) open-source OS ([multithreaded kernel contained in app](http://en.wikipedia.org/wiki/Light-weight_process)) and HW drivers ([also in app](http://libogc.devkitpro.org/api_doc.html))
-
-At writing, `wsinstall` (an Objective-C based installer) only links against the actual 
-Apple *Foundation.framework* and downloads the OS X version of *devkitPPC*, effectively 
-making `wsinstall` compatible only with **OS X 10.7 and later**. I'd like to eventually get 
-WiiStep's CMake bootstrapping its own copy of `gnustep-base` and the master branch of 
-`gnustep-libobjc2` for a native Objective-C build environment and wider platform
-support for `wsinstall`.
-
-As a workaround for other platforms, add `-DNO_WSINSTALL=TRUE` to the `cmake` command.
-This will prevent `wsinstall` from building/running during the build process.
-Of course, this *requires* the developer to manually download/build 
-[devkitPPC](http://sourceforge.net/projects/devkitpro/files/devkitPPC/) 
-and [libogc](http://sourceforge.net/projects/devkitpro/files/libogc/). 
-Afterwards, place their roots in WiiStep's CMake build directory and build WiiStep
-as normal.
-
-Please note that libogc's tar is something of a 
-[tarbomb](http://en.wikipedia.org/wiki/Tar_%28computing%29#Tarbomb) and will
-need to be extracted within a new directory named `libogc` within WiiStep's
-build directory. devkitPPC's tar is OK to extract directly in the build directory.
-
+You will also need the PowerPC toolchain and platform libraries (follow instructions below).
 
 
 How To Do
