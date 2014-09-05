@@ -54,35 +54,6 @@ COMMENT "Building llvm and clang; This could take awhile...")
 install(CODE "execute_process(COMMAND make install WORKING_DIRECTORY \"${PROJECT_BINARY_DIR}/llvm\")")
 
 
-# Add wsinstall target (or omit if requested)
-
-set(NO_WSINSTALL FALSE CACHE BOOL 
-  "Omit (if set) building/running `wsinstall`")
-if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(NO_WSINSTALL TRUE) # Disable wsinstall on non-Mac platforms
-endif()
-if(NOT ${NO_WSINSTALL})
-  add_subdirectory(wsinstall)
-
-  # Add command to run wsinstall to download needed binaries
-
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc libfat
-      COMMAND ${PROJECT_SOURCE_DIR}/LaunchWSInstallOSX.sh ARGS $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ${PROJECT_BINARY_DIR}
-      MAIN_DEPENDENCY wsinstall
-      COMMENT "Now running wsinstall...")
-  else()
-    add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc libfat
-      COMMAND $<TARGET_FILE_DIR:wsinstall>/$<TARGET_FILE_NAME:wsinstall> ARGS ${PROJECT_BINARY_DIR}
-      MAIN_DEPENDENCY wsinstall
-      COMMENT "Now running wsinstall...")
-  endif()
-else()
-  add_custom_command(OUTPUT wsinstall-ran devkitPPC libogc libfat
-    COMMAND touch wsinstall-ran
-    COMMENT "Skipping wsinstall")
-endif()
-
 
 # Install devkitPPC, libogc and libfat
 
@@ -136,9 +107,9 @@ ws_resolve_sources(libobjc_CXX_SRCS gnustep-libobjc2)
 
 # Now our objc target
 
-add_library(objc-wii STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc libfat ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
+add_library(objc-wii STATIC ${PROJECT_BINARY_DIR}/llvm-built devkitPPC libogc libfat ${libobjc_C_SRCS_LIST} ${libobjc_OBJC_SRCS_LIST} ${libobjc_CXX_SRCS_LIST})
 set_target_properties(objc-wii PROPERTIES SUFFIX .bc)
-add_library(objc-wii-asm STATIC ${PROJECT_BINARY_DIR}/llvm-built wsinstall-ran devkitPPC libogc libfat ${libobjc_ASM_SRCS_LIST})
+add_library(objc-wii-asm STATIC ${PROJECT_BINARY_DIR}/llvm-built devkitPPC libogc libfat ${libobjc_ASM_SRCS_LIST})
 
 include_directories("${CMAKE_BINARY_DIR}/devkitPPC/powerpc-eabi/include" "${CMAKE_BINARY_DIR}/libogc/include" "${CMAKE_BINARY_DIR}/libfat/include" "." "..")
 
