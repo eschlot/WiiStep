@@ -110,7 +110,7 @@ must be downloaded separately from SourceForge.
 
 #### devkitPPC
 
-Download binary from here:
+Download binary from here (for your platform):
 http://sourceforge.net/projects/devkitpro/files/devkitPPC/
 
 Then extract the archive, rename the directory to plain `devkitPPC` 
@@ -118,7 +118,7 @@ Then extract the archive, rename the directory to plain `devkitPPC`
 
 #### libogc
 
-Download binary from here:
+Download binary from here (not libogc-src):
 http://sourceforge.net/projects/devkitpro/files/libogc/
 
 Then extract the archive, rename the directory to plain `libogc` 
@@ -126,7 +126,7 @@ Then extract the archive, rename the directory to plain `libogc`
 
 ### libfat
 
-Download binary from here:
+Download binary from here (libfat-ogc):
 http://sourceforge.net/projects/devkitpro/files/libfat/
 
 Then extract the archive, rename the directory to plain `libfat` 
