@@ -147,7 +147,7 @@ set(CMAKE_ASM_CREATE_STATIC_LIBRARY "${CMAKE_BINARY_DIR}/devkitPPC/bin/powerpc-e
 
 add_definitions(-target powerpc-generic-eabi)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions -ffreestanding")
 add_definitions( -DGNUSTEP -D__OBJC_RUNTIME_INTERNAL__=1)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS} -fobjc-runtime=gnustep-1.7")
 
