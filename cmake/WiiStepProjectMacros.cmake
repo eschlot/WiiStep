@@ -22,7 +22,7 @@ endforeach(obj)
 
 # Compiler rules
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fexceptions -ffreestanding")
 set(CMAKE_CXX_FLAGS "${CMAKE_OBJC_FLAGS} ${CMAKE_C_FLAGS} -fobjc-runtime=gnustep-1.7 -fobjc-exceptions")
 
 set(CMAKE_C_COMPILE_OBJECT "${WS_LLVM_BIN_DIR}/clang -emit-llvm ${CLANG_DBG_FLAG} -target powerpc-generic-eabi -c -include ${WS_PPC_PCH} <FLAGS> <DEFINES>  -o <OBJECT> <SOURCE>")
