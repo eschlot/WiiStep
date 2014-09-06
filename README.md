@@ -91,7 +91,7 @@ http://sourceforge.net/projects/devkitpro/files/libogc/
 Then extract the archive, rename the directory to plain `libogc` 
 (without version suffixes) and place it in `WiiStep/build`. 
 
-### libfat
+#### libfat
 
 Download binary from here (libfat-ogc):
 http://sourceforge.net/projects/devkitpro/files/libfat/
