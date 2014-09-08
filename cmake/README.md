@@ -217,7 +217,7 @@ A rapid means to **run development homebrew on a physical Wii** is to use a Home
  command will acquaint `wiiload` with the Wii:
 
 ```sh
->$ export WIILOAD=tcp:Wii
+export WIILOAD=tcp:Wii
 ```
 
 ### CTest Setup
